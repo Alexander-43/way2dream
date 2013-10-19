@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<game id="" url="" title="" active=""/>
+	<game id="e4eeeae5da250fe6749c31e8362426f1" url="http://localhost/game/" title="loalhost game" active="true"/>
+	<game id="e124365ba51bf0af46cf8b9a4862881c" url="http://sqltest.ru//" title="SQL игра" active="true"/>
+<game id="c412edb022f966a01e65bc678cce50a1" url="http://script.ru/" title="script.ru" active="true"/><game id="761ac1acd0c8cd8e6ebc490c48ee67ac" url="http://admins.ru/game/" title="На админз" active="true"/></root>

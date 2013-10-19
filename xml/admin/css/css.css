@@ -1,0 +1,50 @@
+div.leftMenu
+{
+	background: url(../img/up.png); 
+	border-radius: 10px 10px;
+	text-align:center;
+	cursor:pointer;
+}
+div.mainConteiner
+{
+	overflow-y: auto;
+	display:block;
+}
+select.forWidth
+{
+	width:160px;
+}
+input.forWidth
+{
+	width:160px;
+}
+tr.tableLine
+{
+    text-align: center;
+    cursor:pointer;
+	font-size: 80%;
+}
+#clickabelbutton
+{
+	cursor: pointer;
+	height:25px;
+}
+
+#upper 
+{
+	background: url(../img/up.png); 
+	border-radius: 10px 10px;
+	height:30px;
+}
+#downer
+{
+	background: url(../img/down.png) repeat-x 50px;
+}
+
+#noScroll
+{
+	width:100%; 
+	height:100%; 
+	overflow:hidden;
+	margin-left: 0px;
+}
