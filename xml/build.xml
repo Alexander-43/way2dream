@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="update-all">
+    <description>
+            Обновление файлов на webservers
+    </description>
+	<property file="custom.properties"/>
+    <target name="admin-update" description="Update admin application">
+        <copy todir="${disk}home\\${admin.site}\\www\\">
+        	<fileset dir="${basedir}\\admin" id="id">
+			    <include name="**\\*.*"/>
+			</fileset>
+        </copy>
+    </target>
+	
+    <target name="game-update" description="Update game application">
+        <copy todir="${disk}home\\${game.site}\\www\\">
+        	<fileset dir="${basedir}\\game" id="id">
+			    <include name="**\\*.*"/>
+			</fileset>
+        </copy>
+    </target>
+
+    <target name="update-all" description="Update all" depends="">
+        
+    </target>
+
+	
+</project>
