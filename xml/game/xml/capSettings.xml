@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<cap name="cap_1" posX="-1" posY="-1" visible="true" idUser="5db651e96ca1aa04532d70405d512bb0" color="синий"/>
+	<cap name="cap_1" posX="-1" posY="-1" visible="false" idUser="" color=""/>
 	<cap name="cap_2" posX="-1" posY="-1" visible="false" idUser="" color="желтый"/>
 	<cap name="cap_3" posX="-1" posY="-1" visible="false" idUser="" color="пурпурный"/>
 	<cap name="cap_4" posX="307.05" posY="265.65" visible="false" idUser="" color="зеленый"/>
