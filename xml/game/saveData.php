@@ -11,12 +11,14 @@ if ($_POST['dataValid']=="validate")
 	$arrData["id"] = $id;
 	$_SESSION = array_merge($_SESSION, $arrData);
 	SaveRegData($arrData);
-	print "<script>window.location.replace('gamer.php')</script>";
+	header('Location: gamer.php');
+	//print "<script>window.location.replace('gamer.php')</script>";
 }
 else if (md5($_POST['admCode'])==accessCode)
 {
 	$_SESSION['authKey']=accessCode;
-	print "<script>window.location.replace('presenter.php')</script>";
+	header('Location: presenter.php');
+	//print "<script>window.location.replace('presenter.php')</script>";
 }else
 {
 	printBrs(5);
