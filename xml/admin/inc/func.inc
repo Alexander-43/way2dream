@@ -615,12 +615,19 @@
 			$xml->AttribFromSNL("", $vis);
 			$filePath = makeFilePath(Array("targetUrl"=>$vis['url']));
 			if (file_exists($filePath."/index.php")){
+				makeBackUp($filePath);
 				require_once("pclzip.lib.inc");
 				$zip = new PclZip(baseGameFolder);
 				$list = $zip->extract(PCLZIP_OPT_PATH, $filePath, PCLZIP_OPT_REPLACE_NEWER);
 				if ($list != 0){
+					foreach (glob($filePath."/bak/*") as $file){
+						copy($file, $filePath."/xml/".basename($file));
+						unlink($file);
+					}
+					rmdir($filePath."/bak");
 					return json_encode(Array("status"=>"Ok"));
 				} else {
+					rmdir($filePath."/bak");
 					header('HTTP/1.1 500 Internal Server Error');
 					return json_encode(Array("status"=>"Copy error", "text"=>"Can`t copy to ".$vis['url']." (".$filePath.")"));
 				}
@@ -631,6 +638,32 @@
 		} else {
 			header('HTTP/1.1 500 Internal Server Error');
 			return json_encode(Array("status"=>"Update error", "Search_for"=>"object - ".$data['object']."; unic - ".$data['unic']."; value - ".$data['value']));
+		}
+	}
+	
+	function makeBackUp($path){
+		$copyFilesMask = $path."/xml/*";
+		$tempFilesMask = $path."/temp/*";
+		foreach (glob($copyFilesMask) as $file){
+			if (!file_exists($path."/bak")){
+				mkdir($path."/bak");
+			}
+			copy($file, $path."/bak/".basename($file));
+		}
+		removeFiles(glob($path."/*"), array("bak"));
+	}
+	
+	function removeFiles($files, $undeleted = array()){
+		foreach ($files as $file){
+			if (is_dir($file)){
+				if (!in_array(dirname($file), $undeleted)){
+					rmdir($file);
+				}
+			} else {
+				if (!in_array(basename($file), $undeleted)){
+					unlink($file);
+				}
+			}
 		}
 	}
 	
