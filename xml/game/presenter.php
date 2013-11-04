@@ -30,7 +30,10 @@ upload($_FILES);
 	<meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" /> 
 	<meta http-equiv="Pragma" content="no-cache" />
 	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
+	<script type="text/javascript" src="js/managegame.js"></script>
+	<?php includeGlobalComponentJS(); ?>
 	<link rel="stylesheet" type="text/css" href="style.css">
 <style>
 /* <![CDATA[ */
@@ -96,6 +99,9 @@ div.t5 {
 	background: #EFEFEF;
 	padding: 0 10px;
 }
+img {
+	cursor:pointer;
+}
 /* end tabs */
 
 /* ]]> */
@@ -111,28 +117,11 @@ div.t5 {
 		<li class="t2"><a onClick="jQuery('div.t2').css('height', window.screen.availHeight - 150)">Даные игроков</a></li>
 		<!--li class="t3"><a>Архив игроков</a></li-->
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) showPresenterInfo($_SESSION['presenterUnic'], $_SESSION['presenterCode']); ?>
-		<!--li class="t5"><a>Восстановление</a></li-->
+		<li class="t5"><a>Восстановление</a></li>
 	</ul>
 
 	<div class="t1">
-	<table width="100%" height="600"  border="0">
-	<tr>
-		<td valign="top">
-		<? showActiveGamers(0); ?>
-		</td>
-		<td align="top" width="70%">
-		<object type="application/x-shockwave-flash" data="<? print swfFolder."/";?>presenter.swf" width="100%" height="100%">
-		<param name="movie" value="<? print swfFolder."/";?>presenter.swf" />
-		<param name="wmode" value="transparent" />
-		<param name="salign" value="t">
-		<param name="allowScriptAccess" value="sameDomain" />
-		<param name="flashvars" value="pathToXmlBase=<? print xmlForFlash."?".time() ?>&operPage=<? print operPage?>" />
-		<EMBED src="<? print swfFolder."/";?>presenter.swf" FLASHVARS="pathToXmlBase=<? print xmlForFlash."?".time() ?>&operPage=<? print operPage?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
-		</EMBED>
-		</object>
-		</td>
-	</tr>
-	</table>
+		<? include('inc/presenter/gamecontrol.inc'); ?>
 	</div>
 	<div class="t2" style="overflow-y: auto; height:500">
 		<? showActiveGamers(1); ?> 
@@ -141,80 +130,15 @@ div.t5 {
 		<? //ShowFileInDir(folderBaseArchive); ?> 
 	</div>
 	<div class="t4">
-	<form name='presenterForm' action='#' method='post'>
-		<table id='upSide' width='50%' align='center' border='0' height='450'>
-			<tr align='left'>
-				<td>
-					<label>
-						<b>ФИО ведущего:</b> 
-						<input name='fio' type='text' value='<? print $_SESSION['fio'];?>' title='ФИО ведущего' alt='ФИО ведущего' style='width:100%'>
-					</label>
-				</td>
-			</tr>
-			<tr align='left'>
-				<td>
-					<label>
-						<b>Пароль:</b> 
-						<input id='randPass' name='password' type='password' value='{@}|{@}' title='Пароль' alt='skip' style='width:100%'>
-					</label>
-				</td>
-			</tr>		
-			<tr align='left'>
-				<td>
-					<label>
-						<b>Skype:</b> 
-						<input name='skype' type='text' value='<? print $_SESSION['skype'];?>' title='Skype' alt='Skype' style='width:100%'>
-					</label>
-				</td>
-			</tr>		
-			<tr align='left'>
-				<td>
-					<label>
-						<b>E-mail:</b> 
-						<input name='email' type='text' value='<? print $_SESSION['email'];?>' title='E-mail' alt='E-mail' style='width:100%'>
-					</label>
-				</td>
-			</tr>		
-			<tr align='center'>
-				<td>
-					<table>
-						<tr>
-							<td>
-							<label>
-								<b>Дата начала действия: <? print $_SESSION['dateBegin'];?></b>
-							</label>
-							</td>
-							<td>
-							<label>
-								<b>Дата окончания действия: <? print $_SESSION['dateEnd'];?></b>
-							</label>
-							</td>						
-						</tr>
-					</table>
-					<? 
-						$dat = calcDatePeriod(null, $_SESSION['dateEnd']); 
-						print "<br>Время активности вашего акаунта заканчивается через <br>".$dat['day']." дней ".$dat['hours']." часов ".$dat['minutes']." минут ".$dat['seconds']." секунд";
-					?>
-				</td>
-			</tr>
-			<tr align='center'>
-				<td>
-					<input id='presenterFormButton' type='submit' value='Сохранить'>
-				</td>
-			</tr>
-		</table>		
-	</form>
+		<? if (strlen($_SESSION['presenterCode']) != 0 ) include ('inc/presenter/presenterinfo.inc'); ?>
 	</div>
 	<div class="t5" style="height:96%">
-		<!--form method="post" action="#" enctype="multipart/form-data">
-		<input name="tab" type="hidden" value="t5">
-		<input type="file" name="files[]" multiple="true" min="1" max="6">
-		<input type="submit" value="Загрузить">
-		</form-->
+		<? include ('inc/presenter/managegame.inc'); ?>
 	</div>
 </div>
 </center>
-<? if (strlen($_POST['tab']) > 0){
+<? 
+if (strlen($_POST['tab']) > 0){
 	print "<script>
 	var r = jQuery.noConflict();
 	r(document).ready(function() {

@@ -37,12 +37,12 @@
 			{
 				$i = 0;
 				$sum=0; 
-				while(!file_exists($file_name) || $i <= 5)
+				while(!file_exists($file_name) || $i <= 3)
 				{
 					$sum +=$i++;
 					set_time_limit(30);
 					sleep($sum);
-                    if ($i == 5) 
+                    if ($i == 3) 
                     {
                         set_time_limit(30);   
                         //$i = 0;

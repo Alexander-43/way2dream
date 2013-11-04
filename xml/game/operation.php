@@ -102,5 +102,7 @@ header("Content-Type: text/html; charset=utf-8");
 	{
 		printForRemote(sendMail($_GET['data']));
 	}
-	
+	if ($_GET['operId'] == 'back_up'){
+		printForRemote(makeBackupUserFile());	
+	}
 ?>

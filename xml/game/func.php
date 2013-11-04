@@ -1056,6 +1056,10 @@ function getUserFileName($userId, $isNew = false){
 	}
 	return xmlFolder."/".$userId.".xml";
 }
+
+/*
+ * Загружает на сервер файлы из $files
+ */
 function upload($files){
 if (!empty($files)){
 	$str = "";
@@ -1077,5 +1081,50 @@ if (!empty($files)){
 		print "<script>alert('Файлы загружены.')</script>";
 	}
 }
+}
+
+/*
+ * Inject component js
+ */
+function includeGlobalComponentJS($name="global.js"){
+	$compFolder = root."/component/*";
+	foreach(glob($compFolder) as $item){
+		if (is_dir($item)){
+			if (file_exists($item."/".$name)){
+				print "<script type='text/javascript'>".file_get_contents($item."/".$name)."</script>";
+			}
+		}
+	}
+}
+
+/*
+ * Создаёт копию текущих файлов данных игроков
+ * во временной папке с текущей датой и времнем
+ */
+function makeBackupUserFile(){
+	global $userAttribsMinimal;
+	$result = array();
+	foreach(glob(xmlFolder."/*.xml") as $file){
+		if (!is_dir($file)){
+			$xml = new ParseXML($file);
+			$xml->GetNodesAttribsValuesByName($xml->RootNode, $userAttribsMinimal['node'], $userAttribsMinimal['unic']);
+			if (count($xml->nodesAttribValue) > 0){
+				if (!isset($dest)){
+					$dest = date('d.m.Y H.i.s');
+					$result['date'] = $dest;
+					if (!file_exists(tempFolder."/".$dest)){
+						mkdir(tempFolder."/".$dest, 0777);
+						$dest = tempFolder."/".$dest;
+					}
+				}
+				copy($file, $dest."/".basename($file));
+				$result['filelist'] .= basename($file)."\n";
+			}
+			$xml->Destroy();
+			print_r ($attribs);
+		}
+	}
+	$result['status'] = 'Ok'; 
+	return json_encode($result);
 }
 ?>

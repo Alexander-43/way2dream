@@ -1,15 +1,4 @@
-﻿//функция для формы редктирования инфы игры, для запоминания измененных полей
-/*
-function addChagedElement (name)
-{
-	if (document.editForm.editedField.value.indexOf(name) < 0)
-	{
-		document.editForm.editedField.value+=name+"|";
-		//alert(document.editForm.editedField.value);
-	}
-}*/
-
-//поле с именами измененных полей 
+﻿//поле с именами измененных полей 
 //var changedFieldId = 'changeField';
 function addChagedElement (obj){
 	var field = $('[name='+changedFieldId+']');
@@ -26,7 +15,6 @@ function addChagedElement (obj){
 		field.attr('value', value+obj.name+"|");
 		
 	}
-	
 }
 
 //устанавливает вычисляемые поля в readOnly
