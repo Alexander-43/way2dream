@@ -8,6 +8,7 @@
 	var $SearchedNodeLink;				//поле содержащее ссылку на узел, результат SearchNode
 	var $FLockName;						//имя файла блокировки
 	var $FileIsLocked = false;			//флаг блокировки файла
+	var $LoadResult = false;
 	function ParseXML($file_name, $lockFile = false)
         {
             $this->Nfile = $file_name;
@@ -25,12 +26,16 @@
 				}
 				try
 				{
-					$this->linkToXml->load($this->Nfile);
+					if (!@$this->linkToXml->load($this->Nfile)){
+						$this->LoadResult = false;
+						return;
+					}
 				}
 				catch (Exception $e)
 				{
 					if ($lockFile) rename($this->Nfile, $this->FLockName);
-                    return;
+					$this->LoadResult = false;
+                    return null;
 				}
 			}
 			else
@@ -60,11 +65,15 @@
 				}
                 try
                 {
-                    $this->linkToXml->load($this->Nfile);
+	                if (!@$this->linkToXml->load($this->Nfile)){
+	                	$this->LoadResult = false;
+	                	return;
+					}
                 }
                 catch (Exception $e)
                 {
                     if ($lockFile) rename($this->Nfile, $this->FLockName);
+                    $this->LoadResult = false;
                     return;
                 }
 			}
@@ -72,6 +81,7 @@
 			$this->RootNode = $this->linkToXml->childNodes;
 			$this->SearchedNodeLink = new DOMNode();
 			$this->SearchedNodeLink = null;
+			$this->LoadResult = true;
         }
 	
 	function repairFiles($fileName){

@@ -1110,7 +1110,7 @@ function makeBackupUserFile(){
 			$xml->GetNodesAttribsValuesByName($xml->RootNode, $userAttribsMinimal['node'], $userAttribsMinimal['unic']);
 			if (count($xml->nodesAttribValue) > 0){
 				if (!isset($dest)){
-					$dest = date('d.m.Y H.i.s');
+					$dest = date('d-m-Y H.i.s');
 					$result['date'] = $dest;
 					if (!file_exists(tempFolder."/".$dest)){
 						mkdir(tempFolder."/".$dest, 0777);
@@ -1125,6 +1125,53 @@ function makeBackupUserFile(){
 		}
 	}
 	$result['status'] = 'Ok'; 
+	return json_encode($result);
+}
+
+/*
+ * 
+ */
+function getObjectInFolder($path, $type='dir', $conf){
+	$result = array();
+	if ($path == null) {
+		return $result;
+	}
+	global $userAttribsMinimal;
+	global $capColorReferences;
+	foreach (glob(urldecode($path).slash."*") as $file){
+		if ($type == "dir"){
+			if (is_dir($file)){
+				$result['list'][] = array("name"=>basename($file), "path"=>urlencode($file)); 
+			}
+		}else{
+			if (!is_dir($file)){
+				$xml = new ParseXML($file);
+				if (!$xml->LoadResult) {
+					continue;
+				}
+				$xml->GetNodesAttribsValuesByName($xml->RootNode, $userAttribsMinimal['node'], $userAttribsMinimal['unic']);
+				if (count($xml->nodesAttribValue) > 0){
+					foreach ($xml->nodesAttribValue as $value){
+						$xml->SearchNode($xml->RootNode, $userAttribsMinimal['node'], $userAttribsMinimal['unic'], $value);
+						if ($xml->SearchedNodeLink != null){
+							$ind = count($result['list']);
+							$xml->AttribFromSNL("", $result['list'][$ind]);
+							if ($result['list'][$ind]['capColor']){
+								$result['list'][$ind]['imgSrc'] = 'img'.slash.$capColorReferences[$result['list'][$ind]['capColor']];
+							}
+							$result['list'][$ind]['fileName'] = basename($file);
+							$result['list'][$ind]['filePath'] = urlencode($file);
+						}
+					}
+				}
+			}
+		}
+	}
+	if (count($conf) > 0){
+		for ($index=0;$index<count($conf);++$index){
+			$result['list'][] = $conf[$index];
+		}
+	}
 	return json_encode($result);
 }
 ?>

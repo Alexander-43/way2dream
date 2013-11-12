@@ -29,7 +29,8 @@ upload($_FILES);
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" /> 
 	<meta http-equiv="Pragma" content="no-cache" />
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
 	<script type="text/javascript" src="js/managegame.js"></script>

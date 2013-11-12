@@ -105,4 +105,7 @@ header("Content-Type: text/html; charset=utf-8");
 	if ($_GET['operId'] == 'back_up'){
 		printForRemote(makeBackupUserFile());	
 	}
+	if ($_GET['operId'] == 'get_object_list'){
+		printForRemote(getObjectInFolder($_GET['path'], $_GET['type'], $_GET['conf']));
+	}
 ?>
