@@ -1,4 +1,4 @@
-var $ = jQuery.noConflict();
+//var $ = jQuery.noConflict();
 $(document).ready(function(){
 	$('#add').click(function(){
 		$('#selected_files').click();

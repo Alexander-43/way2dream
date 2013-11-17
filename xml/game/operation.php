@@ -108,4 +108,7 @@ header("Content-Type: text/html; charset=utf-8");
 	if ($_GET['operId'] == 'get_object_list'){
 		printForRemote(getObjectInFolder($_GET['path'], $_GET['type'], $_GET['conf']));
 	}
+	if ($_GET['operId'] == 'deleteGamer'){
+		printForRemote(deleteGamer($_GET['path']));
+	}
 ?>

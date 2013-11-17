@@ -6,12 +6,15 @@ var loading = {
 			"<td align='center' valign='center' width='250px'><b><font color='white'>{text}</font></b></td></tr></table>" +
 			"</div></div>",
 	show: function (text){
-		var $ = jQuery.noConflict();
+		//var $ = jQuery.noConflict();
+		if ($('#loading-container')[0]){
+			$('#loading-container').remove();
+		}
 		$('body').append(this.dialogTemplate.replace('{text}', text));
 		this.centring('content');
 	},
 	hide: function (){
-		var $ = jQuery.noConflict();
+		//var $ = jQuery.noConflict();
 		$('#loading-container').remove();
 	},
 	centring: function (id){
@@ -25,12 +28,11 @@ var loading = {
 var select = {
 		style:"",
 		create:function(id, config, data){
-			var $ = jQuery.noConflict();
+			//var $ = jQuery.noConflict();
 			if (!$('#'+id+'-select')[0]){
 				$('#'+id).append("<select id='"+id+"-select' style='"+select.style+"'></select>");
-			} else {
-				$('#'+id+'-select').find('option').end().append("<option value='default'>Список резервных копий</option>").val('default');
 			}
+			$('#'+id+'-select').find('option').end().append("<option value='default' disabled>Список резервных копий</option>").val('default');
 			for(var index in data){
 				$('#'+id+'-select').append("<option value='"+data[index][config.value]+"'>"+data[index][config.text]+"</option>");
 			}
@@ -67,7 +69,7 @@ var formatting = {
 
 var elementList = {
 		create:function (id, templ, config, data){
-			var $ = jQuery.noConflict();
+			//var $ = jQuery.noConflict();
 			if ($('#'+id)[0]){
 				$('#'+id).html('');
 			}
@@ -82,5 +84,45 @@ var elementList = {
 				$('#'+id).append("Нет элементов для отображения");
 			}
 			return $('#'+id);
+		}
+};
+
+var imgSelector = {
+		create : function (id, data){
+			//var $ = jQuery.noConflict();
+			$('[id='+id+']').each(function (ind, obj){
+				if (obj.tagName.toUpperCase()!="div".toUpperCase())
+					imgSelector.replace(obj, data);
+				}					
+			);
+		},
+		replace:function(obj, data){
+			//var $ = jQuery.noConflict();
+			var currentSrc = $(obj).attr('src');
+			var currentTitle = $(obj).attr('title');
+			var currentId = $(obj).attr('id');
+			var parent = $(obj).parent();
+			$(obj).remove();
+			$(parent).append("<select id='"+currentId+"'></select>");
+			var select = $(parent).children();
+			$(select).append("<option value='"+currentTitle+"' data-imagesrc='"+currentSrc+"'></option>");
+			for(var index in data){
+				if (currentSrc.indexOf(data[index].img) == -1){
+					$(select).append("<option value='"+data[index].value+"' data-imagesrc='"+data[index].src+"'></option>");
+				}
+			}
+			$(select).ddslick({'width':'80px'});
+		},
+		setSimple: function (id){
+			
+		},
+		makeCapsColorObject:function(list){
+			var obj = [];
+			for (var index in list){
+				if (index.indexOf('.gif') == -1){
+					obj.push({'value':index, 'src':'img/'+list[index], 'img':list[index]});
+				}
+			}
+			return obj;
 		}
 };

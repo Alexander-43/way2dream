@@ -1129,7 +1129,7 @@ function makeBackupUserFile(){
 }
 
 /*
- * 
+ * Возвращает список файлов/папок + информация из файла
  */
 function getObjectInFolder($path, $type='dir', $conf){
 	$result = array();
@@ -1161,6 +1161,9 @@ function getObjectInFolder($path, $type='dir', $conf){
 							}
 							$result['list'][$ind]['fileName'] = basename($file);
 							$result['list'][$ind]['filePath'] = urlencode($file);
+							foreach ($conf['addToObject'] as $key=>$value){
+								$result['list'][$ind][$key]=$value;
+							}
 						}
 					}
 				}
@@ -1169,9 +1172,36 @@ function getObjectInFolder($path, $type='dir', $conf){
 	}
 	if (count($conf) > 0){
 		for ($index=0;$index<count($conf);++$index){
-			$result['list'][] = $conf[$index];
+			if ($conf[$index] != null){
+				$result['list'][] = $conf[$index];
+			}
 		}
 	}
+	if ($type != "dir"){
+		$result['caps'] = $capColorReferences;
+	}
 	return json_encode($result);
+}
+
+/*
+ * Удаляет файл/папку по полному пути
+ */
+function deleteFile($file){
+	if(isset($file) && file_exists($file)){
+		if (!is_dir($file)){
+			return unlink($file);
+		}else{
+			return rmdir($file);
+		}
+	}
+}
+
+function deleteGamer($path){
+	$path = urldecode($path);
+	if (strpos($path, root.slash.tempFolder) >= 0){
+		deleteFile($path);
+		return json_encode(array('status'=>'Ok'));
+	}
+	return json_encode(array('status'=>$path));
 }
 ?>

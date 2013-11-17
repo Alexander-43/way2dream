@@ -1,6 +1,13 @@
+<style>
+	.placeHolder{
+		border:dashed yellow 1px;
+		height:70px;
+		line-height:70px;
+	}
+</style>
 <script type="text/javascript">
 function openUploadDialog(){
-	var $ = jQuery.noConflict();
+	//var $ = jQuery.noConflict();
 	var folder = "<? print urlencode(root.slash.tempFolder); ?>";
 	$.get('component/upload/index.php',
 		{
@@ -13,9 +20,10 @@ function openUploadDialog(){
 	);
 }
 
-var $ = jQuery.noConflict();
+var cache = [];
+//var $ = jQuery.noConflict();
 function makeBackUp(){
-	var $ = jQuery.noConflict();
+	//var $ = jQuery.noConflict();
 	loading.show('Создание резервной копии ...');
 	var url = "<? print operPage; ?>";
 	$.get(url,
@@ -33,13 +41,17 @@ function makeBackUp(){
 
 $(document).ready(function() {
 	var onSelectChange = function(){
-		var $ = jQuery.noConflict();
+		//var $ = jQuery.noConflict();
 		loading.show("Загрузка. Пожалуйста подождите");
 		$.get('<? print operPage; ?>', 
 				{'operId':'get_object_list',
-				'path':this.value},
+				'path':this.value,
+				'conf':{'addToObject':{'control':'arh'}}
+				},
 				function (data){
 					elementList.create('arh-filelist', '<? include(root.slash.inc.slash.presenter.slash."managegame.listelement.inc"); ?>', null, data.list);
+					eventsFunction.bindTo('presenter_hideIcon-arh', 'hideGamer', 'click');
+					eventsFunction.bindTo('presenter_removeIcon-arh', 'deleteGamer', 'click');
 				}
 		);
 		loading.hide();
@@ -60,12 +72,27 @@ $(document).ready(function() {
 
 	$.get('<? print operPage; ?>',
 			{'operId':'get_object_list',
-			'path':'<? print urlencode(root.slash.xmlFolder); ?>'
+			'path':'<? print urlencode(root.slash.xmlFolder); ?>',
+			'conf':{'addToObject':{'control':'active'}}
 			},
 			function (data){
 				elementList.create('active-filelist', '<? include(root.slash.inc.slash.presenter.slash."managegame.listelement.inc"); ?>', null, data.list);
+				eventsFunction.bindTo('presenter_hideIcon-active', 'hideGamer', 'click');
+				if (!cache['caps']){
+					cache['caps'] = imgSelector.makeCapsColorObject(data.caps);
+				}
+				imgSelector.create('capImg-active', cache['caps']);
 			}
 	);
+
+    $( "#active-filelist, #arh-filelist" ).sortable({
+        connectWith: "ul#active-filelist",
+        placeholder:"placeHolder",
+        receive:function(event, ui){
+        		//var $ = jQuery.noConflict();
+        		imgSelector.replace($(ui.item[0]).find('#capImg-arh')[0], cache['caps']);
+            }
+      }).disableSelection();
 });
 </script>
 <table style="width:100%;height:100%">
@@ -90,7 +117,7 @@ $(document).ready(function() {
 			Резервные копии:
 			<div id="arch" style="display:inline"></div>
 			<div style="height:95%;width:100%;overflow:auto;border:solid silver 1px;border-radius:5px;background-color:white">
-				<ul id="arh-filelist">
+				<ul id="arh-filelist" style="height:70px">
 					
 				</ul>
 			</div>

@@ -1,5 +1,5 @@
 function hideUploadDialog(fade, frame){
-	var $ = jQuery.noConflict();
+	//var $ = jQuery.noConflict();
 	$('#'+fade).fadeOut();
 	$('#'+frame).fadeOut();
 	$('#'+fade).remove();

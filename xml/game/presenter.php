@@ -31,6 +31,7 @@ upload($_FILES);
 	<meta http-equiv="Pragma" content="no-cache" />
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/ddslick.min.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
 	<script type="text/javascript" src="js/managegame.js"></script>
