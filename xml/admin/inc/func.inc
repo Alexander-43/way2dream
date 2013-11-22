@@ -125,12 +125,12 @@
 	*/
 	function checkGame($url)
 	{
-	  return @file_get_contents($url."/operation.php?operId=testConnection&url=".$url);
+		return get_content($url."/operation.php?operId=testConnection&url=".$url);
 	}
 	
 	function sendRequest($url, $returnResult = false, $errorMessage = "")
 	{
-	  $req = @file_get_contents($url);
+	  $req = get_content($url);
 	  if ($returnResult && $req)
 	  {
 	    return $req;
@@ -347,7 +347,7 @@
 	{
 	  if (checkGame($gameUrl))
 	  {
-	    return file_get_contents($gameUrl."/operation.php?operId=getAllPresenters");
+	    return get_content($gameUrl."/operation.php?operId=getAllPresenters");
 	  }
 	}
 	
@@ -358,9 +358,9 @@
 	*/
 	function getUserCoutFromGame($gameUrl, $returnAll = false)
 	{
-	  if (@file_get_contents($gameUrl."/operation.php?operId=testConnection&url=".$gameUrl))
+	  if (get_content($gameUrl."/operation.php?operId=testConnection&url=".$gameUrl))
 	  {
-	    $data = file_get_contents($gameUrl."/operation.php?operId=getGamers");
+	    $data = get_content($gameUrl."/operation.php?operId=getGamers");
 	    $data = @json_decode($data);
 	    if ($data != null)
 	    {
@@ -732,6 +732,13 @@
         {
             return false;
         }
+    }
+    
+    function get_content($url, $type){
+    	require_once ('getContentClass.php');
+    	global $get_content_configs;
+    	$obj = new contentReturnerProcessor($get_content_configs, $type);
+    	return $obj->get_content($url);
     }
     
 	/*

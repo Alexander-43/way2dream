@@ -1,5 +1,6 @@
 <?php
 	require(dirname(__FILE__)."/vars.inc");
+	require(rootSite."/inc/getContentClass.php");
 	require(rootSite."/inc/domXml.inc");
 	require(rootSite."/inc/func.inc");
 	require(rootSite."/inc/TIniParse.inc");

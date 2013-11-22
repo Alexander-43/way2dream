@@ -1,5 +1,31 @@
 ﻿//поле с именами измененных полей 
 //var changedFieldId = 'changeField';
+$(document).ready(
+		function (){
+			var browser=get_browser();
+			var browser_version=get_browser_version()
+			if (browser.toLowerCase() == "msie"){
+				alert("Браузер "+browser+" "+browser_version+" игрой не поддерживается. Извините.");
+				history.back();
+			}
+		}
+);
+
+function get_browser(){
+    var N=navigator.appName, ua=navigator.userAgent, tem;
+    var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+    return M[0];
+    }
+function get_browser_version(){
+    var N=navigator.appName, ua=navigator.userAgent, tem;
+    var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+    return M[1];
+    }
+
 function addChagedElement (obj){
 	var field = $('[name='+changedFieldId+']');
 	var value = field.attr('value'); 

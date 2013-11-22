@@ -1087,11 +1087,13 @@ if (!empty($files)){
  * Inject component js
  */
 function includeGlobalComponentJS($name="global.js"){
-	$compFolder = root."/component/*";
+	$compFolder = root.slash."component".slash."*";
 	foreach(glob($compFolder) as $item){
 		if (is_dir($item)){
-			if (file_exists($item."/".$name)){
-				print "<script type='text/javascript'>".file_get_contents($item."/".$name)."</script>";
+			if (file_exists($item.slash.$name)){
+				print "<script type='text/javascript'>";
+				include($item.slash.$name);
+				print "</script>";
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 <?
 	header("Content-Type: text/html; charset=utf-8");
 	require(dirname(__FILE__)."/vars.inc");
+	require(dirname(__FILE__)."/inc/getContentClass.php");
 	require(dirname(__FILE__)."/inc/domXml.inc");
 	require(dirname(__FILE__)."/inc/pclzip.lib.inc");
 	require(dirname(__FILE__)."/inc/func.inc");
