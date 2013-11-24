@@ -43,7 +43,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<link href="style.css" type="text/css" rel="stylesheet" />
 	<link rel="shortcut icon" href="favicon.ico">
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
 </head>
 

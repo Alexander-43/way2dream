@@ -25,8 +25,7 @@
 		public function asJson($url){
 			$result = $this->checkUrl($url);
 			if ($result !== false){
-				$result = json_decode($result);
-				if ($result !== null){
+				if (json_decode($result) !== null){
 					return $result;
 				} else {
 					return false;
@@ -50,7 +49,7 @@
 			if ($result === false){
 				return false;
 			} else {
-				$this->get_contents($result);
+				return $this->get_contents($result);
 			}
 		}
 		
@@ -76,7 +75,7 @@
 				if (class_exists($elem["name"])){
 					$name = $elem["name"];
 					$obj = new $name($elem['parameters']);
-					if ($this->type && arra_search($this->type, get_class_methods($name)) !== false){
+					if ($this->type && array_search($this->type, get_class_methods($name)) !== false){
 						$method = $this->type;
 						$result = $obj->$method($url);
 					} else {

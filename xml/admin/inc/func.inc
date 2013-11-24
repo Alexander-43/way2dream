@@ -11,43 +11,43 @@
 	{
 		if (count($postData) != 0)
 		{
-		      global $filesAttribs;
-		      $temp = makeDataArray($postData, $filesAttribs[presenter]);
-		      $temp['object'] = $temp['node'];
-		      if (strlen($postData['objectId']) == 0)
-		      {
-			$temp['unic'] = 'new';
-			$temp['id'] = mktime();
-		      }
-		      else
-		      {
-			$temp['unicValue'] = $postData['objectId'];
-		      }
-		      $temp['active'] = isset($temp['active']) ? 'true' : 'false';
-		      if ($temp['password'] != 'Пароль')
-		      {
-			$temp['password'] =  md5($temp['password']);
-		      }
-		      else
-		      {
-			unset($temp['password']);
-		      }
-		      if (checkGame($postData['assignTo']))
-		      {
-			$req = sendRequest($postData['assignTo']."/operation.php?operId=updateObject&data=".urlencode(json_encode($temp)), false, "Не удалось сохранить ведущего");
-			if ($req = "OK")
+			global $filesAttribs;
+			$temp = makeDataArray($postData, $filesAttribs[presenter]);
+			$temp['object'] = $temp['node'];
+			if (strlen($postData['objectId']) == 0)
 			{
-			  print "<script>showStatusText(message['downStatusId'], message['saveSucc'], 2000, true);</script>";
+				$temp['unic'] = 'new';
+				$temp['id'] = mktime();
 			}
 			else
 			{
-			  print "<script>showStatusText(message['downStatusId'], ".$req.", 2000, true);</script>";
+				$temp['unicValue'] = $postData['objectId'];
 			}
-		      }
-		      else
-		      {
-			print "<script>alert('Выбранная вами игра не доступна. Схранение не возможно!');</script>";
-		      }
+			$temp['active'] = isset($temp['active']) ? 'true' : 'false';
+			if ($temp['password'] != 'Пароль')
+			{
+				$temp['password'] =  md5($temp['password']);
+			}
+			else
+			{
+				unset($temp['password']);
+			}
+			if (checkGame($postData['assignTo']))
+			{
+				$req = sendRequest($postData['assignTo']."/operation.php?operId=updateObject&data=".urlencode(json_encode($temp)), false, "Не удалось сохранить ведущего");
+				if ($req = "OK")
+				{
+					print "<script>showStatusText(message['downStatusId'], message['saveSucc'], 2000, true);</script>";
+				}
+				else
+				{
+					print "<script>showStatusText(message['downStatusId'], ".$req.", 2000, true);</script>";
+				}
+			}
+			else
+			{
+				print "<script>alert('Выбранная вами игра не доступна. Схранение не возможно!".$postData['assignTo']."');</script>";
+			}
 		}
 		require (rootSite."/tpl/presenters.forms.addNewPresenter.tpl");
 	}
@@ -125,12 +125,12 @@
 	*/
 	function checkGame($url)
 	{
-		return get_content($url."/operation.php?operId=testConnection&url=".$url);
+		return get_content($url."/operation.php?operId=testConnection&url=".$url, "asJson");
 	}
 	
 	function sendRequest($url, $returnResult = false, $errorMessage = "")
 	{
-	  $req = get_content($url);
+	  $req = get_content($url, "asJson");
 	  if ($returnResult && $req)
 	  {
 	    return $req;
@@ -347,7 +347,7 @@
 	{
 	  if (checkGame($gameUrl))
 	  {
-	    return get_content($gameUrl."/operation.php?operId=getAllPresenters");
+	    return get_content($gameUrl."/operation.php?operId=getAllPresenters", "asJson");
 	  }
 	}
 	
@@ -358,9 +358,9 @@
 	*/
 	function getUserCoutFromGame($gameUrl, $returnAll = false)
 	{
-	  if (get_content($gameUrl."/operation.php?operId=testConnection&url=".$gameUrl))
+	  if (get_content($gameUrl."/operation.php?operId=testConnection&url=".$gameUrl, "asJson"))
 	  {
-	    $data = get_content($gameUrl."/operation.php?operId=getGamers");
+	    $data = get_content($gameUrl."/operation.php?operId=getGamers", "asJson");
 	    $data = @json_decode($data);
 	    if ($data != null)
 	    {

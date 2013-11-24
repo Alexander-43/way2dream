@@ -706,6 +706,7 @@ function checkSelectValues()
 */
 function trycopy(targeturl, obj)
 {
+	showStatusText(message['downStatusId'], "Подождите. Идет копирование ...", '', true);
   $.getJSON('operations.php?operId=trycopy&targetUrl='+targeturl, 
   function (data){
 	if (data == null) return;

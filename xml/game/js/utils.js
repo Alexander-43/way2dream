@@ -108,10 +108,15 @@ var imgSelector = {
 			$(select).append("<option value='"+currentTitle+"' data-imagesrc='"+currentSrc+"'></option>");
 			for(var index in data){
 				if (currentSrc.indexOf(data[index].img) == -1){
-					$(select).append("<option value='"+data[index].value+"' data-imagesrc='"+data[index].src+"'></option>");
+					$(select).append("<option value='"+data[index].value+"' data-imagesrc='"+data[index].src+"' style='background-color:green'></option>");
 				}
 			}
+			var tempId = (Math.random()+"").replace("0.","");
+			$(select).attr('id', tempId);
 			$(select).ddslick({'width':'80px'});
+			var data = $('#'+tempId).data('ddslick');
+			$(data.selectedItem).css('background-color', 'rgb(255, 174, 174)');
+			$('#'+tempId).attr('id', currentId);
 		},
 		setSimple: function (id){
 			
