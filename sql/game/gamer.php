@@ -65,13 +65,13 @@ img.card
 	?>
 	</td>
 	<td align="top" width="70%" rowspan="2" style="background: url(img/loading.gif) center no-repeat;">
-		<object type="application/x-shockwave-flash" data="gamer.swf" width="100%" height="100%">
-		<param name="movie" value="gamer.swf" />
+		<object type="application/x-shockwave-flash" data="<? print swfFolder."/";?>gamer.swf" width="100%" height="100%">
+		<param name="movie" value="<? print swfFolder."/";?>gamer.swf" />
 		<param name="wmode" value="opaque" />
 		<param name="salign" value="r">
 		<param name="allowScriptAccess" value="sameDomain" />
 		<param name="flashvars" value="pathToXmlBase=<? print xmlGenerator."?".time() ?>" />
-		<EMBED src="gamer.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
+		<EMBED src="<? print swfFolder."/";?>gamer.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
 		</EMBED>
 		</object>
 	</td>

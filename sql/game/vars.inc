@@ -1,10 +1,18 @@
 <?php
 	header("Content-Type: text/html; charset=utf-8");
 	session_start();
+	define("root", dirname(__FILE__));
+	if(strrpos(root, "/") > 0){
+		define("slash", "/");
+	}else {
+		define("slash", "\\");
+	}
 	//error_reporting(1);
-	define("xmlForFlash", "capSettings.xml");
-	define("xmlForUserData", "gameBase.xml");
-	define("xmlForPresenters", "presenters.xml");
+	define("xmlFolder","xml");
+	define("swfFolder","swf");
+	define("xmlForFlash", xmlFolder."capSettings.xml");
+	define("xmlForUserData", xmlFolder."gameBase.xml");
+	define("xmlForPresenters", xmlFolder."presenters.xml");
 	define("xmlGenerator", "xmlGen.php");
 	define("maxBaseSize", 20);
 	define("emptyBaseXmlFile", "gameBase");
