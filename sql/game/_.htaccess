@@ -1,0 +1,4 @@
+CharsetDisable on
+CharsetDefault utf-8
+AddDefaultCharset UTF-8
+CharsetSourceEnc UTF-8

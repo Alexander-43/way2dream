@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="update-all">
+    <description>
+            Обновление файлов на webservers
+    </description>
+	<property file="custom.properties"/>
+    <target name="admin-update" description="Update admin application">
+    	<echo>Обновляем Admin</echo>
+    	<property name="dest" value="${disk}home\\${admin.site}\\www\\${admin.folder.name}" />
+    	<copy todir="${dest}">
+        	<fileset dir="${basedir}\\..\\admin">
+			    <include name="**\\*.*"/>
+        		<exclude name="**\\.*" />
+			</fileset>
+        </copy>
+    	<antcall target="pack-game" />
+    	<echo>Копируем архив игры</echo>
+    	<copy todir="${dest}\\gameZip" file="${basedir}\\${pack.path}"/>
+    </target>
+	
+    <target name="game-update" description="Update game application">
+    	<echo>Обновляем Game</echo>
+    	<copy todir="${disk}home\\${game.site}\\www\\${game.folder.name}">
+        	<fileset dir="${basedir}\\..\\game">
+			    <include name="**\\*.*"/>
+        		<include name="**\\.xml" />
+        		<include name="**\\gameBase" />
+        		<exclude name="**\\.project" />
+			</fileset>
+        </copy>
+    </target>
+
+    <target name="update-all" description="Update all" depends="">
+        <echo>Обновляем все</echo>
+    	<antcall target="admin-update" />
+    	<antcall target="game-update" />
+    </target>
+	
+	<target name="pack-game">
+		<echo>Пакуем Game</echo>
+		<delete file="${basedir}\\${pack.path}" />
+		<zip destfile="${basedir}\\${pack.path}">
+			<fileset dir="${basedir}\\..\\${game.folder.name}">
+			    <include name="**\\*.*"/>
+        		<include name="**\\.xml" />
+        		<include name="**\\gameBase" />
+        		<exclude name="**\\.project" />
+				<include name="temp"/>
+				<exclude name="temp\\*.*"/>
+			</fileset>
+		</zip>
+	</target>
+	
+</project>

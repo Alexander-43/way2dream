@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<cap name="cap_1" posX="266.7" posY="120.95" visible="true" idUser="7733e2ac7a1df3fa5dc309e058ca4257" color="синий"/>
+	<cap name="cap_2" posX="-1" posY="-1" visible="false" idUser="" color="желтый"/>
+	<cap name="cap_3" posX="202.9" posY="200.35" visible="true" idUser="e977c182f611472b207e8e7cbf5527d6" color="пурпурный"/>
+	<cap name="cap_4" posX="-1" posY="-1" visible="true" idUser="7acc398714dbd7c1f83a160bc81ac936" color="зеленый"/>
+	<cap name="cap_5" posX="-1" posY="-1" visible="false" idUser="" color="голубой"/>
+	<cap name="cap_6" posX="-1" posY="-1" visible="false" idUser="" color="красный"/>
+	<card userId="e977c182f611472b207e8e7cbf5527d6" cardforView="possible.jpg" cardSelected="img/card/possible_4.jpg" isActive="e977c182f611472b207e8e7cbf5527d6" id="card" result=""/>
+	<cube userId="" isActive="e977c182f611472b207e8e7cbf5527d6" result="4_6" id="cube"/>
+</root>
