@@ -8,12 +8,14 @@
 		define("slash", "\\");
 	}
 	//error_reporting(1);
-	define("xmlFolder","xml");
-	define("swfFolder","swf");
+	define("xmlFolder","xml/");
+	define("swfFolder","swf/");
+	define("mysqlFolder", "mysql/");
+	define("incFolder", "inc/");
 	define("xmlForFlash", xmlFolder."capSettings.xml");
 	define("xmlForUserData", xmlFolder."gameBase.xml");
 	define("xmlForPresenters", xmlFolder."presenters.xml");
-	define("xmlGenerator", "xmlGen.php");
+	define("xmlGenerator", "xmlGen.inc");
 	define("maxBaseSize", 20);
 	define("emptyBaseXmlFile", "gameBase");
 	define("folderBaseArchive", "gameBaseArchive");

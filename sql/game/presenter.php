@@ -1,8 +1,8 @@
 <?php
 include ('vars.inc');
 include ('domXml.inc');
-include ('external.php');
-include ('func.php');
+include (incFolder.'external.inc');
+include (incFolder.'func.inc');
 if ($_SESSION['authKey']!=accessCode && strlen($_SESSION['presenterCode']) == 0)
 {
 	print "<script> alert('Для вас доступ к странице запрещен,\\n зарегистрируйтесь или войдите как ведущий.');";
@@ -30,7 +30,7 @@ if (count($_POST) != 0)
 	<meta http-equiv="Pragma" content="no-cache" />
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 <style>
 /* <![CDATA[ */
 
@@ -117,13 +117,13 @@ div.t4 {
 		<? showActiveGamers(0); ?>
 		</td>
 		<td align="top" width="70%">
-		<object type="application/x-shockwave-flash" data="<? print swfFolder."/";?>presenter.swf" width="100%" height="100%">
-		<param name="movie" value="<? print swfFolder."/";?>presenter.swf" />
+		<object type="application/x-shockwave-flash" data="<? print swfFolder;?>presenter.swf" width="100%" height="100%">
+		<param name="movie" value="<? print swfFolder;?>presenter.swf" />
 		<param name="wmode" value="transparent" />
 		<param name="salign" value="t">
 		<param name="allowScriptAccess" value="sameDomain" />
 		<param name="flashvars" value="pathToXmlBase=<? print xmlGenerator."?".time() ?>&operPage=<? print operPage?>" />
-		<EMBED src="<? print swfFolder."/";?>presenter.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>&operPage=<? print operPage?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
+		<EMBED src="<? print swfFolder;?>presenter.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>&operPage=<? print operPage?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
 		</EMBED>
 		</object>
 		</td>

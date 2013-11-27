@@ -334,8 +334,8 @@
 	  private $lastSql = Array();
 	  public $SearchedNodeLink = null;
       public function __construct($fileName, $lock = false){
-		if (file_exists('connect')){
-		  include('connect');
+		if (file_exists(mysqlFolder.'connect')){
+		  include(mysqlFolder.'connect');
 		  $this->host = host;
 		  $this->user = user;
 		  $this->password = password;

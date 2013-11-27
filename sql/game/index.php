@@ -1,7 +1,7 @@
 <?php
 	include ('vars.inc');
 	include ('domXml.inc');
-	include ('func.php');
+	include (incFolder.'func.inc');
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -9,7 +9,7 @@
 <head>
 	<title>Добро пожаловать </title>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<link href="style.css" type="text/css" rel="stylesheet" />
+	<link href="css/style.css" type="text/css" rel="stylesheet" />
 	<link rel="shortcut icon" href="favicon.ico">
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>

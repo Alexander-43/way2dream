@@ -2,8 +2,8 @@
 header("Content-Type: text/html; charset=utf-8");
 	include ('vars.inc');
 	include ('domXml.inc');
-	include ('func.php');
-	include ('external.php');
+	include (incFolder.'func.inc');
+	include (incFolder.'external.inc');
 	function printForRemote($object)
 	{
 		makeHeader();

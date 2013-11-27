@@ -1,7 +1,7 @@
 <?php 
 	include ('vars.inc');
 	include ('domXml.inc');
-	include ('func.php');
+	include (incFolder.'func.inc');
 	if (strlen($_SESSION['id']) == 0 || strlen($_SESSION['authKey']) != 0) 
 	{
 		if (strlen($_GET['id']) != 0)
@@ -53,7 +53,7 @@ img.card
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <? printBrs(5); ?>
@@ -65,13 +65,13 @@ img.card
 	?>
 	</td>
 	<td align="top" width="70%" rowspan="2" style="background: url(img/loading.gif) center no-repeat;">
-		<object type="application/x-shockwave-flash" data="<? print swfFolder."/";?>gamer.swf" width="100%" height="100%">
-		<param name="movie" value="<? print swfFolder."/";?>gamer.swf" />
+		<object type="application/x-shockwave-flash" data="<? print swfFolder;?>gamer.swf" width="100%" height="100%">
+		<param name="movie" value="<? print swfFolder;?>gamer.swf" />
 		<param name="wmode" value="opaque" />
 		<param name="salign" value="r">
 		<param name="allowScriptAccess" value="sameDomain" />
 		<param name="flashvars" value="pathToXmlBase=<? print xmlGenerator."?".time() ?>" />
-		<EMBED src="<? print swfFolder."/";?>gamer.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
+		<EMBED src="<? print swfFolder;?>gamer.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
 		</EMBED>
 		</object>
 	</td>

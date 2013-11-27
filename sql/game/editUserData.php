@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=utf-8");
 	include ('vars.inc');
 	include ('domXml.inc');
-	include ('func.php');
+	include (incFolder.'func.inc');
 	$a = preg_split("/[|]{1,3}/",$_POST['editedField']);
 	WriteAttrib ($_POST, $a);
 	if (strlen($_POST['id']) == 0)
@@ -61,7 +61,7 @@ header("Content-Type: text/html; charset=utf-8");
 <input name="sourceIncomeA" type="text" value="<? print $_POST['sourceIncomeA']?>" style="position:absolute;width:270px;left:492px;top:1270px;z-index:71" onChange="addChagedElement(this.name)">
 <input name="sourceIncomeB" type="text" value="<? print $_POST['sourceIncomeB']?>" style="position:absolute;width:271px;left:492px;top:1299px;z-index:72" onChange="addChagedElement(this.name)">
 <input name="sourceIncomeC" type="text" value="<? print $_POST['sourceIncomeC']?>" style="position:absolute;width:272px;left:492px;top:1328px;z-index:73" onChange="addChagedElement(this.name)">
-<? require('card.inc'); ?>
+<? require(incFolder.'card.inc'); ?>
 <input name="winnerPlan1" type="text" value="<? print $_POST['winnerPlan1']?>" style="position:absolute;width:679px;left:80px;top:1705px;z-index:76" onChange="addChagedElement(this.name)">
 <input name="winnerPlan2" type="text" value="<? print $_POST['winnerPlan2']?>" style="position:absolute;width:679px;left:80px;top:1735px;z-index:77" onChange="addChagedElement(this.name)">
 <input name="winnerPlan3" type="text" value="<? print $_POST['winnerPlan3']?>" style="position:absolute;width:679px;left:80px;top:1768px;z-index:78" onChange="addChagedElement(this.name)">

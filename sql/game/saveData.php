@@ -1,7 +1,7 @@
 <?php
 include ('vars.inc');
 include ('domXml.inc');
-include ('func.php');
+include (incFolder.'func.inc');
 unset($_SESSION['id']);
 unset($_SESSION['authKey']);
 if ($_POST['dataValid']=="validate")
