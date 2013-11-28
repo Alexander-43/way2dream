@@ -56,8 +56,8 @@ header("Content-Type: text/html; charset=utf-8");
 						}						
 				};
 </script>
-<script type="text/javascript" src="js/tab.js"></script>
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/tab.js"></script>
 </head>
 <body>
 <form name="editForm" method="POST" action="#" onSubmit="editFormSubmit(this)">
@@ -246,7 +246,7 @@ header("Content-Type: text/html; charset=utf-8");
 	</div>
 	<br>
 	<div style="position:fixed;left:800px;bottom:20px;opacity:0.1" onMouseOver="this.style.opacity=1" onMouseOut="this.style.opacity=0.1;zoom:1"> 
-		<center><input name="but" type="submit" value="Сохранить"><br><a href="<? print $name;?>">Скачать</a></center>
+		<center><input name="but" type="submit" value="Сохранить"><!-- br><a href="<? //print $name;?>">Скачать</a> --></center>
 	</div>
 	<br><br>
 </div>

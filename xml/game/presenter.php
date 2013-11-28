@@ -30,6 +30,7 @@ upload($_FILES);
 	<meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" /> 
 	<meta http-equiv="Pragma" content="no-cache" />
 	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/ddslick.min.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
@@ -119,7 +120,7 @@ img {
 		<li class="t2"><a onClick="jQuery('div.t2').css('height', window.screen.availHeight - 150)">Даные игроков</a></li>
 		<!--li class="t3"><a>Архив игроков</a></li-->
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) showPresenterInfo($_SESSION['presenterUnic'], $_SESSION['presenterCode']); ?>
-		<li class="t5"><a>Восстановление</a></li>
+		<li class="t5"><? if ($_GET['man']) { print "<a>Восстановление</a>";}?></li>
 	</ul>
 
 	<div class="t1">
@@ -135,7 +136,7 @@ img {
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) include ('inc/presenter/presenterinfo.inc'); ?>
 	</div>
 	<div class="t5" style="height:96%">
-		<? include ('inc/presenter/managegame.inc'); ?>
+		<? if ($_GET['man']) {include ('inc/presenter/managegame.inc');} ?>
 	</div>
 </div>
 </center>

@@ -401,7 +401,7 @@ function showActiveGamers($ViewType = 0)
 	$iac = getInfoAboutCube();
 	if ($ViewType == 0)
 	{
-		print "<div style='height:600px; overflow:auto;'><table border='0' width='100%'>";
+		print "<div id='activeGamers' style='height:600px; overflow:auto;'><table border='0' width='100%'>";
 		foreach ($UsersInfo as $element)
 		{
 			$stat =""; $cardType = "";

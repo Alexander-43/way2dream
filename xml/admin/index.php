@@ -45,8 +45,7 @@
 						<div id="selectGames">
 							<select class="forWidth" id="gt" name="gameType" value="null" onChange="selectGameType(this, 'tr')">
 								<option disabled selected>Игра</option>
-								<option value="game 1">Игра 1</option>
-								<option value="game 2">Игра 2</option>
+								<option value="game 1">ЗАГРУЗКА !!!!!</option>
 							</select>
 						</div>
 					</td>

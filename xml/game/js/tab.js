@@ -59,7 +59,7 @@ function doAction(obj){
 		if ($.inArray(obj.name, config[i].fieldsId) > -1){
 			var line = config[i].actions;
 			for(var j in config[i].fieldsId){
-				var val = $('[name='+config[i].fieldsId[j]+']').attr('value').length == 0 ? '0' : $('[name='+config[i].fieldsId[j]+']').attr('value');
+				var val = $('[name='+config[i].fieldsId[j]+']').val().length == 0 ? '0' : $('[name='+config[i].fieldsId[j]+']').val();
 				line=line.replaceAll(config[i].fieldsId[j], val);
 			}
 			$('[name='+i+']').attr('value', eval(line));
@@ -374,7 +374,8 @@ function onLoad(divName)
 		{
 			if (radios[i].checked)
 			{
-				jQuery('div').scrollTo('#'+radios[i].id);
+				$('div[id=activeGamers]').scrollTo('#'+radios[i].id);
+				$('div[id=activeGamers]').scrollTo('-=87px', {axis:'y'});
 				return;
 			}
 		}
