@@ -1,4 +1,4 @@
-<table width="100%" height="600"  border="0">
+<table width="100%" height="96%"  border="0">
 	<tr>
 		<td valign="top">
 			<? showActiveGamers(0); ?>

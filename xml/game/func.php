@@ -401,7 +401,7 @@ function showActiveGamers($ViewType = 0)
 	$iac = getInfoAboutCube();
 	if ($ViewType == 0)
 	{
-		print "<div id='activeGamers' style='height:600px; overflow:auto;'><table border='0' width='100%'>";
+		print "<div id='activeGamers' style='height:100%;overflow-y:auto;overflow-x:hidden'><table border='0' width='100%'>";
 		foreach ($UsersInfo as $element)
 		{
 			$stat =""; $cardType = "";
@@ -413,8 +413,9 @@ function showActiveGamers($ViewType = 0)
 			$forCapUrl = $element['active'] == '1'? "'editUserData.php?id=".$element['id']."'" : "''";
 			$forFioUrl = $element['active'] == '1'? "'gamer.php?id=".$element['id']."'" : "''";
 			$state = $element['active'] != '1'? "(Не активен)" : "";
-			print "<tr style='background-color:silver;'><td colspan='3'><a href=".$forCapUrl." target='_blank'>"; 
-			print "<img align='right' src='img/".$capColorReferences[$element['capColor']]."' title='Кликните для редактирования' border='0'></a><p><b><i><a href=".$forFioUrl." target='_blank'>".$element['FIO'].$state."</a></i></b></p></td></tr>";
+			$userFile = getUserFileName($element['id']);
+			print "<tr  id='$id'><td><table><tr style='background-color:silver;'><td colspan='3'><a href=".$forCapUrl." target='_blank'>"; 
+			print "<img align='right' src='img/".$capColorReferences[$element['capColor']]."' title='Кликните для редактирования' border='0'></a><p><img class='remove_from_game' src='img/managegame/cross_red.png' height='20px' title='Удалить из игры' onclick='eventsFunction.removeFromGame(\"".urlencode($userFile)."\", \"".$element['FIO']."\")'><b><i><a href=".$forFioUrl." target='_blank'>".$element['FIO'].$state."</a></i></b></p></td></tr>";
 			print "<tr><td >Показать карт.:</td><td align='right' colspan='2'>".ShowSelectCard($element['id'], $cardType)."</td></tr>";
             if ($iauc['isActive']==$element['id'])
 			{
@@ -442,7 +443,7 @@ function showActiveGamers($ViewType = 0)
 					print "</table>";
 				print "</td></tr>";
 			print "<tr><td colspan='3'>".printPaySystem($element, true)."</td>";
-			print "<tr><th colspan='3' style='border-color:silver; border-style:solid; border-radius: 10px 10px 10px 10px;'><div id='card_".$element['id']."'>".$stat."</div></th></tr>";
+			print "<tr><th colspan='3' style='border-color:silver; border-style:solid; border-radius: 10px 10px 10px 10px;'><div id='card_".$element['id']."'>".$stat."</div></th></tr></table></td></tr>";
 		}
 		print "</table></div>";
 		//print_r (getInfoAboutShowedCard());
@@ -487,7 +488,7 @@ function TryCheck ($name, $value)
 }
 
 //записывает измененные атрибуты указанные в $changedFilds
-function WriteAttrib ($arrAttrib, $changedFilds)
+function WriteAttrib (&$arrAttrib, $changedFilds)
 {
 	if (count($changedFilds)!=0)
 	{
@@ -500,6 +501,7 @@ function WriteAttrib ($arrAttrib, $changedFilds)
 			{
 				if (strlen($name)!= 0)
 				{
+					$arrAttrib[$name] = str_replace(array("\r\n", "\r", "\n"), " ", $arrAttrib[$name]);
 					$xml->SearchedNodeLink->setAttribute($name, $arrAttrib[$name]);
 				}
 			}
@@ -1169,6 +1171,7 @@ function getObjectInFolder($path, $type='dir', $conf){
 						}
 					}
 				}
+				$xml->Destroy();
 			}
 		}
 	}
@@ -1197,13 +1200,55 @@ function deleteFile($file){
 		}
 	}
 }
-
+/*
+ * Ajax: удаляет игрока из игры
+ */
 function deleteGamer($path){
 	$path = urldecode($path);
-	if (strpos($path, root.slash.tempFolder) >= 0){
+	if (!file_exists($path)){
+		if (!file_exists(root.slash.$path)){
+			return json_encode(array('status'=>urlencode($path).' - не существует'));
+		} else {
+			$path = root.slash.$path;
+		}
+	} else {
+		$path = realpath($path);
+	}
+	if (strpos($path, root.slash.xmlFolder)!=0){
 		deleteFile($path);
 		return json_encode(array('status'=>'Ok'));
+	} else {
+		return json_encode(deleteGamerFromAnywhere());
 	}
-	return json_encode(array('status'=>$path));
+	return json_encode(array('status'=>'Error in deleteGamer function'));
+}
+
+/*
+ * Удаление игрока из игры по файлу данных
+ */
+function deleteGamerFromAnywhere($file){
+	$xml = new ParseXML($file);
+	if (!$xml->LoadResult){
+		return array('status'=>'Error loading file '.$file.' in deleteGamerFromAnywhere function');
+	}else {
+		global $userAttribsMinimal;
+		$xml->GetNodesAttribsValuesByName($xml->RootNode, $userAttribsMinimal['node'], $userAttribsMinimal['unic']);
+		if (count($xml->nodesAttribValue) > 0){
+			$capXml = new ParseXML(xmlForFlash);
+			foreach ($xml->nodesAttribValue as $value){
+				$capXml->SearchNode($xml->RootNode, 'cap', 'idUser', $value);
+				if ($capXml->SearchedNodeLink != null){
+					$capXml->ModifyElement(null, array('posX'=>'-1','posY'=>'-1','visible'=>'false','idUser'=>''), $capXml->SearchedNodeLink);
+				}
+			}
+			$capXml->Destroy();
+		}
+	}
+	$xml->Destroy();
+	if (deleteFile($file)){
+		return array('status'=>'Ok');
+	} else {
+		return array('status'=>'Can`t remove file '.$file);
+	}
 }
 ?>

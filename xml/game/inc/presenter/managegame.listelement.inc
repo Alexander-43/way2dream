@@ -1,4 +1,4 @@
-<li style="border-radius:5px" item="{\'path\':\'{filePath}\'}" onmouseover="this.style[\'background-color\']=\'rgb(231, 231, 231)\'" onmouseout="this.style[\'background-color\']=\'white\'" title="">\
+<li style="border-radius:5px" item="{\'path\':\'{filePath}\', \'fio\':\'{FIO}\', \'id\':\'{id}\'}" onmouseover="this.style[\'background-color\']=\'rgb(231, 231, 231)\'" onmouseout="this.style[\'background-color\']=\'white\'" title="">\
 	<table style="width:100%;cursor:pointer;font-size:12px;font-weight:600;color:steelblue;" border="0" onselect="return false">\
 		<tr>\
 			<td rowspan="4" style="width:90px;text-align:center">\

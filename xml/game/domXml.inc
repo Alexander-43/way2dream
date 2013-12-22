@@ -42,12 +42,12 @@
 			{
 				$i = 0;
 				$sum=0; 
-				while(!file_exists($file_name) || $i <= 3)
+				while(!file_exists($file_name) || $i <= 1)
 				{
 					$sum +=$i++;
 					set_time_limit(30);
 					sleep($sum);
-                    if ($i == 3) 
+                    if ($i == 1) 
                     {
                         set_time_limit(30);   
                         //$i = 0;

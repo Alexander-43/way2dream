@@ -44,5 +44,25 @@ var eventsFunction = {
 		}else{
 			return obj;
 		}
+	},
+	removeFromGame: function (userFile, name){
+		if (confirm("Вы действительно хотите удалить "+name+" из игры ?")){
+			var me = this;
+			loading.show("Удаление игрока ...");
+			$.get('operation.php',
+					{'operId':'deleteGamer',
+					'path':userFile},
+					function(data){
+						if (data['status'] == 'Ok'){
+							$('tr[id='+id+']').fadeOut('slow', function (){$(me).remove()});
+						} else {
+							alert(data['status']);
+						}
+						loading.hide();
+					}
+				);
+		} else {
+			return false;
+		}
 	}
 };

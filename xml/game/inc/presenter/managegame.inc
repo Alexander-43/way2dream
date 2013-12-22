@@ -7,7 +7,6 @@
 </style>
 <script type="text/javascript">
 function openUploadDialog(){
-	//var $ = jQuery.noConflict();
 	var folder = "<? print urlencode(root.slash.tempFolder); ?>";
 	$.get('component/upload/index.php',
 		{
@@ -21,9 +20,7 @@ function openUploadDialog(){
 }
 
 var cache = [];
-//var $ = jQuery.noConflict();
 function makeBackUp(){
-	//var $ = jQuery.noConflict();
 	loading.show('Создание резервной копии ...');
 	var url = "<? print operPage; ?>";
 	$.get(url,
@@ -39,9 +36,44 @@ function makeBackUp(){
 	);
 }
 
+function saveCurrentConfig(){
+	loading.show('Сохранение новой конфигурации игры');
+	var status = null;
+	var activeListElements = $('#active-filelist').children();
+	var postData = new Object();
+	var idList = [];
+	for(var index=0;index<activeListElements.length;++index){
+		var liElement = $(activeListElements[index]);
+		var capObj = liElement.find('#capImg-active').length == 0 ? liElement.find('#capImg-arh'):liElement.find('#capImg-active');
+		var imgSelData = capObj.data('ddslick').selectedData;
+		var color = imgSelData.value;
+		var data = eval('('+liElement.attr('item')+')');
+		if (postData[color] == null){
+			if ($.inArray(data.id, idList) == -1)
+			{
+				postData[color] = data;
+				idList.push(data.id);
+			} else {
+				status = "Невозможно создать игру, так как \n"+data.fio+" добавлен дважды или используется некорретный файл-данных игрока"; 
+				break;
+			}
+		} else {
+			status = "Невозможно создать игру, так как\nу "+data.fio+" и "+postData[color].fio+"\nзадан одиннаковый цвет фишки - "+color;
+			break;
+		}
+	}
+	if (status != null){
+		loading.hide();
+		alert(status);
+		return;
+	}
+
+	loading.hide();
+	alert("Saved");
+}
+
 $(document).ready(function() {
 	var onSelectChange = function(){
-		//var $ = jQuery.noConflict();
 		loading.show("Загрузка. Пожалуйста подождите");
 		$.get('<? print operPage; ?>', 
 				{'operId':'get_object_list',
@@ -89,7 +121,6 @@ $(document).ready(function() {
         connectWith: "ul#active-filelist",
         placeholder:"placeHolder",
         receive:function(event, ui){
-        		//var $ = jQuery.noConflict();
         		imgSelector.replace($(ui.item[0]).find('#capImg-arh')[0], cache['caps']);
             }
       }).disableSelection();
@@ -98,10 +129,11 @@ $(document).ready(function() {
 <table style="width:100%;height:100%">
 	<tr>
 		<td style="width:50%">
+			<img class="action_icon" src="<? print "img".slash."managegame".slash."save_config.png";?>" onClick="saveCurrentConfig()" title="Сохранить созданную конфигурацию игры">
 		</td>
 		<td align="right" style="width:50%;height:40px">
-			<img src="<? print "img".slash."managegame".slash."upload-dialog.png"; ?>" onclick="openUploadDialog()" title="Загрузить файлы-данных игроков">	
-			<img src="<? print "img".slash."managegame".slash."back-up.png"; ?>" onclick="makeBackUp()" title="Резервная копия файлов-данных игроков">
+			<img class="action_icon" src="<? print "img".slash."managegame".slash."upload-dialog.png"; ?>" onclick="openUploadDialog()" title="Загрузить файлы-данных игроков">	
+			<img class="action_icon" src="<? print "img".slash."managegame".slash."back-up.png"; ?>" onclick="makeBackUp()" title="Резервная копия файлов-данных игроков">
 		</td>
 	</tr>
 	<tr>

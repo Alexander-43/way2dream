@@ -105,6 +105,11 @@ div.t5 {
 img {
 	cursor:pointer;
 }
+img.action_icon{
+	cursor:pointer;
+	width:32px;
+	height:32px;
+}
 /* end tabs */
 
 /* ]]> */
@@ -117,16 +122,16 @@ img {
 
 	<ul class="tabs tabs1">
 		<li class="t1 tab-current"><a>Управление игрой</a></li>
-		<li class="t2"><a onClick="jQuery('div.t2').css('height', window.screen.availHeight - 150)">Даные игроков</a></li>
+		<li class="t2"><a>Даные игроков</a></li>
 		<!--li class="t3"><a>Архив игроков</a></li-->
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) showPresenterInfo($_SESSION['presenterUnic'], $_SESSION['presenterCode']); ?>
 		<li class="t5"><? if ($_GET['man']) { print "<a>Восстановление</a>";}?></li>
 	</ul>
 
-	<div class="t1">
+	<div class="t1" style="padding:0">
 		<? include('inc/presenter/gamecontrol.inc'); ?>
 	</div>
-	<div class="t2" style="overflow-y: auto; height:500">
+	<div class="t2" style="overflow-y: auto; height:96%">
 		<? showActiveGamers(1); ?> 
 	</div>
 	<div class="t3" align="left">
