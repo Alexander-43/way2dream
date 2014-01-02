@@ -1200,6 +1200,14 @@ function deleteFile($file){
 		}
 	}
 }
+
+function inFolder($path, $folder){
+	if (strpos($path, $folder)==0){
+		return true;
+	} else {
+		return false;
+	}
+}
 /*
  * Ajax: удаляет игрока из игры
  */
@@ -1214,7 +1222,7 @@ function deleteGamer($path){
 	} else {
 		$path = realpath($path);
 	}
-	if (strpos($path, root.slash.xmlFolder)!=0){
+	if (!inFolder($path, root.slash.xmlFolder)){
 		deleteFile($path);
 		return json_encode(array('status'=>'Ok'));
 	} else {
@@ -1235,10 +1243,19 @@ function deleteGamerFromAnywhere($file){
 		$xml->GetNodesAttribsValuesByName($xml->RootNode, $userAttribsMinimal['node'], $userAttribsMinimal['unic']);
 		if (count($xml->nodesAttribValue) > 0){
 			$capXml = new ParseXML(xmlForFlash);
+			$needSave = false;
 			foreach ($xml->nodesAttribValue as $value){
-				$capXml->SearchNode($xml->RootNode, 'cap', 'idUser', $value);
+				$capXml->SearchNode($capXml->RootNode, 'cap', 'idUser', $value);
 				if ($capXml->SearchedNodeLink != null){
 					$capXml->ModifyElement(null, array('posX'=>'-1','posY'=>'-1','visible'=>'false','idUser'=>''), $capXml->SearchedNodeLink);
+				}
+				$capXml->SearchNode($capXml->RootNode, 'card', 'isActive', $value);
+				if ($capXml->SearchedNodeLink != null){
+					$capXml->ModifyElement(null, array('userId'=>'', 'cardforView'=>'', 'cardSelected'=>'', 'isActive'=>'', 'result'=>''), $capXml->SearchedNodeLink);
+				}
+				$capXml->SearchNode($capXml->RootNode, 'cube', 'isActive', $value);
+				if ($capXml->SearchedNodeLink != null){
+					$capXml->ModifyElement(null, array('userId'=>'', 'isActive'=>'', 'result'=>''), $capXml->SearchedNodeLink);
 				}
 			}
 			$capXml->Destroy();
@@ -1249,6 +1266,94 @@ function deleteGamerFromAnywhere($file){
 		return array('status'=>'Ok');
 	} else {
 		return array('status'=>'Can`t remove file '.$file);
+	}
+}
+
+function saveConfig($postData){
+	$capFN = getCapXmlBak();
+	$capXml = new ParseXML($capFN,true);
+	foreach ($postData as $color=>$data)
+	{
+		$userFile = urldecode($data['path']);
+		$xml=new ParseXml($userFile,true);
+		$xml->GetNodesAttribsValuesByName($xml->RootNode, 'user', 'id');
+		$userIdsForCheck = array();
+		foreach($xml->nodesAttribValue as $value){
+			$xml->SearchNode($xml->RootNode, 'user', 'id', $value);
+			$attrs = array();
+			if ($xml->SearchedNodeLink != null){
+				$xml->AttribFromSNL('', $attrs);
+				if ($attrs['capColor']!=$color){
+					$xml->SearchedNodeLink->setAttribute('capColor', $color);
+				}
+				if (!inFolder($userFile, root.slash.xmlFolder)){
+					$xml->SaveInFile(root.slash.xmlFolder.slash.$attrs['id'].'.xml');
+				} else {
+					$xml->SaveInFile($xml->Nfile);
+				}
+				$capAttrs = array();
+				$capXml->SearchNode($capXml->RootNode, 'cap', 'color', $color);
+				if ($capXml->SearchedNodeLink != null){
+					$capXml->AttribFromSNL('', $capAttrs);
+					if ($capAttrs['idUser']!=$attrs['id']){
+						$capXml->SearchedNodeLink->setAttribute('idUser', $attrs['id']);
+						$capXml->SearchedNodeLink->setAttribute('visible', 'true');
+						$userIdsForCheck[] = $capAttrs['idUser'];
+					}
+				}
+			}
+		}
+		$xml->Destroy();
+	}
+	foreach ($userIdsForCheck as $id){
+		$exist = false;
+		foreach ($postData as $color=>$data){
+			if ($data['id']==$id && !empty($id)){
+				$exist = true;
+				break;
+			}
+		}
+		if (!$exist && !empty($id) && file_exists(root.slash.xmlFolder.slash.$id.'.xml')){
+			deleteFile(root.slash.xmlFolder.slash.$id.'.xml');
+		}
+	}
+	$capXml->SaveInFile($capXml->Nfile);
+	$capXml->Destroy();
+	rename($capFN, xmlForFlash);
+	return json_encode(array('status'=>'Новая конфигурация игры сохранена.'));
+}
+
+function getCapXmlBak(){
+	$tempName = md5(date("dmYhhmmss"));
+	if (copy(xmlForFlash, $tempName)){
+		$xml = new ParseXml($tempName);
+		$xml->SearchNode($xml->RootNode, "cap", "visible", "true");
+		$xml->AttribFromSNL("visible", $vis);
+		while ($vis["visible"]=="true" && $xml->SearchedNodeLink != null)
+		{
+			$xml->SearchedNodeLink->setAttribute("visible", "false");
+			$xml->SearchedNodeLink->setAttribute("posX", "-1");
+			$xml->SearchedNodeLink->setAttribute("posY", "-1");
+			$xml->SearchedNodeLink->setAttribute("idUser", "");
+			$xml->SearchedNodeLink = null;
+			$xml->SearchNode($xml->RootNode, "card", "userId", $vis["idUser"]);
+			if ($xml->SearchedNodeLink != null)
+			{
+				$xml->SearchedNodeLink->setAttribute("userId", "");
+				$xml->SearchedNodeLink->setAttribute("cardforView", "");
+				$xml->SearchedNodeLink->setAttribute("cardSelected", "");
+				$xml->SearchedNodeLink->setAttribute("isActive", "");
+				$xml->SearchedNodeLink = null;
+			}
+			$xml->SearchNode($xml->RootNode, "cap", "visible", "true");
+			unset($vis);
+			$xml->AttribFromSNL("visible", $vis);
+		}
+		$xml->SaveInFile($xml->Nfile);
+		$xml->Destroy();
+		return $tempName;
+	} else {
+		return xmlForFlash;
 	}
 }
 ?>

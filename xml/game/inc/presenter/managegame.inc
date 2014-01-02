@@ -66,10 +66,15 @@ function saveCurrentConfig(){
 		loading.hide();
 		alert(status);
 		return;
+	}else{
+		$.post('operation.php',
+				{operId:'saveConfig',
+				data:postData},
+				function(data){
+					alert(data['status']);
+				}
+		).complete(function(){loading.hide();});
 	}
-
-	loading.hide();
-	alert("Saved");
 }
 
 $(document).ready(function() {

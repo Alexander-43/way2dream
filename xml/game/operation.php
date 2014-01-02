@@ -111,4 +111,7 @@ header("Content-Type: text/html; charset=utf-8");
 	if ($_GET['operId'] == 'deleteGamer'){
 		printForRemote(deleteGamer($_GET['path']));
 	}
+	if ($_POST['operId'] == 'saveConfig'){
+		printForRemote(saveConfig($_POST['data']));	
+	}
 ?>

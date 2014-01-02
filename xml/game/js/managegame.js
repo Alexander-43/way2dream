@@ -31,7 +31,7 @@ var eventsFunction = {
 		//var $ = jQuery.noConflict();
 		var cont = eventsFunction.getUpperParent(event.data || this);
 		if (cont){
-			$(cont).fadeOut("slow", function(){$(cont).remove()});
+			$(cont).fadeOut("slow", function(){$(cont).remove();});
 		}
 	},
 	getUpperParent: function(obj){
