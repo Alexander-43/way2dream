@@ -115,6 +115,7 @@ $(document).ready(function() {
 			function (data){
 				elementList.create('active-filelist', '<? include(root.slash.inc.slash.presenter.slash."managegame.listelement.inc"); ?>', null, data.list);
 				eventsFunction.bindTo('presenter_hideIcon-active', 'hideGamer', 'click');
+				eventsFunction.bindTo('presenter_removeIcon-active', 'deleteGamer', 'click');
 				if (!cache['caps']){
 					cache['caps'] = imgSelector.makeCapsColorObject(data.caps);
 				}
@@ -154,7 +155,7 @@ $(document).ready(function() {
 			Резервные копии:
 			<div id="arch" style="display:inline"></div>
 			<div style="height:95%;width:100%;overflow:auto;border:solid silver 1px;border-radius:5px;background-color:white">
-				<ul id="arh-filelist" style="height:70px">
+				<ul id="arh-filelist" style="height:70px" title="Выберите резервную копию из списка">
 					
 				</ul>
 			</div>

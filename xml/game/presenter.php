@@ -125,35 +125,34 @@ img.action_icon{
 		<li class="t2"><a>Даные игроков</a></li>
 		<!--li class="t3"><a>Архив игроков</a></li-->
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) showPresenterInfo($_SESSION['presenterUnic'], $_SESSION['presenterCode']); ?>
-		<li class="t5"><? if ($_GET['man']) { print "<a>Восстановление</a>";}?></li>
+		<li class="t5"><a>Восстановление</a></li>
 	</ul>
 
 	<div class="t1" style="padding:0">
-		<? include('inc/presenter/gamecontrol.inc'); ?>
+		<? if ($_GET['tab'] == 't1' || strlen($_GET['tab']) == 0) {include('inc/presenter/gamecontrol.inc');} ?>
 	</div>
 	<div class="t2" style="overflow-y: auto; height:96%">
-		<? showActiveGamers(1); ?> 
+		<? if ($_GET['tab'] == 't2'){showActiveGamers(1);} ?> 
 	</div>
 	<div class="t3" align="left">
 		<? //ShowFileInDir(folderBaseArchive); ?> 
 	</div>
 	<div class="t4">
-		<? if (strlen($_SESSION['presenterCode']) != 0 ) include ('inc/presenter/presenterinfo.inc'); ?>
+		<? if (strlen($_SESSION['presenterCode']) != 0 && $_GET['tab'] == 't4') {include ('inc/presenter/presenterinfo.inc');} ?>
 	</div>
 	<div class="t5" style="height:96%">
-		<? if ($_GET['man']) {include ('inc/presenter/managegame.inc');} ?>
+		<? if ($_GET['tab'] == 't5'){include ('inc/presenter/managegame.inc');}?>
 	</div>
 </div>
 </center>
 <? 
-if (strlen($_POST['tab']) > 0){
+if (strlen($_GET['tab']) > 0){
 	print "<script>
-	var r = jQuery.noConflict();
-	r(document).ready(function() {
-		r('div.t1').hide();
-		r('div.".$_POST['tab']."').show();
-		r('ul.tabs.tabs1 li').removeClass('tab-current');
-		r('ul.tabs.tabs1 li.".$_POST['tab']."').addClass('tab-current');
+	$(document).ready(function() {
+		$('div.t1').hide();
+		$('div.".$_GET['tab']."').show();
+		$('ul.tabs.tabs1 li').removeClass('tab-current');
+		$('ul.tabs.tabs1 li.".$_GET['tab']."').addClass('tab-current');
 	});
 	</script>";
 }

@@ -382,24 +382,20 @@ function onLoad(divName)
 	}
 }
 
+function loadIn(selector, url){
+	$(selector).empty();
+	$(selector).load(url);
+}
+
 try {
 //var $j = jQuery.noConflict();
 
 $(document).ready(function() {
-
-$('ul.tabs li').css('cursor', 'pointer');
-
-$('ul.tabs.tabs1 li').click(function(){
-	var thisClass = this.className.slice(0,2);
-	$('div.t1').hide();
-	$('div.t2').hide();
-	$('div.t3').hide();
-	$('div.t4').hide();
-	$('div.t5').hide();
-	$('div.' + thisClass).show();
-	$('ul.tabs.tabs1 li').removeClass('tab-current');
-	$(this).addClass('tab-current');
+	$('ul.tabs li').css('cursor', 'pointer');
+	$('ul.tabs.tabs1 li').click(function(){
+		window.location.replace(location.origin+location.pathname+'?tab='+this.className.slice(0,2));
 	});
-
 });
-} catch(e){ }
+} catch(e){
+	alert(e);
+}

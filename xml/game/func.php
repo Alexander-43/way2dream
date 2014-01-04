@@ -1188,7 +1188,7 @@ function getObjectInFolder($path, $type='dir', $conf){
 	return json_encode($result);
 }
 
-/*
+/**
  * Удаляет файл/папку по полному пути
  */
 function deleteFile($file){
@@ -1208,7 +1208,7 @@ function inFolder($path, $folder){
 		return false;
 	}
 }
-/*
+/**
  * Ajax: удаляет игрока из игры
  */
 function deleteGamer($path){
@@ -1231,7 +1231,7 @@ function deleteGamer($path){
 	return json_encode(array('status'=>'Error in deleteGamer function'));
 }
 
-/*
+/**
  * Удаление игрока из игры по файлу данных
  */
 function deleteGamerFromAnywhere($file){
@@ -1269,6 +1269,11 @@ function deleteGamerFromAnywhere($file){
 	}
 }
 
+/**
+ * Ajax: Сохраняет текущую конфигурацию игры
+ * @param array() $postData
+ * 							- пути до файлов игроков по цветам фишек
+ */
 function saveConfig($postData){
 	$capFN = getCapXmlBak();
 	$capXml = new ParseXML($capFN,true);
@@ -1317,14 +1322,66 @@ function saveConfig($postData){
 			deleteFile(root.slash.xmlFolder.slash.$id.'.xml');
 		}
 	}
+	/*
+	 * Проверяем остался ли игрок которому показывали карточку
+	 * или у него был ход
+	 */
+	$capXml->SearchNode($capXml->RootNode, 'card', 'id', 'card');
+	if ($capXml->SearchedNodeLink != null){
+		$capXml->AttribFromSNL('', $capAttrs);
+		$modifyArray = array();
+		if ($capAttrs['userId'] != ""){
+			$capXml->SearchNode($capXml->RootNode, 'cap', 'idUser', $capAttrs['userId']);
+			if ($capXml->SearchedNodeLink == null){
+				$modifyArray['userId'] = '';
+				$modifyArray['cardforView'] = '';
+				$modifyArray['cardSelected'] = '';
+			}
+		}
+		if ($capAttrs['isActive'] != ''){
+			$capXml->SearchNode($capXml->RootNode, 'cap', 'idUser', $capAttrs['isActive']);
+			if ($capXml->SearchedNodeLink == null){
+				$modifyArray['isActive'] = '';
+			}
+		}
+		if (count($modifyArray)>0){
+			$capXml->SearchNode($capXml->RootNode, 'card', 'id', 'card');
+			$capXml->ModifyElement(null, $modifyArray, $capXml->SearchedNodeLink);
+		}
+	}
+	/*
+	 * Проверяем остался ли игрок который бросал кубик
+	 */
+	$capXml->SearchNode($capXml->RootNode, 'cube', 'id', 'cube');
+	if ($capXml->SearchedNodeLink != null){
+		$capXml->AttribFromSNL('', $capAttrs);
+		$modifyArray = array();
+		if ($capAttrs['isActive'] != ''){
+			$capXml->SearchNode($capXml->RootNode, 'cap', 'idUser', $capAttrs['isActive']);
+			if ($capXml->SearchedNodeLink == null){
+				$modifyArray['isActive'] = '';
+				$modifyArray['result'] = '';
+			}
+		}
+		if (count($modifyArray)>0){
+			$capXml->SearchNode($capXml->RootNode, 'cube', 'id', 'cube');
+			$capXml->ModifyElement(null, $modifyArray, $capXml->SearchedNodeLink);
+		}
+	}
 	$capXml->SaveInFile($capXml->Nfile);
 	$capXml->Destroy();
 	rename($capFN, xmlForFlash);
 	return json_encode(array('status'=>'Новая конфигурация игры сохранена.'));
 }
 
+/**
+ * Делает копию файла фишек и обнуляет его 
+ * (кроме данных о карточке, бросании кубика и ходе)
+ * @return unknown|string
+ * 							- имя копии файла
+ */
 function getCapXmlBak(){
-	$tempName = md5(date("dmYhhmmss"));
+	$tempName = tempFolder.slash.md5(date("dmYhhmmss"));
 	if (copy(xmlForFlash, $tempName)){
 		$xml = new ParseXml($tempName);
 		$xml->SearchNode($xml->RootNode, "cap", "visible", "true");
