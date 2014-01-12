@@ -111,5 +111,17 @@
 
 </div>
 </center>
+<? 
+if (strlen($_GET['tab']) > 0){
+	print "<script>
+	$(document).ready(function() {
+		$('div.t1').hide();
+		$('div.".$_GET['tab']."').show();
+		$('ul.tabs.tabs1 li').removeClass('tab-current');
+		$('ul.tabs.tabs1 li.".$_GET['tab']."').addClass('tab-current');
+	});
+	</script>";
+}
+ ?>
 </body>
 </html>

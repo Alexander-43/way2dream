@@ -1413,4 +1413,21 @@ function getCapXmlBak(){
 		return xmlForFlash;
 	}
 }
+/**
+ * Ajax: удаляет папку/файл по полному пути
+ * @param $data
+ * 				- объект с путями до файлов/папок
+ */
+function removeArhGamerFiles($data){
+	$obj = array('status'=>"");
+	foreach($data['opt'] as $item){
+		$path = urldecode($item['path']);
+		if (deleteFile($path)){
+			$obj['status'] = $obj['status'] == ""?"Статус выполнения действия:\n"+$obj['label']+" - удалено.":$obj['status']+"\n"+$obj['label']+" - удалено.";
+		} else {
+			$obj['status'] = $obj['status'] == ""?"Статус выполнения действия:\n"+$obj['label']+" - завершение невозможно!":$obj['status']+"\n"+$obj['label']+" - завершение невозможно!";
+		}
+	}
+	return json_encode($obj);
+}
 ?>

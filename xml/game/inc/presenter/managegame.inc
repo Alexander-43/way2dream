@@ -36,47 +36,6 @@ function makeBackUp(){
 	);
 }
 
-function saveCurrentConfig(){
-	loading.show('Сохранение новой конфигурации игры');
-	var status = null;
-	var activeListElements = $('#active-filelist').children();
-	var postData = new Object();
-	var idList = [];
-	for(var index=0;index<activeListElements.length;++index){
-		var liElement = $(activeListElements[index]);
-		var capObj = liElement.find('#capImg-active').length == 0 ? liElement.find('#capImg-arh'):liElement.find('#capImg-active');
-		var imgSelData = capObj.data('ddslick').selectedData;
-		var color = imgSelData.value;
-		var data = eval('('+liElement.attr('item')+')');
-		if (postData[color] == null){
-			if ($.inArray(data.id, idList) == -1)
-			{
-				postData[color] = data;
-				idList.push(data.id);
-			} else {
-				status = "Невозможно создать игру, так как \n"+data.fio+" добавлен дважды или используется некорретный файл-данных игрока"; 
-				break;
-			}
-		} else {
-			status = "Невозможно создать игру, так как\nу "+data.fio+" и "+postData[color].fio+"\nзадан одиннаковый цвет фишки - "+color;
-			break;
-		}
-	}
-	if (status != null){
-		loading.hide();
-		alert(status);
-		return;
-	}else{
-		$.post('operation.php',
-				{operId:'saveConfig',
-				data:postData},
-				function(data){
-					alert(data['status']);
-				}
-		).complete(function(){loading.hide();});
-	}
-}
-
 $(document).ready(function() {
 	var onSelectChange = function(){
 		loading.show("Загрузка. Пожалуйста подождите");
@@ -92,6 +51,14 @@ $(document).ready(function() {
 				}
 		);
 		loading.hide();
+		var tempFolder = "<? print urlencode(root.slash.tempFolder);?>";
+		if (this.value != "default" && this.value != tempFolder){
+			$("#restore_fb").fadeIn();
+			$("#remove_arh").fadeIn();
+		} else {
+			$("#restore_fb").fadeOut();
+			$("#remove_arh").fadeOut();
+		}
 	};
 	$.get('<? print operPage; ?>',
 			{'operId':'get_object_list',
@@ -135,7 +102,7 @@ $(document).ready(function() {
 <table style="width:100%;height:100%">
 	<tr>
 		<td style="width:50%">
-			<img class="action_icon" src="<? print "img".slash."managegame".slash."save_config.png";?>" onClick="saveCurrentConfig()" title="Сохранить созданную конфигурацию игры">
+			<img class="action_icon" src="<? print "img".slash."managegame".slash."save_config.png";?>" onClick="eventsFunction.saveCurrentConfig()" title="Сохранить созданную конфигурацию игры">
 		</td>
 		<td align="right" style="width:50%;height:40px">
 			<img class="action_icon" src="<? print "img".slash."managegame".slash."upload-dialog.png"; ?>" onclick="openUploadDialog()" title="Загрузить файлы-данных игроков">	
@@ -154,6 +121,8 @@ $(document).ready(function() {
 		<td valign="bottom">
 			Резервные копии:
 			<div id="arch" style="display:inline"></div>
+			<img id="restore_fb" src="<? print "img".slash."managegame".slash."restore_from_backup.png";?>" class="action_icon_small" title="Восстановить игру из выбранной резервной копии" style="display:none" onclick="">
+			<img id="remove_arh" src="<? print "img".slash."trash.png";?>" class="action_icon_small" title="Удалить резервные копии" style="display:none" onclick="eventsFunction.removeArhGamerFiles()">
 			<div style="height:95%;width:100%;overflow:auto;border:solid silver 1px;border-radius:5px;background-color:white">
 				<ul id="arh-filelist" style="height:70px" title="Выберите резервную копию из списка">
 					

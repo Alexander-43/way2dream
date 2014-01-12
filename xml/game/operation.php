@@ -114,4 +114,7 @@ header("Content-Type: text/html; charset=utf-8");
 	if ($_POST['operId'] == 'saveConfig'){
 		printForRemote(saveConfig($_POST['data']));	
 	}
+	if ($_GET['operId'] == 'removeArhGamerFiles'){
+		printForRemote(removeArhGamerFiles($_GET['data']));
+	}
 ?>

@@ -110,6 +110,11 @@ img.action_icon{
 	width:32px;
 	height:32px;
 }
+img.action_icon_small{
+	cursor:pointer;
+	width:16px;
+	height:16px;
+}
 /* end tabs */
 
 /* ]]> */

@@ -331,32 +331,6 @@ function editFormSubmit(form){
 		return false;
 	}
 	}
-	/*var getSumOfInput = function (inputArray){
-		var str = 0;
-		var str1 = "";
-		for (var elem in inputArray){
-			if (getValidValue(form[inputArray[elem]].value)){
-				str+=getValidValue(form[inputArray[elem]].value);
-			}
-		}
-		return str;
-	}
-	var pasIncomeRedBlue = ["moneyFromParent", "bisnesAPasIncome_1", "bisnesAPasIncome_2", "bisnesBPasIncome_1", "bisnesBPasIncome_1", "bisnesCPasIncome_1", "bisnesCPasIncome_2"];
-	pasIncomeRedBlue.push("statApasIncome_1", "statApasIncome_2", "statBpasIncome_1", "statBpasIncome_2", "statCpasIncome_1", "statCpasIncome_2", "income_400");
-	var pasIncomeRedBlueGreen = pasIncomeRedBlue.concat();
-	pasIncomeRedBlueGreen.push("zp");
-	var commonRes = ["bornSource", "bisnesAR_1", "bisnesAR_2", "bisnesBR_1", "bisnesBR_2", "bisnesCR_1", "bisnesCR_2", "profSource"];
-	commonRes.push("study_apended", "childrens_appended");
-	form["pasIncomeBlueCircle"].value = getSumOfInput(pasIncomeRedBlue);
-	addChagedElement("pasIncomeBlueCircle");
-	form["pasIncomeGreenCircle"].value = getSumOfInput(pasIncomeRedBlueGreen);
-	addChagedElement("pasIncomeGreenCircle");
-	form["commonR"].value = getSumOfInput(commonRes);
-	addChagedElement("commonR");
-	form["pasIncomeBlueCircle"].disabled = "";
-	form["pasIncomeGreenCircle"].disabled = "";
-	form["commonR"].disabled = "";
-	return true;*/
 }
 
 function setDate(obj)
