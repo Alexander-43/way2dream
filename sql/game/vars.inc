@@ -57,9 +57,10 @@
 		`userId` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
 		`cardforView` VARCHAR(255) NULL DEFAULT '' COLLATE '".encoding."',
 		`cardSelected` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
-		`isActive` VARCHAR(20) NULL DEFAULT '' COLLATE '".encoding."',
+		`isActive` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
 		`result` VARCHAR(20) NULL DEFAULT '' COLLATE '".encoding."'
 		) COLLATE='".encoding."' ENGINE=".tableType;
+	
 	$baseTables[xmlForFlash]['inserts'] = "INSERT INTO `[*tableName*]` VALUES 
 		(rand(), 'cap', null, 'cap_1', '-1', '-1', 'false', null, 'синий', null, null, null, null, null),
 		(rand(), 'cap', null, 'cap_2', '-1', '-1', 'false', null, 'желтый', null, null, null, null, null),

@@ -1,29 +1,46 @@
-﻿//функция для формы редктирования инфы игры, для запоминания измененных полей
-/*
-function addChagedElement (name)
-{
-	if (document.editForm.editedField.value.indexOf(name) < 0)
-	{
-		document.editForm.editedField.value+=name+"|";
-		//alert(document.editForm.editedField.value);
-	}
-}*/
-
-//поле с именами измененных полей 
+﻿//поле с именами измененных полей 
 //var changedFieldId = 'changeField';
+$(document).ready(
+		function (){
+			var browser=get_browser();
+			var browser_version=get_browser_version()
+			if (browser.toLowerCase() == "msie"){
+				alert("Браузер "+browser+" "+browser_version+" игрой не поддерживается. Извините.");
+				history.back();
+			}
+		}
+);
+
+function get_browser(){
+    var N=navigator.appName, ua=navigator.userAgent, tem;
+    var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+    return M[0];
+    }
+function get_browser_version(){
+    var N=navigator.appName, ua=navigator.userAgent, tem;
+    var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+    return M[1];
+    }
+
 function addChagedElement (obj){
 	var field = $('[name='+changedFieldId+']');
 	var value = field.attr('value'); 
-	if (obj instanceof String)
+	if (typeof(obj) == "string")
 	{
 		var obj = {'name':obj};
+	}
+	if (obj instanceof String){
+		var obj = {'name':obj.toString()};
 	}
 	if (value.indexOf(obj.name) < 0)
 	{
 		field.attr('value', value+obj.name+"|");
 		
 	}
-	
 }
 
 //устанавливает вычисляемые поля в readOnly
@@ -42,7 +59,7 @@ function doAction(obj){
 		if ($.inArray(obj.name, config[i].fieldsId) > -1){
 			var line = config[i].actions;
 			for(var j in config[i].fieldsId){
-				var val = $('[name='+config[i].fieldsId[j]+']').attr('value').length == 0 ? '0' : $('[name='+config[i].fieldsId[j]+']').attr('value');
+				var val = $('[name='+config[i].fieldsId[j]+']').val().length == 0 ? '0' : $('[name='+config[i].fieldsId[j]+']').val();
 				line=line.replaceAll(config[i].fieldsId[j], val);
 			}
 			$('[name='+i+']').attr('value', eval(line));
@@ -358,21 +375,20 @@ function onLoad(divName)
 }
 
 try {
-var $j = jQuery.noConflict();
 
-$j(document).ready(function() {
+$(document).ready(function() {
 
-$j('ul.tabs li').css('cursor', 'pointer');
+$('ul.tabs li').css('cursor', 'pointer');
 
-$j('ul.tabs.tabs1 li').click(function(){
+$('ul.tabs.tabs1 li').click(function(){
 	var thisClass = this.className.slice(0,2);
-	$j('div.t1').hide();
-	$j('div.t2').hide();
-	$j('div.t3').hide();
-	$j('div.t4').hide();
-	$j('div.' + thisClass).show();
-	$j('ul.tabs.tabs1 li').removeClass('tab-current');
-	$j(this).addClass('tab-current');
+	$('div.t1').hide();
+	$('div.t2').hide();
+	$('div.t3').hide();
+	$('div.t4').hide();
+	$('div.' + thisClass).show();
+	$('ul.tabs.tabs1 li').removeClass('tab-current');
+	$(this).addClass('tab-current');
 	});
 
 });

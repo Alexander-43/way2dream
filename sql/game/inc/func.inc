@@ -439,7 +439,7 @@ function showActiveGamers($ViewType = 0)
 	$iac = getInfoAboutCube();
 	if ($ViewType == 0)
 	{
-		print "<div style='height:600px; overflow:auto;'><table border='0' width='100 %'>";
+		print "<div style='height:600px; overflow:auto;'><table border='0' width='100%'>";
 		foreach ($UsersInfo as $element)
 		{
 			$stat =""; $cardType = "";
@@ -537,7 +537,8 @@ function WriteAttrib ($arrAttrib, $changedFilds)
 			{
 				if (strlen($name)!= 0)
 				{
-					$xml->setAttribute($xml->SearchedNodeLink, Array($name=>$arrAttrib[$name]));
+					$arrAttrib[$name] = str_replace(array("\r\n", "\r", "\n"), " ", $arrAttrib[$name]);
+					$xml->SearchedNodeLink->setAttribute($name, $arrAttrib[$name]);
 				}
 			}
 			$xml->SaveInFile($xml->Nfile);
@@ -624,7 +625,7 @@ function getInfoAboutCube()
 {
 	$result = array();
 	new Parse(dataSourceType, xmlForFlash, $xml);
-	$xml->GetNodesAttribsValuesByName ($xml->RootNode, "cube", "userId");
+	$xml->GetNodesAttribsValuesByName ($xml->RootNode, "cube", "isActive");
 	if (count($xml->nodesAttribValue) != 0)
 	{
 		$result['userId'] = $xml->nodesAttribValue[0];
@@ -695,25 +696,21 @@ function getInfoAboutShowedCard()
 		if ($xml->SearchedNodeLink != null)
 		{
 			$xml->AttribFromSNL("", $temp);
-			$xml->Destroy();
 			$result['FIO'] = $temp['FIO'];
 			$result['capColor'] = $temp['capColor'];
 			unset($temp);
 		}
+		$xml->Destroy();
 		new Parse(dataSourceType, xmlForUserData, $xml);
 		$xml->SearchNode($xml->RootNode, "user", "id", $result['isActive']);
 		if ($xml->SearchedNodeLink != null)
 		{
 			$xml->AttribFromSNL("", $temp);
-			$xml->Destroy();
 			$result['actFIO'] = $temp['FIO'];
 			$result['actcapColor'] = $temp['capColor'];
 		}
-		$xml->Destroy();
-	}else
-	{
-		$xml->Destroy();
 	}
+	$xml->Destroy();
 	if (strlen($result['cardSelected']) == 0)
 	{
 		$result['status'] = "Карточка в процессе выбора.";
@@ -885,7 +882,7 @@ function setCubeUser($action, $userId)
 	}else if ($userId !== "")
 	{
 		$xml->SearchNode($xml->RootNode, "cube", "userId", $xml->nodesAttribValue[0]);
-		$xml->setAttribute($xml->SearchedNodeLink, Array("isActive"=>"", "result", ""));
+		$xml->setAttribute($xml->SearchedNodeLink, Array("isActive"=>"", "result"=>""));
 	}
 	$xml->SaveInFile($xml->Nfile);
 	$xml->Destroy();

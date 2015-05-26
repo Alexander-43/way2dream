@@ -111,7 +111,7 @@ div.t4 {
 	</ul>
 
 	<div class="t1">
-	<table width="100 %" height="600"  border="0">
+	<table width="100%" height="97%"  border="0">
 	<tr>
 		<td valign="top">
 		<? showActiveGamers(0); ?>

@@ -7,8 +7,8 @@
 	
 	function getHashGameFolder($url)
 	{
-	  $fromGet = md5($url);
-	  $fromHere = md5("http://".$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']));
+	  $fromGet = md5(str_replace("/","", $url));
+	  $fromHere = md5(str_replace("/","","http://".$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF'])));
 	  if ($fromGet == $fromHere)
 	  {
 	    return json_encode(array(0 => "Ok"));

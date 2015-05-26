@@ -352,7 +352,7 @@
             mysql_query ("set character_set_results='utf8'");
             mysql_query ("set collation_connection='utf8_general_ci'");
             mysql_query ("SET NAMES utf8");
-			if ($this->tableExists($fileName, &$message)){
+			if ($this->tableExists($fileName, $message)){
 				return $this;
 			} else {
 				print $message;
@@ -373,7 +373,7 @@
 		public function tableExists($tableName, &$message = ""){
 			$sql = "SHOW tables";
 			$result = $this->makeArrayValues($this->execQuery($sql));
-			$tName = md5(dirname(__FILE__))."_".str_replace('.', '_', $tableName);
+			$tName = md5(dirname(__FILE__))."_".str_replace('.', '_', basename($tableName));
 			foreach($result as $name=>$value){
 				if ( $tName == $value['Tables_in_'.$this->dbName]){
 					$this->tableName($tName);
@@ -462,7 +462,8 @@
 	  }
 	  //implemented
       public function SearchNode($root = 'implemented', $tag, $name, $value){
-		$sql = "SELECT * FROM ".$this->tableName." WHERE tag='".$tag."' AND ".$name."='".$value."'";
+      	$condition = strlen($value) == 0 ? "(".$name."='".$value."' OR ".$name." is null)" : $name."='".$value."'";
+		$sql = "SELECT * FROM ".$this->tableName." WHERE tag='".$tag."' AND ".$condition;
 		$result = $this->makeArrayValues($this->execQuery($sql));
 		if (count($result) > 0){
 			$this->recId = $result[0]['id'];
