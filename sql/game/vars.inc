@@ -15,7 +15,7 @@
 	define("xmlForFlash", xmlFolder."capSettings.xml");
 	define("xmlForUserData", xmlFolder."gameBase.xml");
 	define("xmlForPresenters", xmlFolder."presenters.xml");
-	define("xmlGenerator", "xmlGen.inc");
+	define("xmlGenerator", "xmlGen.php");
 	define("maxBaseSize", 20);
 	define("emptyBaseXmlFile", "gameBase");
 	define("folderBaseArchive", "gameBaseArchive");

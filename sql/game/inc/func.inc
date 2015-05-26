@@ -559,7 +559,7 @@ function fillCardValuesFomPost($post)
 }
 
 //генерация карточки по передаваемому в функцию префиксу изображения
-function RandCard($pref)
+function RandCard($pref, $index)
 {
 	$mask = "img/card/".$pref."*.jpg";
 	$fileList = array();
@@ -567,7 +567,7 @@ function RandCard($pref)
 	{	
 		$fileList[] = $fn;
 	}
-	$randNum = mt_rand(0, count($fileList) - 1);
+	$randNum = $index ? $index - 1 : mt_rand(0, count($fileList) - 1);
 	print "<img class='card' src='".$fileList[$randNum]."?".date("hms")."'>";
 	new Parse(dataSourceType, xmlForFlash, $xml, true);
 	$xml->SearchNode($xml->RootNode, "card", "userId", $_SESSION['id']);
@@ -577,6 +577,11 @@ function RandCard($pref)
 		$xml->SaveInFile($xml->Nfile);
 	}
 	$xml->Destroy();
+}
+
+//количество файлов с заданным префиксом
+function fileCountByPrefix($prefix){
+	return count(glob("img/card/".$prefix."*.jpg"));
 }
 
 //вывод заданного количества <br>
@@ -784,7 +789,8 @@ function ShowCardForUserSelect($userInfo)
 			$action = "";
 		}else
 		{
-			$action = "onClick=\"userRefreshStop(); vote('operation.php?randcard=On&pref='+this.name, 'vote_status'); this.name='null'\"";
+			$count = fileCountByPrefix(substr($temp['cardforView'], 0, -4)."_");
+			$action = "onClick=\"userRefreshStop(); showField(".$count.", this.name)\"";
 		}	
 		print "<table border='0' width='100%'>";
 		if ($action == "") $temp['click'] = $temp['status'];

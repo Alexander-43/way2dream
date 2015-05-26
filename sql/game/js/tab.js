@@ -374,6 +374,59 @@ function onLoad(divName)
 	}
 }
 
+var randCardMapping = {};
+function showField(count, name){
+	$('#mask').fadeIn(500);
+	$('#mask').fadeTo("slow",0.8);
+	$('#closeDialog').fadeIn(1);
+	var winH = $(window).height();
+	var winW = $(window).width();
+	id = "#dialog";
+	$(id).css('top',  winH/2-$(id).height()/2);
+	$(id).css('left', winW/2-$(id).width()/2);
+	$("#closeDialog").css('top',winH/2-$(id).height()/2 - 20);
+	$("#closeDialog").css('left',winW/2-$(id).width()/2 + 450);
+	$(id).fadeIn(1000);
+	if ($(id).children("div").length == 1){
+		for (var i = 1;i<=count;++i){
+			var e = $("#dSource").clone();
+			e.children()[0].text = i;
+			var rnd = -1;
+			while (randCardMapping[rnd] != null || rnd == -1){
+				rnd = getRandomInt(1, count);
+			}
+			randCardMapping[rnd] = i;
+			e.click(function () {
+				var index = getKeyByValue($(this).children()[0].text, randCardMapping);
+				if (index){
+					vote('operation.php?randcard=On&pref='+name+"&index="+index, 'vote_status');
+					$('#dialog').fadeOut(500);
+					$('#mask').fadeOut(500);
+					$(this).fadeOut(1);
+					$("a[name='"+name+"'").fadeOut(1000);
+					$("a[name='"+name+"'").attr('name', 'null');
+				}
+			});
+			e.appendTo("#dialog");
+			e.fadeIn(2000);
+		}
+	}
+}
+
+function getKeyByValue(value, a){
+	for (var key in Object.keys(a)){
+		if (a[key] == value){
+			return key;
+		}
+	}
+	return null;
+}
+
+function getRandomInt(min, max)
+{
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 try {
 
 $(document).ready(function() {

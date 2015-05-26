@@ -25,7 +25,7 @@
 <style>
 a{text-decoration:none}
 a:link{color:gray; font-style:normal}
-a:hover {font-size:14px; font-style:italic; background-color:silver; color:white}
+//a:hover {font-size:14px; font-style:italic; background-color:silver; color:white}
 a:visited{color:gray}
 td.card
 {
@@ -45,6 +45,78 @@ img.card
 	width: 150px;
 	cursor:pointer;
 }
+#mask {
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:9000;
+		background-color:#000;
+		display:none;
+		font-family: Georgia;
+		width:100%;
+		height:100%;
+	}
+	#boxes .window {
+		position:absolute;
+		left:0;
+		top:0;
+		width:460px;
+		min-height:150px;
+		max-height:310px;
+		display:none;
+		z-index:9999;
+		padding:20px;
+		text-align: center;
+		font-size: 25px;
+		border-radius: 20px 0px 0px 20px;
+		  border: solid;
+		  border-color: goldenrod;
+		  background-color: white;
+		  overflow-y:auto;
+		  
+	}
+	boxes #dialog {
+		width:375px;
+		height:203px;
+		padding:10px;
+		background-color:#ffffff;
+		text-align: center;
+	}
+	#dSource {
+		display : none;
+		width:100px;
+		height:50px;
+		text-align:center;
+		vertical-align: middle;
+		z-index:1;
+		cursor:pointer;
+		margin:5px;
+	}
+	.clear {
+		float:clear;
+		background-color:gray;
+	}
+	.fixed{
+		display:block;
+		float:left;
+		background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#616161), to(#292929));;
+		border-radius:15px 15px 15px 15px;
+	}
+	#dSource:hover {
+		background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#16E720), to(#2F5232));;
+	}
+	#aSource{
+		line-height:50px;
+		color:white;
+		font-size:30px;
+		z-index:0;
+	}
+	#aSource a:hover {
+		line-height:50px;
+		color:white;
+		font-size:30px;
+		z-index:0;
+	}
 
 </style>
 <html>
@@ -56,6 +128,16 @@ img.card
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+<div id="boxes">
+<span id="closeDialog" style="font-size:10px;font-weight:900;color:white;position:absolute;z-index:99999;cursor:pointer;display:none" onclick="$('#dialog').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
+	<div id="dialog" class="window">
+		Выберите номер карточки<br><br>
+		<div id="dSource" class="fixed">
+			<a id="aSource">1</a>
+		</div>
+	</div>
+	<div id="mask"></div>
+</div>
 <? printBrs(5); ?>
 <table width="100%" height="100%" border="0">
 <tr height='50%'>
