@@ -428,7 +428,7 @@ function getRandomInt(min, max)
 }
 
 function removeUser(url, fio){
-	if (confirm('Вы действительно хотите удалить '+ fio + ' из игры ?' + url)){
+	if (confirm('Вы действительно хотите удалить '+ fio + ' из игры ?')){
 		$.get(url, function(data){
 			if (data.status == "Ok"){
 				alert("Игрок " + fio + " удален.");
