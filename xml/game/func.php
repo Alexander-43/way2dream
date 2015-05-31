@@ -1196,6 +1196,9 @@ function deleteFile($file){
 		if (!is_dir($file)){
 			return unlink($file);
 		}else{
+			foreach (glob($file.slash."*") as $f){
+				deleteFile($f);
+			}
 			return rmdir($file);
 		}
 	}
@@ -1208,6 +1211,7 @@ function inFolder($path, $folder){
 		return false;
 	}
 }
+
 /**
  * Ajax: удаляет игрока из игры
  */
@@ -1423,9 +1427,9 @@ function removeArhGamerFiles($data){
 	foreach($data['opt'] as $item){
 		$path = urldecode($item['path']);
 		if (deleteFile($path)){
-			$obj['status'] = $obj['status'] == ""?"Статус выполнения действия:\n"+$obj['label']+" - удалено.":$obj['status']+"\n"+$obj['label']+" - удалено.";
+			$obj['status'] = $obj['status'] == ""?"Статус выполнения действия:\n".$item['label']." - удалено.":$obj['status']."\n".$item['label']." - удалено.";
 		} else {
-			$obj['status'] = $obj['status'] == ""?"Статус выполнения действия:\n"+$obj['label']+" - завершение невозможно!":$obj['status']+"\n"+$obj['label']+" - завершение невозможно!";
+			$obj['status'] = $obj['status'] == ""?"Статус выполнения действия:\n".$item['label']." - завершение невозможно!":$obj['status']."\n".$item['label']." - завершение невозможно!";
 		}
 	}
 	return json_encode($obj);

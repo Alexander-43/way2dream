@@ -427,6 +427,19 @@ function getRandomInt(min, max)
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function removeUser(url, fio){
+	if (confirm('Вы действительно хотите удалить '+ fio + ' из игры ?' + url)){
+		$.get(url, function(data){
+			if (data.status == "Ok"){
+				alert("Игрок " + fio + " удален.");
+				location.reload();
+			} else {
+				alert(data.message);
+			}
+		})
+	}
+}
+
 try {
 
 $(document).ready(function() {

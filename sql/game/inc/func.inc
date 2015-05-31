@@ -225,6 +225,39 @@ function ShowFileInDir($DIR)
 	print "</table>";
 }
 
+//удаляет пользователя и очищает кубик, ход и карточку
+function removeUser($id){
+	$message = "";
+	$status = "Ok";
+	if (!isset($id)){
+		return json_encode(array("status"=>"Error", "message"=>"Ueser id not set !"));
+	}
+	new Parse(dataSourceType, xmlForFlash, $xml, true);	
+	if ($xml->SearchNode($xml->RootNode, "card", "isActive", $id) || $xml->SearchNode($xml->RootNode, "card", "userId", $id)){
+		$xml->setAttribute($xml->SearchedNodeLink, Array("userId"=>"",
+														"cardforView"=>"",
+														"cardSelected"=>"",
+														"isActive"=>"",
+														"id"=>"card"));
+	}
+	if ($xml->SearchNode($xml->RootNode, "cube", "isActive", $id)){
+		$xml->setAttribute($xml->SearchedNodeLink, Array("userId"=>"",
+														"isActive"=>"",
+														"result"=>"",
+														"id"=>"cube"));
+	}
+	if ($xml->SearchNode($xml->RootNode, "cap", "idUser", $id)){
+		$xml->setAttribute($xml->SearchedNodeLink, Array("visible"=>"false",
+														"posX"=>"-1",
+														"posY"=>"-1",
+														"idUser"=>""));
+	} else {
+		$status = "Error";
+		$message = "User not found";
+	}
+	return json_encode(array("status"=>$status, "message"=>$message));
+}
+
 //делает доступными все фишки
 function StartNewGame()
 {
@@ -439,7 +472,7 @@ function showActiveGamers($ViewType = 0)
 	$iac = getInfoAboutCube();
 	if ($ViewType == 0)
 	{
-		print "<div style='height:600px; overflow:auto;'><table border='0' width='100%'>";
+		print "<div style='height:100%; overflow:auto;'><table border='0' width='100%'>";
 		foreach ($UsersInfo as $element)
 		{
 			$stat =""; $cardType = "";
@@ -452,7 +485,9 @@ function showActiveGamers($ViewType = 0)
 			$forFioUrl = $element['active'] == '1'? "'gamer.php?id=".$element['id']."'" : "''";
 			$state = $element['active'] != '1'? "(Не активен)" : "";
 			print "<tr style='background-color:silver;'><td colspan='3'><a href=".$forCapUrl." target='_blank'>";
-			print "<img align='right' src='img/".$capColorReferences[$element['capColor']]."' title='Кликните для редактирования' border='0'></a><p><b><i><a href=".$forFioUrl." target='_blank'>".$element['FIO'].$state."</a></i></b></p></td></tr>";
+			print "<img align='right' src='img/".$capColorReferences[$element['capColor']]."' title='Кликните для редактирования' border='0'></a>";
+			print "<img align='right' src='img/cross_red.png' onclick='removeUser(\"".operPage."?id=".$element['id']."&operId=removeUser"."\", \"".$element['FIO']."\")' style='width:15px;position:relative;left:45px;cursor:pointer;' title='Удалить игрока'>";
+			print "<p><b><i><a href=".$forFioUrl." target='_blank'>".$element['FIO'].$state."</a></i></b></p></td></tr>";
 			print "<tr><td >Показать карт.:</td><td align='right' colspan='2'>".ShowSelectCard($element['id'], $cardType)."</td></tr>";
 			if ($iauc['isActive']==$element['id'])
 			{

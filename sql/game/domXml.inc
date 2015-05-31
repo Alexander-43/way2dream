@@ -374,6 +374,7 @@
 			$sql = "SHOW tables";
 			$result = $this->makeArrayValues($this->execQuery($sql));
 			$tName = md5(dirname(__FILE__))."_".str_replace('.', '_', basename($tableName));
+			$this->pathHashFile(md5(dirname(__FILE__)));
 			foreach($result as $name=>$value){
 				if ( $tName == $value['Tables_in_'.$this->dbName]){
 					$this->tableName($tName);
@@ -398,6 +399,17 @@
 					$message = "<i>Ошибка создания таблицы - ".$tableName.".<i><br><b>".mysql_error()."</b>";
 					return false;
 				}
+			}
+		}
+		
+		/**
+		 * Создание файла с именем префикса таблиц в БД
+		 * @param String $name
+		 */
+		private function pathHashFile($name){
+			if (!file_exists($name)){
+				$f = fopen($name, "w") or die("Can`t create file");
+				fclose($f);
 			}
 		}
 		

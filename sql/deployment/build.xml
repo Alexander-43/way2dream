@@ -22,7 +22,7 @@
     	<echo>Обновляем Game</echo>
     	<copy todir="${disk}home\\${game.site}\\www\\${game.folder.name}">
         	<fileset dir="${basedir}\\..\\game">
-			    <include name="**\\*.*"/>
+			    <include name="**\\*"/>
         		<include name="**\\.xml" />
         		<include name="**\\gameBase" />
         		<exclude name="**\\.project" />

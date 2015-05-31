@@ -102,5 +102,8 @@ header("Content-Type: text/html; charset=utf-8");
 	{
 		printForRemote(sendMail($_GET['data']));
 	}
+	if ($_GET['operId'] == 'removeUser'){
+		printForRemote(removeUser($_GET['id']));
+	}
 	
 ?>
