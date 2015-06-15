@@ -375,7 +375,7 @@ function onLoad(divName)
 }
 
 var randCardMapping = {};
-function showField(count, name){
+function showField(count, name, cardName){
 	$('#mask').fadeIn(500);
 	$('#mask').fadeTo("slow",0.8);
 	$('#closeDialog').fadeIn(1);
@@ -414,8 +414,9 @@ function showField(count, name){
 }
 
 function getKeyByValue(value, a){
-	for (var key in Object.keys(a)){
-		if (a[key] == value){
+	var keys = Object.keys(a);
+	for (var key in keys){
+		if (a[keys[key]] == value){
 			return key;
 		}
 	}

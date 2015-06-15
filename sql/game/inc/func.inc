@@ -142,7 +142,7 @@ function UpdateCapValues($CapName, $Xpos, $Ypos, $xml = null)
 //функция выводит select для выбора времени обновления и кнопку старт/стоп
 function ShowRunStopObject($time, $state = 0)
 {
-	if ($time == "") $time=5;
+	if ($time == "") $time=15;
 	print "<span height='10' style='overflow:visible; margin:0 0 5px 0; position:relative;'><form name='timerObj' action='gamer.php' method='post'>Обновлять раз в <select name='timer'>";
 			for ($i=5;$i<=20;$i+=2)
 			{
@@ -568,14 +568,16 @@ function WriteAttrib ($arrAttrib, $changedFilds)
 		$xml->SearchNode($xml->RootNode, "user", "id", $arrAttrib['id']);
 		if ($xml->SearchedNodeLink != null)
 		{
+			$map = array();
 			foreach ($changedFilds as $name)
 			{
 				if (strlen($name)!= 0)
 				{
 					$arrAttrib[$name] = str_replace(array("\r\n", "\r", "\n"), " ", $arrAttrib[$name]);
-					$xml->SearchedNodeLink->setAttribute($name, $arrAttrib[$name]);
+					$map[$name] = $arrAttrib[$name];
 				}
 			}
+			$xml->setAttribute($xml->SearchedNodeLink, $map);
 			$xml->SaveInFile($xml->Nfile);
 		}
 		$xml->Destroy();
@@ -825,7 +827,7 @@ function ShowCardForUserSelect($userInfo)
 		}else
 		{
 			$count = fileCountByPrefix(substr($temp['cardforView'], 0, -4)."_");
-			$action = "onClick=\"userRefreshStop(); showField(".$count.", this.name)\"";
+			$action = "onClick=\"userRefreshStop(); showField(".$count.", this.name, \"".GetRusNameCard($temp['cardforView'])."\")\"";
 		}	
 		print "<table border='0' width='100%'>";
 		if ($action == "") $temp['click'] = $temp['status'];
@@ -919,7 +921,7 @@ function setCubeUser($action, $userId)
 	if ($action == "true")
 	{
 		$xml->SearchNode($xml->RootNode, "cube", "userId", $xml->nodesAttribValue[0]);
-		$xml->setAttribute($xml->SearchedNodeLink, Array("isActive"=>$userId));
+		$xml->setAttribute($xml->SearchedNodeLink, Array("isActive"=>$userId, "result"=>""));
 	}else if ($userId !== "")
 	{
 		$xml->SearchNode($xml->RootNode, "cube", "userId", $xml->nodesAttribValue[0]);
