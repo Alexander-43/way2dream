@@ -5,8 +5,8 @@ $(document).ready(
 			var browser=get_browser();
 			var browser_version=get_browser_version()
 			if (browser.toLowerCase() == "msie"){
-				alert("Браузер "+browser+" "+browser_version+" игрой не поддерживается. Извините.");
-				history.back();
+				//alert("Браузер "+browser+" "+browser_version+" игрой не поддерживается. Извините.");
+				//history.back();
 			}
 		}
 );

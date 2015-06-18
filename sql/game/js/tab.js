@@ -387,17 +387,20 @@ function showField(count, name, cardName){
 	$("#closeDialog").css('top',winH/2-$(id).height()/2 - 20);
 	$("#closeDialog").css('left',winW/2-$(id).width()/2 + 450);
 	$(id).fadeIn(1000);
+	var w = (100 - cardName.length) / (cardName.length / 2);
 	if ($(id).children("div").length == 1){
 		for (var i = 1;i<=count;++i){
 			var e = $("#dSource").clone();
-			e.children()[0].text = i;
+			e.children()[0].name = i;
+			e.children()[0].text = cardName;
+			$(e.children()[0]).css("font-size", (w > 30?30:w)+"px");
 			var rnd = -1;
 			while (randCardMapping[rnd] != null || rnd == -1){
 				rnd = getRandomInt(1, count);
 			}
 			randCardMapping[rnd] = i;
 			e.click(function () {
-				var index = getKeyByValue($(this).children()[0].text, randCardMapping);
+				var index = getKeyByValue($(this).children()[0].name, randCardMapping);
 				if (index){
 					vote('operation.php?randcard=On&pref='+name+"&index="+index, 'vote_status');
 					$('#dialog').fadeOut(500);

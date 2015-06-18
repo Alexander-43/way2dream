@@ -21,6 +21,15 @@
 		print "<script>TO=setTimeout('document.timerObj.submit()',".($_POST['timer']*1000)."); </script>";
 	}
 	
+	if ( ((int)$_POST['source']>= 1) && ((int)$_POST['source']<= 6))
+	{
+		UpdateCapValues("cap_".$_POST['source'], $_POST['PosX'], $_POST['PosY']);
+		if (in_array(1, $Except))
+		{
+			print "Ошибка обновления координат фишки №".$_POST['source'];
+		}
+	}
+	
 ?>
 <style>
 a{text-decoration:none}
@@ -131,7 +140,7 @@ img.card
 <div id="boxes">
 <span id="closeDialog" style="font-size:10px;font-weight:900;color:white;position:absolute;z-index:99999;cursor:pointer;display:none" onclick="$('#dialog').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
 	<div id="dialog" class="window">
-		Выберите номер карточки<br><br>
+		Выберите одну из карточек<br><br>
 		<div id="dSource" class="fixed">
 			<a id="aSource">1</a>
 		</div>
