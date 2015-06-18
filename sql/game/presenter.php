@@ -8,15 +8,15 @@ if ($_SESSION['authKey']!=accessCode && strlen($_SESSION['presenterCode']) == 0)
 	print "<script> alert('Для вас доступ к странице запрещен,\\n зарегистрируйтесь или войдите как ведущий.');";
 	print "window.location.replace('index.php');</script>";
 }
-if ( ((int)$_GET['source']>= 1) && ((int)$_GET['source']<= 6))
+if ( ((int)$_POST['source']>= 1) && ((int)$_POST['source']<= 6))
 {
-	UpdateCapValues("cap_".$_GET['source'], $_GET['PosX'], $_GET['PosY']);
+	UpdateCapValues("cap_".$_POST['source'], $_POST['PosX'], $_POST['PosY']);
 	if (in_array(1, $Except))
 	{
-		print "Ошибка обновления координат фишки №".$_GET['source'];
+		print "Ошибка обновления координат фишки №".$_POST['source'];
 	}
 }
-if (count($_POST) != 0)
+if (count($_POST) != 0 && !isset($_POST['source']))
 {
 	$_SESSION = array_merge($_SESSION, saveAndLoadPresenterInfo($_POST));
     $_SESSION['presenterCode'] = $_SESSION['password'];
@@ -122,8 +122,8 @@ div.t4 {
 		<param name="wmode" value="transparent" />
 		<param name="salign" value="t">
 		<param name="allowScriptAccess" value="sameDomain" />
-		<param name="flashvars" value="pathToXmlBase=<? print xmlGenerator."?".time() ?>&operPage=<? print operPage?>" />
-		<EMBED src="<? print swfFolder;?>presenter.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>&operPage=<? print operPage?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
+		<param name="flashvars" value="submitUrl=presenter.php&pathToXmlBase=<? print xmlGenerator."%3F".time() ?>&operPage=<? print operPage?>" />
+		<EMBED src="<? print swfFolder;?>presenter.swf" FLASHVARS="submitUrl=presenter.php&pathToXmlBase=<? print xmlGenerator."%3F".time() ?>&operPage=<? print operPage?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
 		</EMBED>
 		</object>
 		</td>

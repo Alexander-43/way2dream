@@ -161,8 +161,8 @@ img.card
 		<param name="wmode" value="opaque" />
 		<param name="salign" value="r">
 		<param name="allowScriptAccess" value="sameDomain" />
-		<param name="flashvars" value="pathToXmlBase=<? print xmlGenerator."?".time() ?>" />
-		<EMBED src="<? print swfFolder;?>gamer.swf" FLASHVARS="pathToXmlBase=<? print xmlGenerator."?".time() ?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
+		<param name="flashvars" value="pathToXmlBase=<? print xmlGenerator."%3F".time() ?>&submitUrl=gamer.php" />
+		<EMBED src="<? print swfFolder;?>gamer.swf" FLASHVARS="submitUrl=gamer.php&pathToXmlBase=<? print xmlGenerator."%3F".time() ?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
 		</EMBED>
 		</object>
 	</td>
