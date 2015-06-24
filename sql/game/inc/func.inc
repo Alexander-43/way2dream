@@ -863,7 +863,8 @@ function showCubeForSelect($userId)
 	{
 		if (strlen($cubeInfo['result']) == 0)
 		{
-			$str .= "<p align='left'>Бросьте кубики <button onClick=\"vote('operation.php?randCube=yes&userId=".$userId."','cube');this.style.display='none';\">Бросить</button></p><div id='cube'><img src='img/cube/none.gif'></div>";
+			//$str .= "<p align='left'>Бросьте кубики <button onClick=\"vote('operation.php?randCube=yes&userId=".$userId."','cube');this.style.display='none';\">Бросить</button></p><div id='cube'><img src='img/cube/none.gif'></div>";
+			$str .= "<p align='left'>Бросьте кубики <button onClick=\"cubeChooser('".$userId."', this);\">Бросить</button></p><div id='cube'><img src='img/cube/none.gif'></div>";
 		}
 		else
 		{
@@ -881,10 +882,10 @@ function showCubeForSelect($userId)
 }
 
 //рандомим кубик
-function randCube($userId)
+function randCube($userId, $presetRandNum = null)
 {
 	$str = "";
-	$randNum = mt_rand(1,6)."_".mt_rand(1,6);
+	$randNum = $presetRandNum == null ? mt_rand(1,6)."_".mt_rand(1,6) : $presetRandNum;
 	new Parse(dataSourceType, xmlForFlash, $xml, true);
 	$xml->SearchNode($xml->RootNode, "cube", "isActive", $userId);
 	$xml->setAttribute($xml->SearchedNodeLink, Array("result"=>$randNum));

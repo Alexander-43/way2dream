@@ -56,7 +56,14 @@ header("Content-Type: text/html; charset=utf-8");
 	//рандомить кубик
 	if ($_GET['randCube'] == "yes")
 	{
-		randCube($_GET['userId']);
+		if ($_GET['randNum']){
+			$explod = explode("_", $_GET['randNum']);
+			if ($explod[0] && $explod[1]){
+				randCube($_GET['userId'], $_GET['randNum']);
+			}
+		} else {
+			randCube($_GET['userId']);
+		}
 	}
 	// возвращает ведущих для select
 	if ($_GET['operId'] == "getPresentersSelect")

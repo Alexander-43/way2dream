@@ -141,7 +141,23 @@ img.card
 <div id="boxes">
 <span id="closeDialog" style="font-size:10px;font-weight:900;color:white;position:absolute;z-index:99999;cursor:pointer;display:none" onclick="$('#dialog').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
 	<div id="dialog" class="window">
-		Выберите одну из карточек<br><br>
+		<span id="dialog_header">Выберите одну из карточек</span><br><br>
+		<table id="tSource" border="0" style="width: 100%; border-spacing: 0px; display:none;">
+			<tr>
+				<td width="50%" valign="top">
+					<table width="100%" style="border-right-style: solid;">
+						<caption><b>Значение кубика №1</b></caption>
+						<tr><td id="tSource_td_left" align="center"></td></tr>
+					</table>
+				</td>
+				<td width="50%" valign="top">
+					<table width="100%">
+						<caption><b>Значение кубика №2</b></caption>
+						<tr><td id="tSource_td_right" align="center"></td></tr>
+					</table>
+				</td>
+			</tr>
+		</table>
 		<div id="dSource" class="fixed">
 			<a id="aSource">1</a>
 		</div>

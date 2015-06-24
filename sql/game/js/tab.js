@@ -375,20 +375,27 @@ function onLoad(divName)
 }
 
 var randCardMapping = {};
-function showField(count, name, cardName){
+function showDialog(headerText){
 	$('#mask').fadeIn(500);
 	$('#mask').fadeTo("slow",0.8);
 	$('#closeDialog').fadeIn(1);
+	$('#dialog_header').html(headerText)
 	var winH = $(window).height();
 	var winW = $(window).width();
-	id = "#dialog";
+	var id = "#dialog";
 	$(id).css('top',  winH/2-$(id).height()/2);
 	$(id).css('left', winW/2-$(id).width()/2);
 	$("#closeDialog").css('top',winH/2-$(id).height()/2 - 20);
 	$("#closeDialog").css('left',winW/2-$(id).width()/2 + 450);
 	$(id).fadeIn(1000);
+	return id;
+}
+
+function showField(count, name, cardName){
+	var id = showDialog("Выберите одну из карточек");
 	var w = (100 - cardName.length) / (cardName.length / 1.8);
 	if ($(id).children("div").length == 1){
+		randCardMapping = {};
 		for (var i = 1;i<=count;++i){
 			var e = $("#dSource").clone();
 			e.children()[0].name = i;
@@ -416,11 +423,52 @@ function showField(count, name, cardName){
 	}
 }
 
+function cubeChooser(userId, obj){
+	showDialog("Выберите один из вариантов");
+	var count = 6;
+	var w = 30;
+	if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
+		$('#tSource_td_left').html('');
+		$('#tSource_td_right').html('');
+		randCardMapping = {};
+		for (var j = 1;j<=2;++j){
+			for (var i = 1;i<=count;++i){
+				var e = $("#dSource").clone();
+				e.children()[0].name = (j == 2?i+count:i);
+				e.children()[0].text = i;
+				var rnd = -1;
+				while (randCardMapping[rnd] != null || rnd == -1){
+					rnd = getRandomInt((j==1?1:count), count*j);
+				}
+				randCardMapping[rnd] = (j == 2?i+count:i);
+				e.click(function () {
+					var index = getKeyByValue($(this).children()[0].name, randCardMapping);
+					var norm = index > count ? index - count : index;
+					var id = this.parentNode.id == 'tSource_td_left' ? 1 : 2;
+					$(this.parentNode).html("<img id='cube_"+id+"' name='"+norm+"' src='img/cube/"+norm+".gif' style='border-style:solid;border-color:grey'>");
+					if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
+						window.setTimeout(function(){
+							var rnd = $('#cube_1').attr('name')+'_'+$('#cube_2').attr('name');
+							$('#dialog').fadeOut(500);
+							$('#mask').fadeOut(500);
+							obj.style.display = 'none';
+							vote('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd,'cube');
+						}, 2000);
+					}
+				});
+				e.appendTo(j == 1 ? "#tSource_td_left" : "#tSource_td_right");
+				e.css("display", "block");
+			}
+		}
+		$("#tSource").css("display", "block");
+	}
+}
+
 function getKeyByValue(value, a){
 	var keys = Object.keys(a);
 	for (var key in keys){
 		if (a[keys[key]] == value){
-			return key;
+			return keys[key];
 		}
 	}
 	return null;
