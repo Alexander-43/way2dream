@@ -596,7 +596,7 @@ function fillCardValuesFomPost($post)
 }
 
 //генерация карточки по передаваемому в функцию префиксу изображения
-function RandCard($pref, $index)
+function RandCard($pref, $index = null)
 {
 	$mask = "img/card/".$pref."*.jpg";
 	$fileList = array();
@@ -827,7 +827,7 @@ function ShowCardForUserSelect($userInfo)
 		}else
 		{
 			$count = fileCountByPrefix(substr($temp['cardforView'], 0, -4)."_");
-			$action = "onClick=\"userRefreshStop(); showField(".$count.", this.name, \"".GetRusNameCard($temp['cardforView'])."\")\"";
+			$action = "onClick=\"userRefreshStop(); showField(".$count.", this.name, '".GetRusNameCard($temp['cardforView'])."')\"";
 		}	
 		print "<table border='0' width='100%'>";
 		if ($action == "") $temp['click'] = $temp['status'];

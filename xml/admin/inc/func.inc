@@ -603,6 +603,29 @@
 		
 	}
 	
+	/**
+	 * Фильтрация копируемых файлов
+	 * @param unknown $p_event
+	 * @param unknown $p_header
+	 */
+	function fileUnpackFilter($p_event, &$p_header){
+		global $skipedFilesFolderUnzip;
+		$info = pathinfo($p_header['filename']);
+		try{
+			foreach($skipedFilesFolderUnzip as $index=>$a){
+				foreach ($a as $key=>$value){
+					$flag = preg_match($value, $info[$key]);
+					if ($flag == 1){
+						return 0;
+					}
+				}
+			}
+		} catch (Exception $e){
+			
+		}
+		return 1;
+	}
+	
 	/*
 		Обновление игры из архива
 	*/
@@ -620,9 +643,20 @@
 				$zip = new PclZip(baseGameFolder);
 				$list = $zip->extract(PCLZIP_OPT_PATH, $filePath, PCLZIP_OPT_REPLACE_NEWER);
 				if ($list != 0){
-					foreach (glob($filePath."/bak/*") as $file){
-						copy($file, $filePath."/xml/".basename($file));
-						unlink($file);
+					global $bakuppedFileFolders;
+					foreach ($bakuppedFileFolders as $item){
+						$f = $filePath."/bak/".$item;
+						if (is_dir($f)){
+							foreach (glob($f."/*") as $file){
+								copy($file, $filePath."/".$item."/".basename($file));
+								unlink($file);
+							}
+						} else {
+							if (file_exists($f)){
+								copy($file, $filePath."/".$item);
+								unlink($file);
+							}
+						}
 					}
 					rmdir($filePath."/bak");
 					return json_encode(Array("status"=>"Ok"));
@@ -642,13 +676,23 @@
 	}
 	
 	function makeBackUp($path){
-		$copyFilesMask = $path."/xml/*";
-		$tempFilesMask = $path."/temp/*";
-		foreach (glob($copyFilesMask) as $file){
-			if (!file_exists($path."/bak")){
-				mkdir($path."/bak");
+		global $bakuppedFileFolders;
+		foreach ($bakuppedFileFolders as $item){
+			$copyFilesMask = $path."/".$item;
+			if (is_dir($copyFilesMask)){
+				$copyFilesMask = $copyFilesMask."/*";
+				//$tempFilesMask = $path."/temp/*";
+				foreach (glob($copyFilesMask) as $file){
+					if (!file_exists($path."/bak/".$item)){
+						mkdir($path."/bak/".$item, 0777, true);
+					}
+					copy($file, $path."/bak/".$item."/".basename($file));
+				}
+			} else {
+				if (file_exists($copyFilesMask)){
+					copy($copyFilesMask, $path."/bak/".basename($copyFilesMask));
+				}
 			}
-			copy($file, $path."/bak/".basename($file));
 		}
 		removeFiles(glob($path."/*"), array("bak"));
 	}

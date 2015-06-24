@@ -19,7 +19,7 @@ header("Content-Type: text/html; charset=utf-8");
 	//для Ajax запроса карточки для вывода
 	if ($_GET['randcard']=="On" && $_GET['pref'] != "null")
 	{
-		RandCard($_GET['pref']);
+		RandCard($_GET['pref'], $_GET['index']);
 	}
 	if ($_GET['randcard']=="Off")
 	{

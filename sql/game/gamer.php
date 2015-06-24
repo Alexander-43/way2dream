@@ -108,11 +108,12 @@ img.card
 	.fixed{
 		display:block;
 		float:left;
-		background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#616161), to(#292929));;
+		background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#616161), to(#292929));
+		background: -moz-linear-gradient(bottom, white -90%, black 100%);
 		border-radius:15px 15px 15px 15px;
 	}
 	#dSource:hover {
-		background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#16E720), to(#2F5232));;
+		background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#16E720), to(#2F5232));
 	}
 	#aSource{
 		line-height:50px;

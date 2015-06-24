@@ -133,7 +133,7 @@ function mOnClick(img)
 	}
 	document.gamerReg.capColor.value=img.id;
 	img.src = "img/img_7.gif";
-	gamerReg.but.disabled="";
+	document.gamerReg.but.disabled="";
 	return 0;
 }
 
@@ -156,21 +156,21 @@ function validFormData()
 {
 	var preMes = "Переход к игре не возможен.\n Пожалуйста заполните следующие поля: \n";
 	var mes = "";
-	mes = trimStr(gamerReg.FIO.value, "Фамилия Имя Отчество \n")+trimStr(gamerReg.skype.value, "Имя пользователя Skype \n");
-	mes += trimStr(gamerReg.email.value, "E-mail \n")+trimStr(gamerReg.capColor.value, "Выберите цвет фишки \n");
+	mes = trimStr(document.gamerReg.FIO.value, "Фамилия Имя Отчество \n")+trimStr(document.gamerReg.skype.value, "Имя пользователя Skype \n");
+	mes += trimStr(document.gamerReg.email.value, "E-mail \n")+trimStr(document.gamerReg.capColor.value, "Выберите цвет фишки \n");
 	if (mes != "")
 	{
-		if (!gamerReg.but.disabled)
+		if (!document.gamerReg.but.disabled)
 		{
 			alert(preMes+mes);
-			gamerReg.but.disabled="disabled";
-			gamerReg.dataValid.value="";
+			document.gamerReg.but.disabled="disabled";
+			document.gamerReg.dataValid.value="";
 		}
 		
 	}
 	else
 	{
-		gamerReg.dataValid.value="validate";
+		document.gamerReg.dataValid.value="validate";
 	}
 }
 
@@ -387,7 +387,7 @@ function showField(count, name, cardName){
 	$("#closeDialog").css('top',winH/2-$(id).height()/2 - 20);
 	$("#closeDialog").css('left',winW/2-$(id).width()/2 + 450);
 	$(id).fadeIn(1000);
-	var w = (100 - cardName.length) / (cardName.length / 2);
+	var w = (100 - cardName.length) / (cardName.length / 1.8);
 	if ($(id).children("div").length == 1){
 		for (var i = 1;i<=count;++i){
 			var e = $("#dSource").clone();

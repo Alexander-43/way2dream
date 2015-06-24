@@ -47,6 +47,7 @@
         		<exclude name="**\\.project" />
 				<include name="temp"/>
 				<exclude name="temp\\*.*"/>
+				<include name="mysql\\*"/>
 			</fileset>
 		</zip>
 	</target>
