@@ -367,7 +367,11 @@ function onLoad(divName)
 		{
 			if (radios[i].checked)
 			{
+				try{
 				jQuery('div').scrollTo('#'+radios[i].id);
+				} catch (e){
+					//uncatched exception
+				}
 				return;
 			}
 		}
@@ -446,13 +450,16 @@ function cubeChooser(userId, obj){
 					var norm = index > count ? index - count : index;
 					var id = this.parentNode.id == 'tSource_td_left' ? 1 : 2;
 					$(this.parentNode).html("<img id='cube_"+id+"' name='"+norm+"' src='img/cube/"+norm+".gif' style='border-style:solid;border-color:grey'>");
+					var cb1 = $('#cube_1').attr('name');
+					var cb2 = $('#cube_2').attr('name');
+					var rnd = (cb1 ? cb1 : 'NaN')+'_'+(cb2 ? cb2 : 'NaN');
+					$('#cube').html('');
+					vote('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd,'cube');
 					if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
 						window.setTimeout(function(){
-							var rnd = $('#cube_1').attr('name')+'_'+$('#cube_2').attr('name');
 							$('#dialog').fadeOut(500);
 							$('#mask').fadeOut(500);
 							obj.style.display = 'none';
-							vote('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd,'cube');
 						}, 2000);
 					}
 				});

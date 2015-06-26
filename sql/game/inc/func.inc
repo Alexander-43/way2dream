@@ -449,7 +449,10 @@ function printCheckBoxCube($userId, $pic, $checked, $result = "", $res = "")
 	if (strpos($res, "_") > 0)
 	{
 	  //$text = "<font size='-1'><i>Кубик 1</i> - <b>".getCubeValue($res, 0)."</b><br><i>Кубик 2</i> - <b>".getCubeValue($res, 1)."</b></font>";
-	  $text = "<font size='-1'><i>На кубиках выпало</i><br><b>".getCubeValue($res, 0)."</b> и <b>".getCubeValue($res, 1)."</b></font>";
+	  $text = "<font size='-1'><i>На кубик".(getCubeValue($res, 0) == "NaN" || getCubeValue($res, 1) == "NaN" ? "е" : "ах")." выпало</i><br>".
+	  (getCubeValue($res, 0) != 'NaN' ? "<b>".getCubeValue($res, 0)."</b>" : "").
+	  (getCubeValue($res, 0) != "NaN" && getCubeValue($res, 1) != "NaN" ? " и " : "").
+	  (getCubeValue($res, 1) != 'NaN' ? "<b>".getCubeValue($res, 1)."</b>" : "")."</font>";
 	}
     $str = "<tr><td valign='center' colspan='2' width='70%'>";
 	$str = $str."<input id='cube_".$userId."' name='gr_cube' type='radio' value='test_".rand()."' $checked style='position:absolute; visibility:hidden;'>";
@@ -703,7 +706,10 @@ function getInfoAboutCube()
 		}
 		else
 		{
-			$result['status'] = "Кубики брошены игроком ".$result['FIO'].".<br> Значение кубика №1 = ".getCubeValue($result['result'], 0)."<br> Значение кубика №2 = ".getCubeValue($result['result'], 1);
+			$cb1 = getCubeValue($result['result'], 0);
+			$cb2 = getCubeValue($result['result'], 1);
+			$result['status'] = "Кубик".($cb1 == 'NaN' || $cb2 == 'NaN' ? "" :"и")." брошен".($cb1 == 'NaN' || $cb2 == 'NaN' ? "" :"ы")." игроком ".
+				$result['FIO'].($cb1 != 'NaN' ? ".<br> Значение кубика №1 = ".$cb1 : '').($cb2 != 'NaN' ? "<br> Значение кубика №2 = ".$cb2 : '');
 		}
 		if (strlen($result['isActive']) == 0)
 		{
@@ -868,7 +874,22 @@ function showCubeForSelect($userId)
 		}
 		else
 		{
-			$str .= "<p align='center'><i>Значение кубика 1</i> - <font size='+1'>[".getCubeValue($cubeInfo['result'], 0)."]</font> <i>Значение кубика 2 </i>- <font size='+1'>[".getCubeValue($cubeInfo['result'], 1)."]</font></p><div id='cube'><img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".getCubeValue($cubeInfo['result'], 0).".gif' align='left'><img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".getCubeValue($cubeInfo['result'], 1).".gif' align='right'></div>";
+			$cb1 = getCubeValue($cubeInfo['result'], 0);
+			$cb2 = getCubeValue($cubeInfo['result'], 1);
+			$format = "<p align='center'>%s %s</p><div id='cube'>%s%s</div>";
+			if ($cb1 != 'NaN' && $cb2 == 'NaN'){
+				$str.=sprintf($format, "<i>Значение кубика 1</i> - <font size='+1'>[".$cb1."]</font>", "", 
+						"<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$cb1.".gif' align='left'>","");
+			} else if ($cb2 != 'NaN' && $cb1 == 'NaN'){
+				$str.=sprintf($format, "", "<i>Значение кубика 2</i> - <font size='+1'>[".$cb2."]</font>",
+						"","<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$cb2.".gif' align='left'>");
+			} else {
+				$str.=sprintf($format, "<i>Значение кубика 1</i> - <font size='+1'>[".$cb1."]</font>", 
+						"<i>Значение кубика 2</i> - <font size='+1'>[".$cb2."]</font>",
+						"<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$cb1.".gif' align='left'>",
+						"<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$cb2.".gif' align='left'>");
+			}
+			
 		}
 	}
 	else
@@ -892,7 +913,12 @@ function randCube($userId, $presetRandNum = null)
 	$xml->SaveInFile($xml->Nfile);
 	$xml->Destroy();
 	$randNum = explode("_", $randNum);
-	$str .="<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$randNum[0].".gif' align='left'>"."<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$randNum[1].".gif' align='right'>";
+	if ($randNum[0] != 'NaN'){
+		$str .="<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$randNum[0].".gif' align='left'>";
+	}
+	if ($randNum[1] != 'NaN'){
+		$str .="<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/".$randNum[1].".gif' align='right'>";
+	}
 	print $str;
 }
 
