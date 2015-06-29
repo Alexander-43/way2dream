@@ -18,6 +18,9 @@
 <body>
 <? printBrs(5); ?>
 <center>
+<table>
+<tr>
+	<td width="360px">
 <div id="wrapper">
 
 	<ul class="tabs tabs1">
@@ -78,6 +81,9 @@
 	</div>
 
 </div>
+</td>
+</tr>
+</table>
 </center>
 </body>
 </html>
