@@ -84,12 +84,13 @@ img.card
 		  overflow-y:auto;
 		  
 	}
-	boxes #dialog {
+	boxes #dialog_card, boxes #dialog_cube {
 		width:375px;
 		height:203px;
 		padding:10px;
 		background-color:#ffffff;
 		text-align: center;
+		position: fixed;
 	}
 	#dSource {
 		display : none;
@@ -127,7 +128,15 @@ img.card
 		font-size:30px;
 		z-index:0;
 	}
-
+	#closeDialog_card, #closeDialog_cube{
+		font-size:10px;
+		font-weight:900;
+		color:white;
+		position:fixed;
+		z-index:99999;
+		cursor:pointer;
+		display:none;
+	}
 </style>
 <html>
 <head>
@@ -139,9 +148,10 @@ img.card
 </head>
 <body>
 <div id="boxes">
-<span id="closeDialog" style="font-size:10px;font-weight:900;color:white;position:absolute;z-index:99999;cursor:pointer;display:none" onclick="$('#dialog').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
-	<div id="dialog" class="window">
-		<span id="dialog_header">Выберите одну из карточек</span><br><br>
+<span id="closeDialog_card" onclick="$('#dialog_card').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
+<span id="closeDialog_cube" onclick="$('#dialog_cube').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
+	<div id="dialog_cube" class="window">
+		<span id="dialog_header_cube">Выберите одну из карточек</span><br><br>
 		<table id="tSource" border="0" style="width: 100%; border-spacing: 0px; display:none;">
 			<tr>
 				<td width="50%" valign="top">
@@ -158,16 +168,20 @@ img.card
 				</td>
 			</tr>
 		</table>
+	</div>
+	<div id="dialog_card" class="window">
+	<span id="dialog_header_card">Выберите одну из карточек</span><br><br>
 		<div id="dSource" class="fixed">
 			<a id="aSource">1</a>
 		</div>
 	</div>
+	
 	<div id="mask"></div>
 </div>
 <? printBrs(5); ?>
 <table width="100%" height="100%" border="0">
 <tr height='50%'>
-	<td valign="middle">
+	<td valign="top">
 	<? ShowRunStopObject($_POST['timer'], $_POST['state']); 
 	   InfoAboutUser($_SESSION);
 	?>

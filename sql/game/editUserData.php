@@ -51,7 +51,17 @@ header("Content-Type: text/html; charset=utf-8");
 							'fieldsId':['bisnesAActIncome_1', 'bisnesBActIncome_1', 'bisnesCActIncome_1', 'bisnesAActIncome_2', 'bisnesBActIncome_2', 'bisnesCActIncome_2', 'bisnesAActIncome_3', 'bisnesBActIncome_3', 'bisnesCActIncome_3', 'zp'], 
 							'actions':'bisnesAActIncome_1+bisnesBActIncome_1+bisnesCActIncome_1+bisnesAActIncome_2+bisnesBActIncome_2+bisnesCActIncome_2+bisnesAActIncome_3+bisnesBActIncome_3+bisnesCActIncome_3+zp',
 							'readOnly': true
-						}						
+						},
+					'franshPasIncome' : {
+						'fieldsId':['franshiza', 'franProc'], 
+						'actions':'franshiza*franProc/100',
+						'readOnly': true
+					},
+					'capitalPasIncome' : {
+						'fieldsId':['capProc', 'capital'], 
+						'actions':'capital*capProc/100',
+						'readOnly': true
+					}						
 				};
 </script>
 <script type="text/javascript" src="js/tab.js"></script>

@@ -63,6 +63,7 @@ function doAction(obj){
 				line=line.replaceAll(config[i].fieldsId[j], val);
 			}
 			$('[name='+i+']').attr('value', eval(line));
+			$('[name='+i+']').trigger('change');
 			addChagedElement(new String(i));
 		}
 	}
@@ -379,24 +380,27 @@ function onLoad(divName)
 }
 
 var randCardMapping = {};
-function showDialog(headerText){
+function showDialog(headerText, idSuff){
 	$('#mask').fadeIn(500);
 	$('#mask').fadeTo("slow",0.8);
-	$('#closeDialog').fadeIn(1);
-	$('#dialog_header').html(headerText)
+	$('#closeDialog'+idSuff).fadeIn(1);
+	$('#dialog_header'+idSuff).html(headerText)
 	var winH = $(window).height();
 	var winW = $(window).width();
-	var id = "#dialog";
+	$('#mask').css('height', winH);
+	winH = winH - 150;
+	var id = "#dialog"+idSuff;
 	$(id).css('top',  winH/2-$(id).height()/2);
 	$(id).css('left', winW/2-$(id).width()/2);
-	$("#closeDialog").css('top',winH/2-$(id).height()/2 - 20);
-	$("#closeDialog").css('left',winW/2-$(id).width()/2 + 450);
+	$("#closeDialog"+idSuff).css('top',winH/2-$(id).height()/2 - 20);
+	$("#closeDialog"+idSuff).css('left',winW/2-$(id).width()/2 + 450);
 	$(id).fadeIn(1000);
+	$(id).css('position', 'fixed');
 	return id;
 }
 
 function showField(count, name, cardName){
-	var id = showDialog("Выберите одну из карточек");
+	var id = showDialog("Выберите одну из карточек", "_card");
 	var w = (100 - cardName.length) / (cardName.length / 1.8);
 	if ($(id).children("div").length == 1){
 		randCardMapping = {};
@@ -414,21 +418,21 @@ function showField(count, name, cardName){
 				var index = getKeyByValue($(this).children()[0].name, randCardMapping);
 				if (index){
 					vote('operation.php?randcard=On&pref='+name+"&index="+index, 'vote_status');
-					$('#dialog').fadeOut(500);
+					$('#dialog_card').fadeOut(500);
 					$('#mask').fadeOut(500);
 					$(this).fadeOut(1);
 					$("a[name='"+name+"'").fadeOut(1000);
 					$("a[name='"+name+"'").attr('name', 'null');
 				}
 			});
-			e.appendTo("#dialog");
+			e.appendTo("#dialog_card");
 			e.fadeIn(2000);
 		}
 	}
 }
 
 function cubeChooser(userId, obj){
-	showDialog("Выберите один из вариантов");
+	showDialog("Выберите один из вариантов", "_cube");
 	var count = 6;
 	var w = 30;
 	if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
@@ -457,9 +461,9 @@ function cubeChooser(userId, obj){
 					vote('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd,'cube');
 					if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
 						window.setTimeout(function(){
-							$('#dialog').fadeOut(500);
+							$('#dialog_cube').fadeOut(500);
 							$('#mask').fadeOut(500);
-							obj.style.display = 'none';
+							$(obj.parentNode).html('');
 						}, 2000);
 					}
 				});

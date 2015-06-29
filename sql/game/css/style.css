@@ -9,7 +9,7 @@ body {margin: 30px; font: 13px/1.5 "Trebuchet MS", Tahoma, Arial;}
 a {color: blue;}
 p {padding: 7px 0;}
 h1 {font-size: 20px; margin: 0 0 30px;}
-#wrapper {width: 360px;}
+#wrapper {width: 100%;}
 
 /* tabs */
 ul.tabs {

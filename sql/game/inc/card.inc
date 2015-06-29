@@ -106,9 +106,9 @@ input.min {
 <!-- ***************** -->
 <input name="exprUp" type="text" style="position:absolute;width:454px;left:280px;top:511px;z-index:80">
 <input name="franshiza" type="text" style="position:absolute;width:224px;left:389px;top:1045px;z-index:93">
-<input name="franProc" type="text" style="position:absolute;width:55px;left:625px;top:1045px;z-index:43">
+<input name="franProc" type="text" style="position:absolute;width:55px;left:625px;top:1045px;z-index:43" value="10">
 <input name="capital" type="text" style="position:absolute;width:224px;left:389px;top:1120px;z-index:94">
-<input name="capProc" type="text" style="position:absolute;width:55px;left:625px;top:1120px;z-index:44">
+<input name="capProc" type="text" style="position:absolute;width:55px;left:625px;top:1120px;z-index:44" value="10">
 <input name="franshPasIncome" type="text" style="position:absolute;width:80px;left:689px;top:1045px;z-index:95">
 <input name="capitalPasIncome" type="text" style="position:absolute;width:82px;left:688px;top:1120px;z-index:96">
 <input name="riskStrah" type="text" style="position:absolute;width:181px;left:601px;top:684px;z-index:97">
