@@ -525,7 +525,7 @@ function showActiveGamers($ViewType = 0)
 	}
 	else if ($ViewType == 1)
 	{
-		print "<table width='100 %' style='border-collapse: collapse' border='0'>";
+		print "<table width='100%' style='border-collapse: collapse' border='0'>";
 		foreach ($EnToRusUserAttributes as $atrName=>$atrValue)
 		{
 			if ($atrName == "FIO")
@@ -1039,7 +1039,8 @@ function getUserHistory($userInfo)
 function checkPresenterActive($data)
 {
   global $presenterAttribs;
-  $xml = new ParseXML(xmlForPresenters);
+  new Parse(dataSourceType, xmlForPresenters, $xml, true);
+  //$xml = new ParseXML(xmlForPresenters);
   $xml->SearchNode($xml->RootNode, $presenterAttribs['node'], "password", $data['password']);
   if ($xml->SearchedNodeLink != null)
   {

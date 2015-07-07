@@ -15,9 +15,13 @@ header("Content-Type: text/html; charset=utf-8");
 			{
 				$xml->AttribFromSNL("", $vis);
 				$_POST = $vis;
+				$_POST['currentScroll'] = $_SESSION['currentScroll'];
 			}
 			$xml->Destroy();
 		}
+	} else {
+		$_SESSION['currentScroll'] = $_POST['currentScroll'];
+		header("Location: ".$_SERVER['REQUEST_URI']);
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -63,6 +67,9 @@ header("Content-Type: text/html; charset=utf-8");
 						'readOnly': true
 					}						
 				};
+	window.onscroll = function(){
+		$('#currentScroll').attr('value', window.pageYOffset || document.documentElement.scrollTop);
+	};
 </script>
 <script type="text/javascript" src="js/tab.js"></script>
 </head>
@@ -252,11 +259,12 @@ header("Content-Type: text/html; charset=utf-8");
 		<? print getUserHistory($_POST); ?>
 	</div>
 	<br>
-	<center>
-		<input name="but" type="submit" value="Сохранить">
-	</center>
+	<div style="position:fixed;left:800px;bottom:20px;opacity:0.1" onMouseOver="this.style.opacity=1" onMouseOut="this.style.opacity=0.1;zoom:1"> 
+		<center><input name="but" type="submit" value="Сохранить"><!-- br><a href="<? //print $name;?>">Скачать</a> --></center>
+	</div>
 	<br><br>
 </div>
+<input type="hidden" id="currentScroll" name="currentScroll" value="0">
 </form>
 </body>
 </html>

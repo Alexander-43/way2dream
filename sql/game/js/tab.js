@@ -84,6 +84,9 @@ function setValue(name, value)
 	if (obj.attr('type') == "text"){
 		obj.attr('value', value);
 	}
+	if (obj.attr('type') == 'hidden' && name == 'currentScroll'){
+		$("html, body").animate({ scrollTop: value+"px" });
+	}
 }
 
 //изменение высоты кнопки старт/стоп при наведении
@@ -419,6 +422,7 @@ function showField(count, name, cardName){
 				if (index){
 					vote('operation.php?randcard=On&pref='+name+"&index="+index, 'vote_status');
 					$('#dialog_card').fadeOut(500);
+					$('#closeDialog_card').fadeOut(500);
 					$('#mask').fadeOut(500);
 					$(this).fadeOut(1);
 					$("a[name='"+name+"'").fadeOut(1000);
@@ -462,6 +466,7 @@ function cubeChooser(userId, obj){
 					if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
 						window.setTimeout(function(){
 							$('#dialog_cube').fadeOut(500);
+							$('#closeDialog_cube').fadeOut(500);
 							$('#mask').fadeOut(500);
 							$(obj.parentNode).html('');
 						}, 2000);
