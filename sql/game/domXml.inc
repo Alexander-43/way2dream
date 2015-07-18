@@ -376,7 +376,7 @@
 			$tName = md5(dirname(__FILE__))."_".str_replace('.', '_', basename($tableName));
 			$this->pathHashFile(md5(dirname(__FILE__)));
 			foreach($result as $name=>$value){
-				if ( $tName == $value['Tables_in_'.$this->dbName]){
+				if ( $tName == $value['Tables_in_'.$this->dbName] || strtolower($tName)== strtolower($value['Tables_in_'.$this->dbName])){
 					$this->tableName($tName);
 					return true;
 				}
@@ -673,13 +673,13 @@
 			$tName = logTable;
 			$flag = false;
 			foreach($result as $name=>$value){
-				if ( $tName == $value['Tables_in_'.$this->dbName]){
+				if ( $tName == $value['Tables_in_'.$this->dbName] || strtolower($tName) == strtolower($value['Tables_in_'.$this->dbName])){
 					$flag = true;
 				}
 			};
 			global $baseTables;
 			if (!$flag){
-				mysql_query($baseTables[logTable]['sql'], $this->mySqlIdentifer) or die ("cant create");
+				mysql_query($baseTables[logTable]['sql'], $this->mySqlIdentifer) or die (mysql_error($this->mySqlIdentifer));
 			}
 			$sql="select count(*) as count from `".logTable."`";
 			$res = $this->makeArrayValues(mysql_query($sql, $this->mySqlIdentifer));
@@ -687,7 +687,7 @@
 				mysql_query("TRUNCATE ".logTable, $this->mySqlIdentifer);
 			}
 			$sql="INSERT INTO `".logTable."` VALUES(null, null, '".mysql_real_escape_string($text)."')";
-			mysql_query($sql, $this->mySqlIdentifer) or die ("cant insert");			
+			mysql_query($sql, $this->mySqlIdentifer) or die (mysql_error($this->mySqlIdentifer));			
 		}
     }
     /**

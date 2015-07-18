@@ -12,8 +12,8 @@
 	define("swfFolder","swf/");
 	define("mysqlFolder", "mysql/");
 	define("incFolder", "inc/");
-	define("xmlForFlash", xmlFolder."capSettings.xml");
-	define("xmlForUserData", xmlFolder."gameBase.xml");
+	define("xmlForFlash", xmlFolder."cap_settings.xml");
+	define("xmlForUserData", xmlFolder."game_base.xml");
 	define("xmlForPresenters", xmlFolder."presenters.xml");
 	define("xmlGenerator", "xmlGen.php");
 	define("maxBaseSize", 20);
@@ -28,7 +28,7 @@
 	define('encoding','utf8_general_ci');
 	define('tableType', 'MyISAM');
 	define('logging', true);
-	define('logTable', 'logTable');
+	define('logTable', 'log_table');
 	define('maxRows', 25000);
 	$baseTables[xmlForUserData]['description'] = xmlForUserData." - основная таблица для хранения данных пользователей";
 	$baseTables[xmlForUserData]['sql'] = "CREATE TABLE `[*tableName*]` (

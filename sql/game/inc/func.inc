@@ -400,26 +400,26 @@ function ShowSelectCard($userId, $cardType = null)
 //выводит поля для оплаты/получения в зависимости от игрок/ведущий
 function printPaySystem($userInfo, $admin = false)
 {
-	$actionPay = " onMouseDown=\"this.src='img/payDown.gif'\" onMouseUp=\"this.src='img/pay.gif'\" ";
-	$actionIncass = "onMouseDown=\"this.src='img/incassDown.gif'\" onMouseUp=\"this.src='img/incass.gif'\"";
+	//$actionPay = " onMouseDown=\"this.src='img/payDown.gif'\" onMouseUp=\"this.src='img/pay.gif'\" ";
+	//$actionIncass = "onMouseDown=\"this.src='img/incassDown.gif'\" onMouseUp=\"this.src='img/incass.gif'\"";
 	$str = "<table width='100%' border='0'>";
 	$str = $str."<tr>";
 		$str = $str."<td align='left'>Наличные деньги:</td><td align='left'><div id='d_".$userInfo['id']."' height='20' title='Тестовое'>".$userInfo['glob_inc']."</div></td>";
 		$str = $str."<td align='right'><input id='dih_".$userInfo['id']."' type='hidden' value='".$userInfo['glob_inc']."'><input id='di_".$userInfo['id']."' type='text' value='' size='6'></td>";
-		$str = $str."<td align='center'><img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/incass.gif' title='Уменьшить значение' style='float:middle;' onClick=\"setGetPay(this.id, 'd', '-', 'glob_inc');\"".$actionIncass.">";
+		$str = $str."<td align='center'><img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/incass.gif' title='Уменьшить значение' style='float:middle;' onClick=\"setGetPay(this, 'd', '-', 'glob_inc');\"".$actionIncass.">";
 			if ($admin)
 			{
-				$str = $str."<img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/pay.gif' title='Увеличить значение' style='float:middle;' onClick=\"setGetPay(this.id, 'd', '+', 'glob_inc');\"".$actionPay.">";
+				$str = $str."<img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/pay.gif' title='Увеличить значение' style='float:middle;' onClick=\"setGetPay(this, 'd', '+', 'glob_inc');\"".$actionPay.">";
 			}
 		$str = $str."</td>";
 	$str = $str."</tr>";
 	$str = $str."<tr>";
 		$str = $str."<td align='left'>Наличные ресурсы:</td><td align='left'><div id='r_".$userInfo['id']."'>".$userInfo['glob_sour']."</div></td>";
 		$str = $str."<td align='right'><input id='rih_".$userInfo['id']."' type='hidden' value='".$userInfo['glob_sour']."'><input id='ri_".$userInfo['id']."' type='text' value='' size='6'></td>";
-		$str = $str."<td align='center'><img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/incass.gif' title='Уменьшить значение' style='float:middle;' onClick=\"setGetPay(this.id, 'r', '-', 'glob_sour');\"".$actionIncass.">";
+		$str = $str."<td align='center'><img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/incass.gif' title='Уменьшить значение' style='float:middle;' onClick=\"setGetPay(this, 'r', '-', 'glob_sour');\"".$actionIncass.">";
 			if ($admin)
 			{
-				$str = $str."<img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/pay.gif' title='Увеличить значение' style='float:middle;' onClick=\"setGetPay(this.id, 'r', '+', 'glob_sour');\"".$actionPay.">";
+				$str = $str."<img style='cursor:pointer' id='".$userInfo['id']."' height='30' src='img/pay.gif' title='Увеличить значение' style='float:middle;' onClick=\"setGetPay(this, 'r', '+', 'glob_sour');\"".$actionPay.">";
 			}
 		$str = $str."</td>";
 	$str = $str."</tr>";

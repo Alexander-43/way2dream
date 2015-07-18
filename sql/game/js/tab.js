@@ -282,10 +282,19 @@ function update(inp)
 	}
 }
 
-function setGetPay(id, pref, action, attrib)
+function setGetPay(obj, pref, action, attrib)
 {
 	var i = 0;
 	var la = 0;
+	var id = obj.id;
+	var oldSrc = obj.src;
+	if (oldSrc.indexOf("loading1.gif") > -1){
+		return;
+	}
+	obj.src = "img/loading1.gif";
+	window.setTimeout(function (){
+		obj.src = oldSrc;
+	}, 500);
 	formInput = document.getElementById(pref+"i_"+id);
 	formHInput = document.getElementById(pref+"ih_"+id);
 	try{
