@@ -27,7 +27,7 @@
 	define("dataSourceType","mysql");
 	define('encoding','utf8_general_ci');
 	define('tableType', 'MyISAM');
-	define('logging', true);
+	define('logging', false);
 	define('logTable', 'log_table');
 	define('maxRows', 25000);
 	$baseTables[xmlForUserData]['description'] = xmlForUserData." - основная таблица для хранения данных пользователей";

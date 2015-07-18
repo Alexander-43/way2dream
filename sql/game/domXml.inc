@@ -589,7 +589,7 @@
 		public function ModifyElement($elementName, $attribList, $linkToElement = "new")
 		{
 		  $tempId = null;
-		  if ($linkToElement == "new")
+		  if ($linkToElement === "new")
 		  {
 			$tempId = md5(mt_rand());
 			$sql = "INSERT INTO ".$this->tableName."(`tag`, `tempId`) VALUES('".$elementName."', '".$tempId."')";
