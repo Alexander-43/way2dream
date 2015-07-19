@@ -762,7 +762,7 @@ function getInfoAboutShowedCard()
 	if (strlen($result['cardSelected']) == 0)
 	{
 		$result['status'] = "Карточка в процессе выбора.";
-		$result['click']="Нажмите на карточку";
+		$result['click']="Выберите карточку";
 		$result['statusA'] = "Карточка в процессе выбора.";
 	}else
 	{
@@ -833,16 +833,16 @@ function ShowCardForUserSelect($userInfo)
 		}else
 		{
 			$count = fileCountByPrefix(substr($temp['cardforView'], 0, -4)."_");
-			$action = "onClick=\"userRefreshStop(); showField(".$count.", this.name, '".GetRusNameCard($temp['cardforView'])."')\"";
+			$action = getScriptHtml("userRefreshStop(); showField(".$count.", '".substr($temp['cardforView'], 0, -4)."', '".GetRusNameCard($temp['cardforView'])."')");
 		}	
 		print "<table border='0' width='100%'>";
 		if ($action == "") $temp['click'] = $temp['status'];
-        print "<tr>	<td class='selCard' colspan='3'><div id='vote_status' height='30'>".$temp['click']."</div></td></tr>";
+        print "<tr>	<td id='selCard' class='selCard' colspan='3'><div id='vote_status' height='30'>".$temp['click']."</div></td></tr>";
 		print "<tr><td class='card'>";
-		print "<a name='".substr($temp['cardforView'], 0, -4)."_' ".$action.">";
+		//print "<a name='".substr($temp['cardforView'], 0, -4)."_' ".$action.">";
 		if ($action !== "")
 		{
-			print "<img class='card' src='img/card/".$temp['cardforView']."' title='".GetRusNameCard($temp['cardforView'])."' alt='Выберите карточку <".GetRusNameCard($temp['cardforView']).">'>";
+			print $action;
         }
 		print "</a></td></table>";
 		print "</div>";
@@ -869,8 +869,8 @@ function showCubeForSelect($userId)
 	{
 		if (strlen($cubeInfo['result']) == 0)
 		{
-			//$str .= "<p align='left'>Бросьте кубики <button onClick=\"vote('operation.php?randCube=yes&userId=".$userId."','cube');this.style.display='none';\">Бросить</button></p><div id='cube'><img src='img/cube/none.gif'></div>";
-			$str .= "<p align='left'>Бросьте кубики <button onClick=\"cubeChooser('".$userId."', this);\">Бросить</button></p><div id='cube'><img src='img/cube/none.gif'></div>";
+			$script = getScriptHtml("cubeChooser('".$userId."', this);");
+			$str .= "<p align='center'>Бросьте кубики</p>".$script."<div id='cube'></div>";
 		}
 		else
 		{
@@ -1150,6 +1150,15 @@ function calcDatePeriod($begin, $end)
 function getCubeValue($result, $index){
 	$res = explode("_", $result);
 	return strlen($res[$index]) != 0 ? $res[$index] : "";
+}
+
+function getScriptHtml($js){
+	$script = "<script>";
+	$script.="$(document).ready(function (){";
+	$script.=$js;
+	$script.="});";
+	$script.="</script>";
+	return $script;
 }
 
 ?>

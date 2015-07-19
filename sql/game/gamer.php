@@ -152,17 +152,17 @@ img.card
 <span id="closeDialog_cube" onclick="$('#dialog_cube').fadeOut(500);$('#mask').fadeOut(500);$(this).fadeOut(1)">Скрыть [ Х ]</span>
 	<div id="dialog_cube" class="window">
 		<span id="dialog_header_cube">Выберите одну из карточек</span><br><br>
-		<table id="tSource" border="0" style="width: 100%; border-spacing: 0px; display:none;">
+		<table id="tSource" border="0" style="min-width: 390px; border-spacing: 0px; display:none;">
 			<tr>
 				<td width="50%" valign="top">
 					<table width="100%" style="border-right-style: solid;">
-						<caption><b>Значение кубика №1</b></caption>
+						<caption><b>Выбор кубика №1</b></caption>
 						<tr><td id="tSource_td_left" align="center"></td></tr>
 					</table>
 				</td>
 				<td width="50%" valign="top">
 					<table width="100%">
-						<caption><b>Значение кубика №2</b></caption>
+						<caption><b>Выбор кубика №2</b></caption>
 						<tr><td id="tSource_td_right" align="center"></td></tr>
 					</table>
 				</td>
@@ -180,13 +180,13 @@ img.card
 </div>
 <? printBrs(5); ?>
 <table width="100%" height="100%" border="0">
-<tr height='50%'>
+<tr height="300px">
 	<td valign="top">
 	<? ShowRunStopObject($_POST['timer'], $_POST['state']); 
 	   InfoAboutUser($_SESSION);
 	?>
 	</td>
-	<td align="top" width="70%" rowspan="2" style="background: url(img/loading.gif) center no-repeat;">
+	<td align="top" width="68%" rowspan="2" style="background: url(img/loading.gif) center no-repeat;">
 		<object type="application/x-shockwave-flash" data="<? print swfFolder;?>gamer.swf" width="100%" height="100%">
 		<param name="movie" value="<? print swfFolder;?>gamer.swf" />
 		<param name="wmode" value="opaque" />

@@ -393,26 +393,13 @@ function onLoad(divName)
 
 var randCardMapping = {};
 function showDialog(headerText, idSuff){
-	$('#mask').fadeIn(500);
-	$('#mask').fadeTo("slow",0.8);
-	$('#closeDialog'+idSuff).fadeIn(1);
-	$('#dialog_header'+idSuff).html(headerText)
-	var winH = $(window).height();
-	var winW = $(window).width();
-	$('#mask').css('height', winH);
-	winH = winH - 150;
-	var id = "#dialog"+idSuff;
-	$(id).css('top',  winH/2-$(id).height()/2);
-	$(id).css('left', winW/2-$(id).width()/2);
-	$("#closeDialog"+idSuff).css('top',winH/2-$(id).height()/2 - 20);
-	$("#closeDialog"+idSuff).css('left',winW/2-$(id).width()/2 + 450);
+	var id = "#"+idSuff;
 	$(id).fadeIn(1000);
-	$(id).css('position', 'fixed');
 	return id;
 }
 
 function showField(count, name, cardName){
-	var id = showDialog("Выберите одну из карточек", "_card");
+	var id = showDialog("Выберите одну из карточек", "selCard");
 	var w = (100 - cardName.length) / (cardName.length / 1.8);
 	if ($(id).children("div").length == 1){
 		randCardMapping = {};
@@ -429,26 +416,25 @@ function showField(count, name, cardName){
 			e.click(function () {
 				var index = getKeyByValue($(this).children()[0].name, randCardMapping);
 				if (index){
-					vote('operation.php?randcard=On&pref='+name+"&index="+index, 'vote_status');
-					$('#dialog_card').fadeOut(500);
-					$('#closeDialog_card').fadeOut(500);
-					$('#mask').fadeOut(500);
-					$(this).fadeOut(1);
-					$("a[name='"+name+"'").fadeOut(1000);
-					$("a[name='"+name+"'").attr('name', 'null');
+					$.get('operation.php?randcard=On&pref='+name+"&index="+index, function(data){
+						if (data.indexOf("class='card'") > -1){
+							location.reload(true);
+						}
+					});
 				}
 			});
-			e.appendTo("#dialog_card");
+			e.appendTo(id);
 			e.fadeIn(2000);
 		}
 	}
 }
 
 function cubeChooser(userId, obj){
-	showDialog("Выберите один из вариантов", "_cube");
+	var id = showDialog("Выберите один из вариантов", "cube");
 	var count = 6;
 	var w = 30;
 	if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
+		$("#tSource").detach().appendTo(id);
 		$('#tSource_td_left').html('');
 		$('#tSource_td_right').html('');
 		randCardMapping = {};
@@ -466,27 +452,52 @@ function cubeChooser(userId, obj){
 					var index = getKeyByValue($(this).children()[0].name, randCardMapping);
 					var norm = index > count ? index - count : index;
 					var id = this.parentNode.id == 'tSource_td_left' ? 1 : 2;
+					var pId = this.parentNode.id;
 					$(this.parentNode).html("<img id='cube_"+id+"' name='"+norm+"' src='img/cube/"+norm+".gif' style='border-style:solid;border-color:grey'>");
 					var cb1 = $('#cube_1').attr('name');
 					var cb2 = $('#cube_2').attr('name');
-					var rnd = (cb1 ? cb1 : 'NaN')+'_'+(cb2 ? cb2 : 'NaN');
-					$('#cube').html('');
-					vote('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd,'cube');
-					if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
+					var presetCube = id == 2 ? getNumberFromFilename("tSource_td_left"):getNumberFromFilename("tSource_td_right");
+					var rnd = (cb1 ? cb1 : presetCube)+'_'+(cb2 ? cb2 : presetCube);
+					$(id).html('');
+					if (rnd.indexOf('NaN') > -1){
+						vote('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd, pId);
+					} else {
+						$.get('operation.php?randCube=yes&userId='+userId+'&randNum='+rnd, function(data){
+							if (data.indexOf("id='cube'") > -1){
+								location.reload(true);
+							}
+						});
+					}
+					/*if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
 						window.setTimeout(function(){
 							$('#dialog_cube').fadeOut(500);
 							$('#closeDialog_cube').fadeOut(500);
 							$('#mask').fadeOut(500);
 							$(obj.parentNode).html('');
 						}, 2000);
-					}
+					}*/
 				});
 				e.appendTo(j == 1 ? "#tSource_td_left" : "#tSource_td_right");
 				e.css("display", "block");
+				e.css("width", "83px");
 			}
 		}
 		$("#tSource").css("display", "block");
 	}
+}
+
+function getNumberFromFilename(fName){
+	try{
+		fName = $('#'+fName).children('div').children('img')[0].src;
+	} catch (e){
+		fName = null;
+	}
+	if (!fName){
+		return "NaN";
+	}
+	var slashSplit = fName.split("/");
+	var name = slashSplit[slashSplit.length - 1];
+	return name.split(".")[0];
 }
 
 function getKeyByValue(value, a){
