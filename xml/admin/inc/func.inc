@@ -34,7 +34,7 @@
 			}
 			if (checkGame($postData['assignTo']))
 			{
-				$req = sendRequest($postData['assignTo']."/operation.php?operId=updateObject&data=".urlencode(json_encode($temp)), false, "Не удалось сохранить ведущего");
+				$req = sendRequest($postData['assignTo']."/operation.php?operId=updateObject&data=".urlencode(json_encode($temp)), false, "Не удалось сохранить ведущего", "null");
 				if ($req = "OK")
 				{
 					print "<script>showStatusText(message['downStatusId'], message['saveSucc'], 2000, true);</script>";
@@ -128,9 +128,9 @@
 		return get_content($url."/operation.php?operId=testConnection&url=".$url, "asJson");
 	}
 	
-	function sendRequest($url, $returnResult = false, $errorMessage = "")
+	function sendRequest($url, $returnResult = false, $errorMessage = "", $type = "asJson")
 	{
-	  $req = get_content($url, "asJson");
+	  $req = get_content($url, $type);
 	  if ($returnResult && $req)
 	  {
 	    return $req;
