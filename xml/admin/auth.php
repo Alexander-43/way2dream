@@ -4,7 +4,7 @@
 	require(dirname(__FILE__)."/inc/domXml.inc");
 	require(dirname(__FILE__)."/inc/func.inc");
 	require(dirname(__FILE__)."/inc/TIniParse.inc");
-	
+	header("Content-Type: text/html; charset=utf-8");
 	if ($_POST['authType']=='presenter')
 	{
 	  $message = sendRequest($_POST['gameType'].'/operation.php?operId=remoteAuth&userId='.$_POST['loginName'].'&password='.md5($_POST['presPass']), true, "Ошибка авторизации");
