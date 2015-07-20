@@ -72,6 +72,18 @@ header("Content-Type: text/html; charset=utf-8");
 	};
 </script>
 <script type="text/javascript" src="js/tab.js"></script>
+<style>
+	.saveButton {
+		font-size: 18px;
+		width: 120px;
+		height: 40px;
+		color: white;
+		border-radius: 20px 20px 20px 20px;
+		background-image: url(img/button.png);
+		background-position: 0% 20%;
+		cursor: pointer;
+	}
+</style>
 </head>
 <body>
 <form name="editForm" method="POST" action="#" onSubmit="editFormSubmit(this)">
@@ -259,8 +271,8 @@ header("Content-Type: text/html; charset=utf-8");
 		<? print getUserHistory($_POST); ?>
 	</div>
 	<br>
-	<div style="position:fixed;left:800px;bottom:20px;opacity:0.1" onMouseOver="this.style.opacity=1" onMouseOut="this.style.opacity=0.1;zoom:1"> 
-		<center><input name="but" type="submit" value="Сохранить"><!-- br><a href="<? //print $name;?>">Скачать</a> --></center>
+	<div style="position:fixed;left:900px;bottom:20px;"> 
+		<input class="saveButton" name="but" type="submit" value="Сохранить" >
 	</div>
 	<br><br>
 </div>
