@@ -474,8 +474,8 @@
 	  }
 	  //implemented
       public function SearchNode($root = 'implemented', $tag, $name, $value){
-      	$condition = strlen($value) == 0 ? "(".$name."='".$value."' OR ".$name." is null)" : $name."='".$value."'";
-		$sql = "SELECT * FROM ".$this->tableName." WHERE tag='".$tag."' AND ".$condition;
+      	$condition = strlen($value) == 0 ? "(`".$name."`='".$value."' OR `".$name."` is null)" : "`".$name."`='".$value."'";
+		$sql = "SELECT * FROM `".$this->tableName."` WHERE tag='".$tag."' AND ".$condition;
 		$result = $this->makeArrayValues($this->execQuery($sql));
 		if (count($result) > 0){
 			$this->recId = $result[0]['id'];
@@ -507,7 +507,7 @@
 	  //имя искомого атрибута(при удаче содержит значение атрибута), ссылка на узел
 	  //implemented
 	  public function getAttribValue($tag, $name, $value, &$SearchAtr, $root){
-		$sql = "SELECT ".$SearchAtr." FROM ".$this->tableName." WHERE tag='".$tag."' AND ".$name."='".$value."'".($this->recId!=null ?" AND id='".$this->recId."'":"");
+		$sql = "SELECT ".$SearchAtr." FROM `".$this->tableName."` WHERE `tag`='".$tag."' AND `".$name."`='".$value."'".($this->recId!=null ?" AND `id`='".$this->recId."'":"");
 		$result = $this->makeArrayValues($this->execQuery($sql));
 		if (count($result) > 0){
 			$SearchAtr = $result[0][$SearchAtr];
@@ -520,7 +520,7 @@
 	  //implemented
 	  public function AttribFromSNL($name = null, &$Atribs = array ())
 		{
-			$sql = "SELECT * from ".$this->tableName." where id='".$this->recId."'";
+			$sql = "SELECT * from `".$this->tableName."` where `id`='".$this->recId."'";
 			$result = $this->makeArrayValues($this->execQuery($sql));
 			$flag = false;
 			if (count($result) > 0)
@@ -547,7 +547,7 @@
 		//получает все значения выбранного атрибута всех выбранных элементов
 		public function GetNodesAttribsValuesByName ($root = 'implemented' ,$nodeName, $attribName)
 		{
-			$sql = "SELECT ".$attribName." FROM ".$this->tableName." where tag='".$nodeName."'";
+			$sql = "SELECT `".$attribName."` FROM `".$this->tableName."` where `tag`='".$nodeName."'";
 			$result = $this->makeArrayValues($this->execQuery($sql));
 			if (count($result) > 0){
                 foreach ($result as $n=>$v)
@@ -577,11 +577,11 @@
 					}
 				}
 				if (!$flag){
-					$fieldToAdd = strlen($fieldToAdd) == 0 ? $name." varchar(250)" : $fieldToAdd.", ".$name." varchar(250)";
+					$fieldToAdd = strlen($fieldToAdd) == 0 ? "`".$name."` varchar(250)" : $fieldToAdd.", `".$name."` varchar(250)";
 				}
 			}
 			if (strlen($fieldToAdd) != 0){
-				$sql = "ALTER TABLE ".$this->tableName." ADD(".$fieldToAdd.")";
+				$sql = "ALTER TABLE `".$this->tableName."` ADD(".$fieldToAdd.")";
 				return $this->execQuery($sql);
 			}
 		}
@@ -592,12 +592,12 @@
 		  if ($linkToElement === "new")
 		  {
 			$tempId = md5(mt_rand());
-			$sql = "INSERT INTO ".$this->tableName."(`tag`, `tempId`) VALUES('".$elementName."', '".$tempId."')";
+			$sql = "INSERT INTO `".$this->tableName."`(`tag`, `tempId`) VALUES('".$elementName."', '".$tempId."')";
 			$result = $this->execQuery($sql);
 		  }
 		  else if ($attribList['action'] == "del")
 		  {
-			$sql = "DELETE FROM ".$this->tableName." WHERE id='".$this->recId."'";
+			$sql = "DELETE FROM `".$this->tableName."` WHERE id='".$this->recId."'";
 			$result = $this->execQuery($sql);
 			return true;
 		  }
@@ -605,14 +605,14 @@
 		  $data = null;
 		  foreach($attribList as $name => $value)
 		  {
-			$data = strlen($data) != 0 ? $data.", ".$name."='".$value."'" : $name."='".$value."'";
+			$data = strlen($data) != 0 ? $data.", `".$name."`='".$value."'" : "`".$name."`='".$value."'";
 		  }
-		  $sql = "UPDATE ".$this->tableName." SET ".$data;
+		  $sql = "UPDATE `".$this->tableName."` SET ".$data;
 		  if ($data != null){
 			if($tempId != null){
-				$sql = $sql." WHERE tempId='".$tempId."'";
+				$sql = $sql." WHERE `tempId`='".$tempId."'";
 			} else {
-				$sql = $sql." WHERE id='".$this->recId."'";
+				$sql = $sql." WHERE `id`='".$this->recId."'";
 			}
 			$result = $this->execQuery($sql);
 		  }
@@ -627,7 +627,7 @@
         * 
         */
         public function getXmlFromCurrentObject(){
-            $sql = "SELECT * FROM ".$this->tableName();
+            $sql = "SELECT * FROM `".$this->tableName()."`";
             $data = $this->makeArrayValues($this->execQuery($sql));
             $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>";
             foreach($data as $row){
