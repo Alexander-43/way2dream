@@ -767,8 +767,8 @@ function getInfoAboutShowedCard()
 	}else
 	{
 		$title = "Карточка была выбрана игроком: ".$result['FIO'].", который играет фишкой с цветом: \"".$result['capColor']."\".";
-		$result['status'] = "<img class='card' style='cursor:pointer' src='".$result['cardSelected']."' title='".$title."'>";
-		$result['statusA'] = "<img class='card' style='cursor:pointer' src='".$result['cardSelected']."' title='".$title."' onClick=\"vote('operation.php?hideCard=yes&idUser=".$result['userId']."', 'card_".$result['userId']."')\">";
+		$result['status'] = "<img class='card' style='cursor:pointer' src='".$result['cardSelected']."' title='".$title."' onClick=\"vote('operation.php?hideCard=yes&idUser=".$result['userId']."&side=gamer', 'vote_status')\">";
+		$result['statusA'] = "<img class='card' style='cursor:pointer' src='".$result['cardSelected']."' title='".$title."' onClick=\"vote('operation.php?hideCard=yes&idUser=".$result['userId']."&side=admin', 'card_".$result['userId']."')\">";
 	}
 	if ($result['cardSelected'] == $result['cardforView'])
 	{
@@ -810,6 +810,13 @@ function commonUserMoney()
 function ShowCardForUserSelect($userInfo)
 {
 	$temp = getInfoAboutShowedCard();
+	$cap = "";
+	new Parse(dataSourceType, xmlForFlash, $xml, true);
+	$xml->SearchNode($xml->RootNode, "cap", "idUser", $_SESSION['id']);
+	if ($xml->SearchedNodeLink != null)
+	{
+		$xml->AttribFromSNL("", $cap);
+	}
 	if ($temp['isActive']==$userInfo['id'])
 	{
 		print "<script>document.getElementById('hod').innerHTML=\"<img align='middle' width='60' src='img/you_hod.gif?".time()."' width='100%' title='Ваш ход'>\";</script>";
@@ -834,10 +841,11 @@ function ShowCardForUserSelect($userInfo)
 		{
 			$count = fileCountByPrefix(substr($temp['cardforView'], 0, -4)."_");
 			$action = getScriptHtml("userRefreshStop(); showField(".$count.", '".substr($temp['cardforView'], 0, -4)."', '".GetRusNameCard($temp['cardforView'])."')");
-		}	
+		}
+		
 		print "<table border='0' width='100%'>";
 		if ($action == "") $temp['click'] = $temp['status'];
-        print "<tr>	<td id='selCard' class='selCard' colspan='3'><div id='vote_status' height='30'>".$temp['click']."</div></td></tr>";
+        print "<tr>	<td id='selCard' class='selCard' colspan='3'><div id='vote_status' height='30'>".($cap['result']!=="hideCard" ? $temp['click'] : "")."</div></td></tr>";
 		print "<tr><td class='card'>";
 		//print "<a name='".substr($temp['cardforView'], 0, -4)."_' ".$action.">";
 		if ($action !== "")
@@ -845,12 +853,13 @@ function ShowCardForUserSelect($userInfo)
 			print $action;
         }
 		print "</a></td></table>";
+		
 		print "</div>";
-	}else 
+	}else
 	{
 		print "<table border='0' width='100%'>";
 		//print "<th align='center' colspan='3'>Карточка</th>";
-		print "<tr>	<td class='selCard' colspan='3'><div id='vote_status' height='30'>".$temp['status']."</div></td></tr>";
+		print "<tr>	<td class='selCard' colspan='3'><div id='vote_status' height='30'>".($cap['result']!=="hideCard" ? $temp['status'] : "")."</div></td></tr>";
 		print "</table>";
 		print "</div>";
 	}
@@ -980,17 +989,28 @@ function setPayValue($userId, $attribute, $value, $lastAction)
 }
 
 //сброс выбранной карты
-function resetCard($idUser)
+function resetCard($idUser, $side = "gamer")
 {
 	new Parse(dataSourceType, xmlForFlash, $xml, true);
-	$xml->SearchNode($xml->RootNode, "card", "userId", $idUser);
-	if ($xml->SearchedNodeLink != null)
-	{
-		$xml->setAttribute($xml->SearchedNodeLink, Array("cardforView"=>"", "cardSelected"=>"", "userId"=>""));
-		$xml->SaveInFile($xml->Nfile);
+	if ($side == "admin"){
+		$xml->SearchNode($xml->RootNode, "card", "userId", $idUser);
+		if ($xml->SearchedNodeLink != null)
+		{
+			$xml->setAttribute($xml->SearchedNodeLink, Array("cardforView"=>"", "cardSelected"=>"", "userId"=>""));
+			$xml->SaveInFile($xml->Nfile);
+		}
+		$xml->execQuery("UPDATE `".$xml->tableName()."` SET `result`=NULL WHERE `tag`='cap'");
+		print "Карточка скрыта";
+	} else {
+		$xml->SearchNode($xml->RootNode, "cap", "idUser", $_SESSION['id']);
+		if ($xml->SearchedNodeLink != null)
+		{
+			$xml->setAttribute($xml->SearchedNodeLink, Array("result"=>"hideCard"));
+			$xml->SaveInFile($xml->Nfile);
+		}
+		print "Карточка скрыта";
 	}
 	$xml->Destroy();
-	print "Карточка скрыта";
 }
 
 //вывод истории игры

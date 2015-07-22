@@ -51,7 +51,7 @@ header("Content-Type: text/html; charset=utf-8");
 	//сброс карточки
 	if ($_GET['hideCard'] == "yes")
 	{
-		resetCard($_GET['idUser']);
+		resetCard($_GET['idUser'], $_GET['side']);
 	}
 	//рандомить кубик
 	if ($_GET['randCube'] == "yes")
@@ -103,6 +103,7 @@ header("Content-Type: text/html; charset=utf-8");
 	  $_SESSION['presenterCode'] = $_GET['password'];
 	  $_SESSION['presenterUnic'] = $_GET['userId'];
 	  $_SESSION = array_merge($_SESSION, saveAndLoadPresenterInfo());
+	  $_SESSION['id'] = "";
 	  print "<script>document.location.replace('presenter.php');</script>";
 	}
 	if ($_GET['operId'] == 'sendMail')
