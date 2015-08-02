@@ -28,7 +28,11 @@ class HtmlObject {
 	}
 	
 	public function getStyle($index){
-		return StylePropFormatter::get($this->objects[$index]->style);
+		if (is_int($index)){
+			return StylePropFormatter::get($this->objects[$index]->style);
+		} else {
+			return StylePropFormatter::get($index);
+		}
 	}
 	
 	public function setSelector ($selector){
@@ -41,14 +45,29 @@ class HtmlObject {
 }
 
 class StylePropFormatter {
+	
+	const DIMENSIONS = 'px|%';
+	
 	public static function get($value){
-		$props = split(';', $value);
-		$result = array();
+		$props = explode(';', $value);
+		$result = array('dimensions'=>array());
 		foreach ($props as $v){
-			$sp = split(':', $v);
-			$result[$sp[0]] = $sp[1];
+			$sp = explode(':', $v);
+			$result[$sp[0]] = StylePropFormatter::extractValue($sp[0], $sp[1], $result);
 		}
 		return $result;
+	}
+	
+	public static function extractValue($key, $value, &$retrying){
+		foreach (explode("|", StylePropFormatter::DIMENSIONS) as $dim){
+			if (strpos($value, $dim) !== false){
+				$retrying['dimensions'][$key] = $dim;
+				$spacesRemoved = str_replace(" ", "", $value);
+				$dimRemoved = str_replace($dim, "", $spacesRemoved);
+				return $dimRemoved;
+			}
+		}
+		return $value;
 	}
 }
 
