@@ -114,4 +114,11 @@ header("Content-Type: text/html; charset=utf-8");
 		printForRemote(removeUser($_GET['id']));
 	}
 	
+	if ($_POST['operId'] == 'getAttribs'){
+		printForRemote(getAttribs($_POST['attribs'], $_POST['id']));
+	}
+	if ($_GET['operId'] == 'getUserInfo'){
+		printForRemote(json_encode(getUserInfo($_GET['id'])));
+	}
+	
 ?>

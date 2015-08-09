@@ -144,6 +144,7 @@ img.card
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
+	<script type="text/javascript" src="js/ddslick.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>

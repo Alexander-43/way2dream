@@ -295,33 +295,34 @@ function setGetPay(obj, pref, action, attrib)
 	window.setTimeout(function (){
 		obj.src = oldSrc;
 	}, 500);
-	formInput = document.getElementById(pref+"i_"+id);
-	formHInput = document.getElementById(pref+"ih_"+id);
-	try{
-		formInput.value == "" ? formInput.value = "0" : i++;
-		formHInput.value == "" ? formHInput.value = "0" : i++;
- 		formInput.value = parseFloat(formInput.value);
-		formHInput.value = parseFloat(formHInput.value);
-	} catch (e)
-	{
-		alert ("Одно из значений операции ("+formInput.value+" или "+formHInput.value+")\r не является допустимым числом");
-		return false;
-	}
-	divOut = document.getElementById(pref+"_"+id);
-	setVal = eval(formHInput.value+action+formInput.value);
-	if (action == "+"){
-		action = " увеличен на ";
-	} else {
-		action = " уменьшен на ";
-	}
-	if (attrib == 'glob_sour'){
-		la = "Последнее действие : Ресурс"+action+formInput.value;
-	}else
-	{
-		la = "Последнее действие : Доход"+action+formInput.value;
-	}
-	vote('operation.php?doPay=do&value='+setVal+'&atribute='+attrib+'&userId='+id+'&lastAction='+la, divOut.id);
-	formHInput.value = setVal;
+	$.post('operation.php', {'attribs':[attrib], 'id':id, 'operId':'getAttribs'}, function(data){
+		formInput = document.getElementById(pref+"i_"+id);
+		formHInput = data[attrib];
+		try{
+			formInput.value == "" ? formInput.value = "0" : i++;
+			!formHInput ? formHInput = "0" : i++;
+	 		formInput.value = parseFloat(formInput.value);
+			formHInput = parseFloat(formHInput);
+		} catch (e)
+		{
+			alert ("Одно из значений операции ("+formInput.value+" или "+formHInput+")\r не является допустимым числом");
+			return false;
+		}
+		divOut = document.getElementById(pref+"_"+id);
+		setVal = eval(formHInput+action+formInput.value);
+		if (action == "+"){
+			action = " увеличен на ";
+		} else {
+			action = " уменьшен на ";
+		}
+		if (attrib == 'glob_sour'){
+			la = "Последнее действие : Ресурс"+action+formInput.value;
+		}else
+		{
+			la = "Последнее действие : Доход"+action+formInput.value;
+		}
+		vote('operation.php?doPay=do&value='+setVal+'&atribute='+attrib+'&userId='+id+'&lastAction='+la, divOut.id);
+	});
 }
 
 var dblClick_showPrompt = function(object){
@@ -526,6 +527,21 @@ function removeUser(url, fio){
 			}
 		})
 	}
+}
+
+function createUserSelector(id, defaultItem){
+	$(id).ddslick({
+		width:'100%',
+		imagePosition:'right',
+		defaultSelectedIndex:defaultItem,
+		selectText:"Хрень",
+	    onSelected: function(selectedData){
+	        if (selectedData.selectedIndex != null && defaultItem != selectedData.selectedIndex){
+	        	window.location.href = "gamer.php?id="+selectedData.selectedData.value;
+	        }
+	    	
+	    }
+	});
 }
 
 try {

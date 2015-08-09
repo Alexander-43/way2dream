@@ -30,7 +30,7 @@ class PDF {
 		$this->pdfFile->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 		$this->pdfFile->AddPage();
 		$this->pdfFile->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'solid', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
-		$this->pdfFile->Image("../img/card.jpg", 0, 0, 280, 447, '', '', '', false, 300, '', false, false, 0);
+		$this->pdfFile->Image("../img/card.jpg", 5, 8, /*280*/0, /*447*/0, '', '', '', false, 300, '', false, false, 0);
 		foreach ($this->getHtmlObjects() as $selector=>$objects){
 			foreach ($objects->getObjects("") as $object){
 				$objType = $object->tag;
