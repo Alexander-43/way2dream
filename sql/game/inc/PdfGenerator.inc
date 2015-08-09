@@ -19,7 +19,7 @@ class PDF {
 	}
 	
 	public function getPdf(){
-		$this->setPdfFile(new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, "A1", true, 'UTF-8', false));
+		$this->setPdfFile(new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, "custom", true, 'UTF-8', false));
 		$this->pdfFile->SetCreator(PDF_CREATOR);
 		$this->pdfFile->SetAuthor('Nicola Asuni');
 		$this->pdfFile->SetTitle('TCPDF Example 014');
@@ -28,6 +28,8 @@ class PDF {
 		$this->pdfFile->setFontSubsetting(false);
 		$this->pdfFile->SetFont('helvetica', '', 10, '', false);
 		$this->pdfFile->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$this->pdfFile->setPrintHeader(false);
+		$this->pdfFile->setPrintFooter(false);
 		$this->pdfFile->AddPage();
 		$this->pdfFile->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'solid', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
 		$this->pdfFile->Image("../img/card.jpg", 5, 8, /*280*/0, /*447*/0, '', '', '', false, 300, '', false, false, 0);
@@ -54,7 +56,7 @@ class PDF {
 		$name = $element->attr['name'];
 		$this->pdfFile->SetX($this->pdfFile->pixelsToUnits($style['left']), true);
 		$this->pdfFile->SetY($this->pdfFile->pixelsToUnits($style['top']), false, true);
-		$this->pdfFile->TextField($name, $this->pdfFile->pixelsToUnits($w ? $w : 100), $this->pdfFile->pixelsToUnits($h ? $h : 20), array('value'=>$element->attr['name']));
+		$this->pdfFile->TextField($name, $this->pdfFile->pixelsToUnits($w ? $w : 100), $this->pdfFile->pixelsToUnits($h ? $h : 20), array('value'=>$element->attr['name'], 'multiline'=>false));
 	}
 	
 	public function checkbox($element){
