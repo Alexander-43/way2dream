@@ -52,7 +52,7 @@ class StylePropFormatter {
 		$props = explode(';', $value);
 		$result = array('dimensions'=>array());
 		foreach ($props as $v){
-			$sp = explode(':', $v);
+			$sp = explode(':', str_replace(" ", "", $v));
 			$result[$sp[0]] = StylePropFormatter::extractValue($sp[0], $sp[1], $result);
 		}
 		return $result;

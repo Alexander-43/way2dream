@@ -955,12 +955,12 @@ function getUserHistory($userInfo) {
 		
 		++ $i;
 	}
-	$str = "<input type='hidden' value='" . $i . "'><TABLE bgcolor='#FFFFFF' border='1' bordercolorlight='#C0C0C0' bordercolordark='#808080' cellspacing='0'>";
-	$str .= "<TR valign='top'>";
-	$str .= "<TD width='148' bgcolor='#C0C0C0'><div class='wpmd'><div align=center>Время</div></div></TD>";
-	$str .= "<TD width=162 bgcolor='#C0C0C0'><div class='wpmd'><div align=center>Что произошло</div></div></TD>";
-	$str .= "<TD width=219 bgcolor='#C0C0C0'><div class='wpmd'><div align=center>Состояние</div></div></TD>";
-	$str .= "<TD width=160 bgcolor='#C0C0C0'><div class='wpmd'><div align=center>Выводы</div></div></TD></TR>";
+	$str = '<input type="hidden" value="' . $i . '"><table bgcolor="#FFFFFF" border="1" bordercolorlight="#C0C0C0" bordercolordark="#808080" cellspacing="0">';
+	$str .= '<tr valign="top">';
+	$str .= '<td width="135px" bgcolor="#C0C0C0" align="center">Время</td>';
+	$str .= '<td width="162px" bgcolor="#C0C0C0" align="center">Что произошло</td>';
+	$str .= '<td width="219px" bgcolor="#C0C0C0" align="center">Состояние</td>';
+	$str .= '<td width="160px" bgcolor="#C0C0C0" align="center">Выводы</td></tr>';
 	$common = $i;
 	$i = 0;
 	while ( $i <= $common ) {
@@ -979,19 +979,19 @@ function getUserHistory($userInfo) {
 					$userInfo ['h_solve_' . $i] 
 			);
 		}
-		$str .= "<TR>";
-		$str .= "<TD width='148' bgcolor='#C0C0C0'>";
-		$str .= "<input name='h_time_" . ($i) . "' type='text' value='" . $values [0] . "' onChange='addChagedElement(this.name)' OnFocus='setDate(this)'></TD>";
-		$str .= "<TD width='162' bgcolor='#C0C0C0'>";
-		$str .= "<input name='h_happend_" . ($i) . "' type='text' value='" . $values [1] . "' onChange='addChagedElement(this.name)'></TD>";
-		$str .= "<TD width='219' bgcolor='#C0C0C0'>";
-		$str .= "<input style='width:219' name='h_state_" . ($i) . "' type='text' value='" . $values [2] . "' onChange='addChagedElement(this.name)'></TD>";
-		$str .= "<TD width='160' bgcolor='#C0C0C0'>";
-		$str .= "<input name='h_solve_" . ($i) . "' type='text' value='" . $values [3] . "' onChange='addChagedElement(this.name)'></TD>";
-		$str .= "</TR>";
+		$str .= '<tr>';
+		$str .= '<td bgcolor="#C0C0C0">';
+		$str .= '<input style="width:135px" size="27" name="h_time_' . ($i) . '" type="text" value="' . $values [0] . '" onChange="addChagedElement(this.name)" OnFocus="setDate(this)"></td>';
+		$str .= '<td bgcolor="#C0C0C0">';
+		$str .= '<input style="width:220px" size="32" name="h_happend_' . ($i) . '" type="text" value="' . $values [1] . '" onChange="addChagedElement(this.name)"></td>';
+		$str .= '<td bgcolor="#C0C0C0">';
+		$str .= '<input style="width:220px" size="44" name="h_state_' . ($i) . '" type="text" value="' . $values [2] . '" onChange="addChagedElement(this.name)"></td>';
+		$str .= '<td bgcolor="#C0C0C0">';
+		$str .= '<input style="width:220px" size="32" name="h_solve_' . ($i) . '" type="text" value="' . $values [3] . '" onChange="addChagedElement(this.name)"></td>';
+		$str .= '</tr>';
 		++ $i;
 	}
-	$str .= "</TABLE>";
+	$str .= "</table>";
 	return $str;
 }
 function checkPresenterActive($data) {

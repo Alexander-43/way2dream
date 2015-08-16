@@ -24,7 +24,7 @@ header("Content-Type: text/html; charset=utf-8");
 		header("Location: ".$_SERVER['REQUEST_URI']);
 	}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 transitional//EN">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -83,200 +83,266 @@ header("Content-Type: text/html; charset=utf-8");
 		background-position: 0% 20%;
 		cursor: pointer;
 	}
+	.targetsTable td {
+		height : 32px;
+		color: #003300;
+	}
+	.w202 {
+		width:202pxpx;
+	}
 </style>
 </head>
 <body>
 <form name="editForm" method="POST" action="#" onSubmit="editFormSubmit(this)">
-<input name="sourceIncomeA" type="text" value="<? print $_POST['sourceIncomeA']?>" style="position:absolute;width:270px;left:492px;top:1270px;z-index:71" onChange="addChagedElement(this.name)">
+<!-- <input name="sourceIncomeA" type="text" value="<? print $_POST['sourceIncomeA']?>" style="position:absolute;width:270px;left:492px;top:1270px;z-index:71" onChange="addChagedElement(this.name)">
 <input name="sourceIncomeB" type="text" value="<? print $_POST['sourceIncomeB']?>" style="position:absolute;width:271px;left:492px;top:1299px;z-index:72" onChange="addChagedElement(this.name)">
-<input name="sourceIncomeC" type="text" value="<? print $_POST['sourceIncomeC']?>" style="position:absolute;width:272px;left:492px;top:1328px;z-index:73" onChange="addChagedElement(this.name)">
+<input name="sourceIncomeC" type="text" value="<? print $_POST['sourceIncomeC']?>" style="position:absolute;width:272px;left:492px;top:1328px;z-index:73" onChange="addChagedElement(this.name)"> -->
 <? require(incFolder.'card.inc'); ?>
-<input name="winnerPlan1" type="text" value="<? print $_POST['winnerPlan1']?>" style="position:absolute;width:679px;left:80px;top:1705px;z-index:76" onChange="addChagedElement(this.name)">
-<input name="winnerPlan2" type="text" value="<? print $_POST['winnerPlan2']?>" style="position:absolute;width:679px;left:80px;top:1735px;z-index:77" onChange="addChagedElement(this.name)">
-<input name="winnerPlan3" type="text" value="<? print $_POST['winnerPlan3']?>" style="position:absolute;width:679px;left:80px;top:1768px;z-index:78" onChange="addChagedElement(this.name)">
-<input name="winnerPlan4" type="text" value="<? print $_POST['winnerPlan4']?>" style="position:absolute;width:679px;left:80px;top:1802px;z-index:79" onChange="addChagedElement(this.name)">
-<input name="winnerPlan5" type="text" value="<? print $_POST['winnerPlan5']?>" style="position:absolute;width:679px;left:80px;top:1836px;z-index:80" onChange="addChagedElement(this.name)">
-<input name="winnerPlan6" type="text" value="<? print $_POST['winnerPlan6']?>" style="position:absolute;width:679px;left:80px;top:1870px;z-index:81" onChange="addChagedElement(this.name)">
-<input name="winnerPlan7" type="text" value="<? print $_POST['winnerPlan7']?>" style="position:absolute;width:679px;left:80px;top:1904px;z-index:82" onChange="addChagedElement(this.name)">
-<input name="winnerPlan8" type="text" value="<? print $_POST['winnerPlan8']?>" style="position:absolute;width:679px;left:80px;top:1938px;z-index:83" onChange="addChagedElement(this.name)">
-<input name="dreamSymbol" type="text" value="<? print $_POST['dreamSymbol']?>" style="position:absolute;width:596px;left:162px;top:1975px;z-index:85" onChange="addChagedElement(this.name)">
 <input name="editedField" type="hidden" value="">
 <input name="id" type="hidden" value="<?print $_POST['id']?>">
 
-<div id="text1" style="position:absolute; overflow:hidden; left:27px; top:1229px; width:460px; height:132px; z-index:70">
+<div id="text1" style="position:absolute; overflow:hidden; left:27px; top:1229px; width:860px; height:132px; z-index:70">
 <div class="wpmd">
 <div><B><U>Источники доходов в настоящем и будущем:</U></B></div>
-<BR>
-<OL type=A>
-<li value=1>(работа по специальности, свое дело)&nbsp; или идея бизнес проекта1</li>
-</OL>
-<OL type=A>
-<li value=2>(предпринимательство, сетевой бизнес)&nbsp; или идея бизнес проекта2</li>
-</OL>
-<OL type=A>
-<li value=3>(инвестирование, недвижимость)&nbsp; или идея бизнес проекта3</li>
-</OL>
+<br>
+<table border='0' width="770px" style="font-size: 13px;">
+	<tr>
+		<td width="470px">
+			A. (работа по специальности, свое дело)&nbsp; или идея бизнес проекта1
+		</td>
+		<td>
+			<input size="40" name="sourceIncomeA" type="text" value="<? print $_POST['sourceIncomeA']?>" style="width:270px;z-index:71" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			B. (предпринимательство, сетевой бизнес)&nbsp; или идея бизнес проекта2
+		</td>
+		<td>
+			<input size="40" name="sourceIncomeB" type="text" value="<? print $_POST['sourceIncomeB']?>" style="width:270px;z-index:72" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			C. (инвестирование, недвижимость)&nbsp; или идея бизнес проекта3
+		</td>
+		<td>
+			<input size="40" name="sourceIncomeC" type="text" value="<? print $_POST['sourceIncomeC']?>" style="width:270px;z-index:73" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+</table>
 </div></div>
 
 <div id="table1" style="position:absolute; overflow:none; left:46px; top:1359px; width:719px; height:192px; z-index:74">
 	<div class="wpmd">
 		<div>
-			<TABLE bgcolor="#FFFFFF" border=1 bordercolorlight="#C0C0C0" bordercolordark="#808080" cellspacing=0>
-				<TR valign=top>
-					<TD width=114 height=17 valign=middle>
-						<div class="wpmd">
-							<div align=center>Цель</div>
-						</div>
-					</TD>
-					<TD width=202 height=17 valign=middle>
-						<div class="wpmd">
-							<div align=center>Образ результата, Сроки, стоимость</div>
-						</div>
-					</TD>
-					<TD width=195 height=17 valign=middle>
-						<div class="wpmd">
-							<div align=center>Эмоция достижения</div>
-						</div>
-					</TD>
-					<TD width=184 height=17 valign=middle>
-						<div class="wpmd">
-							<div align=center>Первые шаги, этапы достижения</div>
-						</div>
-					</TD>
-				</TR>
-				<TR valign=top>
-					<TD width=114>
+			<table class="targetsTable" bgcolor="#FFFFFF" border="1" bordercolorlight="#C0C0C0" bordercolordark="#808080" cellspacing="0">
+				<tr valign="top">
+					<td width="130px" valign="middle" align="center" height="35px">
+						<div>Цель</div>
+					</td>
+					<td width="202px" valign="middle" align="center">
+						<div>Образ результата, Сроки, стоимость</div>
+					</td>
+					<td width="202px" valign="middle" align="center">
+						<div>Эмоция достижения</div>
+					</td>
+					<td width="202px" valign="middle" align="center">
+						<div>Первые шаги, этапы достижения</div>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="130px" style="height:35px">
 						<textarea name="a1" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['a1']?></textarea>
-					</TD>
-					<TD width=202>
-						<textarea name="b1" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b1']?></textarea>
-					</TD>
-					<TD width=195>
-						<textarea name="c1" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c1']?></textarea>
-					</TD>
-					<TD width=184>
-						<textarea name="d1" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d1']?></textarea>
-					</TD>
-				</TR>
-				<TR valign=top>
-					<TD width=114>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="b1" style="border:0;width:202px;" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b1']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="c1" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c1']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="d1" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d1']?></textarea>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="130px" style="height:35px">
 						<textarea name="a2" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['a2']?></textarea>
-					</TD>
-					<TD width=202>
-						<textarea name="b2" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b2']?></textarea>
-					</TD>
-					<TD width=195>
-						<textarea name="c2" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c2']?></textarea>
-					</TD>
-					<TD width=184>
-						<textarea name="d2" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d2']?></textarea>
-					</TD>
-				</TR>
-				<TR valign=top>
-					<TD width=114>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="b2" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b2']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="c2" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c2']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="d2" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d2']?></textarea>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="130px" style="height:35px">
 						<textarea name="a3" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['a3']?></textarea>
-					</TD>
-					<TD width=202>
-						<textarea name="b3" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b3']?></textarea>
-					</TD>
-					<TD width=195>
-						<textarea name="c3" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c3']?></textarea>
-					</TD>
-					<TD width=184>
-						<textarea name="d3" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d3']?></textarea>
-					</TD>
-				</TR>
-				<TR valign=top>
-					<TD width=114>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="b3" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b3']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="c3" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c3']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="d3" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d3']?></textarea>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="130px" style="height:35px">
 						<textarea name="a4" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['a4']?></textarea>
-					</TD>
-					<TD width=202>
-						<textarea name="b4" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b4']?></textarea>
-					</TD>
-					<TD width=195>
-						<textarea name="c4" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c4']?></textarea>
-					</TD>
-					<TD width=184>
-						<textarea name="d4" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d4']?></textarea>
-					</TD>
-				</TR>
-				<TR valign=top>
-					<TD width=114>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="b4" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b4']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="c4" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c4']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="d4" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d4']?></textarea>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="130px" style="height:35px">
 						<textarea name="a5" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['a5']?></textarea>
-					</TD>
-					<TD width=202>
-						<textarea name="b5" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b5']?></textarea>
-					</TD>
-					<TD width=195>
-						<textarea name="c5" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c5']?></textarea>
-					</TD>
-					<TD width=184>
-						<textarea name="d5" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d5']?></textarea>
-					</TD>
-				</TR>
-				<TR valign=top>
-					<TD width=114>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="b5" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b5']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="c5" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c5']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="d5" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d5']?></textarea>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="130px" style="height:35px">
 						<textarea name="a6" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['a6']?></textarea>
-					</TD>
-					<TD width=202>
-						<textarea name="b6" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b6']?></textarea>
-					</TD>
-					<TD width=195>
-						<textarea name="c6" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c6']?></textarea>
-					</TD>
-					<TD width=184>
-						<textarea name="d6" style="border:0" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d6']?></textarea>
-					</TD>
-				</TR>
-			</TABLE>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="b6" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['b6']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="c6" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['c6']?></textarea>
+					</td>
+					<td width="202px">
+						<textarea cols="39" name="d6" style="border:0;width:202px" onKeyUp="addChagedElement(new String(this.name))"><? print $_POST['d6']?></textarea>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </div>
 
-<div id="text2" style="position:absolute; overflow:hidden; left:46px; top:1690px; width:715px; height:294px; z-index:75"><div class="wpmd">
-<div align=center><font class="ws16"><B><U>Мой план победы!</U></B></font></div>
-<div align=justify><font class="ws16"><B>1.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>2.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>3.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>4.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>5.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>6.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>7.</B></font></div>
-<div align=justify><font class="ws6"><B><BR></B></font></div>
-<div align=justify><font class="ws16"><B>8.</B></font></div>
+<div id="text2" style="position:absolute; overflow:hidden; left:46px; top:1650px; width:715px; height:294px; z-index:75"><div class="wpmd">
+<div align="center"><font class="ws16"><B><U>Мой план победы!</U></B></font></div>
+<br>
+<table>
+	<tr>
+		<td width="30px" height="25px">
+			1.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan1" type="text" value="<? print $_POST['winnerPlan1']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			2.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan2" type="text" value="<? print $_POST['winnerPlan2']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			3.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan3" type="text" value="<? print $_POST['winnerPlan3']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			4.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan4" type="text" value="<? print $_POST['winnerPlan4']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			5.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan5" type="text" value="<? print $_POST['winnerPlan5']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			6.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan6" type="text" value="<? print $_POST['winnerPlan6']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			7.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan7" type="text" value="<? print $_POST['winnerPlan7']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+	<tr>
+		<td height="25px">
+			8.
+		</td>
+		<td>
+			<input size="140" name="winnerPlan8" type="text" value="<? print $_POST['winnerPlan8']?>" style="width:679px;z-index:76" onChange="addChagedElement(this.name)">
+		</td>
+	</tr>
+</table>
 </div></div>
 <style type="text/css">
 .wpmd {font-size: 13px;font-family: 'Arial';font-style: normal;font-weight: normal;}
 </style>
-<div id="text3" style="position:absolute; overflow:hidden; left:45px; top:1975px; width:128px; height:28px; z-index:84">
+<div id="text3" style="position:absolute; overflow:hidden; left:45px; top:1900px; width:828px; height:28px; z-index:84">
 	<div class="wpmd">
-		<div><font class="ws12">Символ мечты:</font></div>
+		<div><font class="ws12">Символ мечты:</font>
+		<input size="135" name="dreamSymbol" type="text" value="<? print $_POST['dreamSymbol']?>" style="width:616px;z-index:85" onChange="addChagedElement(this.name)"></div>
 	</div>
 </div>
 
-<div id="text4" style="position:absolute; overflow:hidden; left:46px; top:2010px; width:85px; height:27px; z-index:86">
+<div id="text4" style="position:absolute; overflow:hidden; left:46px; top:1930px; width:85px; height:27px; z-index:86">
 	<div class="wpmd">
 		<div><font class="ws12">Ход игры:</font></div>
 	</div>
 </div>
 
-<div id="table2" style="position:absolute; left:43px; top:2030px; width:722px; height:41px; z-index:87">
+<div id="table2" style="position:absolute; left:43px; top:1960px; width:722px; height:41px; z-index:87">
 	<div id="history" class="wpmd">
 		<? print getUserHistory($_POST); ?>
-	</div>
-	<br>
-	<div style="position:fixed;left:900px;bottom:20px;"> 
-		<input class="saveButton" name="but" type="submit" value="Сохранить" >
 	</div>
 	<br><br>
 </div>
 <input type="hidden" id="currentScroll" name="currentScroll" value="0">
+<div style="position:fixed;left:900px;top:20px;"> 
+	<button name="but" type="submit" title="Сохранить">	
+		<img src="img/save.png" style="cursor:pointer">
+	</button>
+</div>
+<div style="position:fixed;left:960px;top:20px;">
+	<button name="pdf" type="button" title="Скачать как PDF"> 
+		<img src="img/pdf.png" style="cursor:pointer" title="Скачать как PDF">
+	</button>
+</div>
 </form>
 </body>
 </html>
