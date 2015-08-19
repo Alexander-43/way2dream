@@ -1,6 +1,7 @@
 <?php 
 
 class PDF {
+
 	private $varsValues;
 	private $html;
 	private $htmlObjects;

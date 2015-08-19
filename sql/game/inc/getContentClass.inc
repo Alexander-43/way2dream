@@ -124,13 +124,13 @@
 			if (!$this->isCurl()) return false;
 			$ch = curl_init();
 			if (strtolower($this->parameters['method']) == 'post'){
-				curl_setopt($curl, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POST, true);
 				if (count($this->parameters['args'])>0){
 					$args = "";
 					foreach ($this->parameters['args'] as $name=>$value){
 						$args.=$args == "" ? $name."=".$value : $args."&".$name."=".$value;
 					}
-					curl_setopt($curl, CURLOPT_POSTFIELDS, $args);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
 				}
 			}
 			curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -175,7 +175,19 @@
 		 */
 		public $type = false;
 		public function __construct($conf = array(), $type = false){
-			$this->config = $conf;
+			if ($conf != null){
+				$this->config = $conf;
+			} else {
+				$this->config = json_decode('{
+											"0":{"name":"simpleContentReturner", "parameters":[]},
+											"1":{"name":"curlContentReturner", "parameters":[]},
+											"2":{"name":"proxyContentReturner", "parameters":{
+																								"vars":["{*url*}"], 
+																								"vals":["url"], 
+																								"tmpl":"http://anonymouse.org/cgi-bin/anon-www.cgi/{*url*}"}
+																							}
+										}',true);
+			}
 			$this->type = $type;
 		}
 		
