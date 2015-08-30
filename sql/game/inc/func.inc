@@ -177,12 +177,28 @@ function InfoAboutUser($arrayOfInfo) {
 	print "<table width='100%' border='1' style='border:solid; border-color:black; border-collapse: collapse;'>";
 	print "<tr align='center' style='border:solid;'><td style='border:solid; padding:5px;'><font size='-1'>Активный доход<br>(зеленый круг)</font></td><td style='padding:5px;'><font size='-1'>Пассивный доход<br>(все круги)</font></td></tr>";
 	print "<tr align='center' style='border:solid;'><td style='border:solid; padding:10px;'>" . $allInfo ['activeIncomeGreenCircle'] . "</td><td style='padding:10px;'>" . $allInfo ['passIncomeAllCircle'] . "</td></tr>";
-	print "<tr style='border:solid;'><td align='center' colspan='2'><font size='+2'>общий Ресурс: " . $allInfo ['commonR'] . "</font></td></tr>";
+	print "<tr style='border:solid;'><td align='center' colspan='2' style='padding:10 10 10 10'>" . "<font size='+1'>общий Ресурс: " . $allInfo ['commonR'] . "</font></td></tr>";
 	print "</table>";
 	print "</td></tr>";
 	print "<tr><td colspan='2' style='border-style:none'>" . printPaySystem ( $allInfo, false ) . "</td></tr>";
 	print "</table>";
 }
+
+function getPlusPayButton($value, $info, $attribute, $p, $o){
+	$title = '';
+	if ($o == '+'){
+		$title = 'Добавить к наличным';
+	} else if ($o == '-'){
+		$title = 'Вычесть из наличных';
+	}
+	if ($value != null && $value > 0){
+		$action = 'setGetPay(this, "'.$p.'", "'.$o.'", "'.$attribute.'", "'.$value.'");';
+		return "<img id='".$info['id']."' onclick='".$action."' src='img/pay.gif' align='left' height='20px' style='vertical-align:center;cursor:pointer' title='".$title."'>";
+	} else {
+		return "";
+	}
+}
+
 
 function userSelectorRender($id){
 	global $capColorReferences;
@@ -229,7 +245,6 @@ function ShowFileInDir($DIR) {
 	}
 	print "</table>";
 }
-
 // удаляет пользователя и очищает кубик, ход и карточку
 function removeUser($id) {
 	$message = "";
@@ -338,14 +353,12 @@ function StartNewGame() {
 	$xmlBase->Destroy ();
 	// ArchXmlBase(xmlForUserData, maxBaseSize, folderBaseArchive);
 }
-
 // создает файл $fname с содержимым $body
 function CreateFile($fname, $body = "") {
 	$f = fopen ( $file, "w" );
 	fputs ( $f, $body );
 	fclose ( $f );
 }
-
 // проверяет размер бызы и перемещает в архив при достижении критического размера
 function ArchXmlBase($file, $maxSize, $ArhFolder) {
 	if (file_exists ( $file ) && round ( filesize ( $file ) / 1024, 2 ) > $maxSize) {
@@ -367,7 +380,6 @@ function ArchXmlBase($file, $maxSize, $ArhFolder) {
 	}
 	PrintErorrs ( $Except );
 }
-
 // Функция получения значений всех данных пользователей
 function getAllInfoAboutUsers() {
 	new Parse ( dataSourceType, xmlForFlash, $xml );
@@ -401,7 +413,6 @@ function ShowSelectCard($userId, $cardType = null) {
 	$select .= "</select>";
 	return $select;
 }
-
 // выводит поля для оплаты/получения в зависимости от игрок/ведущий
 function printPaySystem($userInfo, $admin = false) {
 	// $actionPay = " onMouseDown=\"this.src='img/payDown.gif'\" onMouseUp=\"this.src='img/pay.gif'\" ";
@@ -431,7 +442,6 @@ function printPaySystem($userInfo, $admin = false) {
 	$str = $str . "</table>";
 	return $str;
 }
-
 // выводит чекбокс чей ход
 function printCheckBox($userId, $pic, $checked) {
 	$str = "<tr><td valign='center' colspan='2' width='70%'>";
@@ -440,7 +450,6 @@ function printCheckBox($userId, $pic, $checked) {
 	$str = $str . "<div id='empty_hod' style='position:absolute; visibility:hidden;'></div></td></tr>";
 	print $str;
 }
-
 // выводит чекбокс "Кубик"
 function printCheckBoxCube($userId, $pic, $checked, $result = "", $res = "") {
 	$result = str_replace ( '<br>', '', $result );
@@ -457,7 +466,6 @@ function printCheckBoxCube($userId, $pic, $checked, $result = "", $res = "") {
 	$str = $str . "<div id='empty_cube' style='position:absolute; visibility:hidden;'></div></td></tr></table></td></tr>";
 	print $str;
 }
-
 // Функция вывода активных в данный момент игроков
 function showActiveGamers($ViewType = 0) {
 	global $capColorReferences;
@@ -501,8 +509,8 @@ function showActiveGamers($ViewType = 0) {
 			print "<tr><td colspan='3'>";
 			print "<table width='100%' border='1' style='border:solid; border-color:black; border-collapse: collapse;'>";
 			print "<tr align='center' style='border:solid;'><td style='border:solid; padding:5px;'><font size='-1'>Активный доход<br>(зеленый круг)</font></td><td style='padding:5px;'><font size='-1'>Пассивный доход<br>(все круги)</font></td></tr>";
-			print "<tr align='center' style='border:solid;'><td style='border:solid; padding:10px;'>" . $element ['activeIncomeGreenCircle'] . "</td><td style='padding:10px;'>" . $element ['passIncomeAllCircle'] . "</td></tr>";
-			print "<tr style='border:solid;'><td align='center' colspan='2'><font size='+2'>общий Ресурс: " . $element ['commonR'] . "</font></td></tr>";
+			print "<tr align='center' style='border:solid;'><td style='border:solid; padding:10px;'>" . getPlusPayButton($element ['activeIncomeGreenCircle'], $element, 'glob_inc', 'd', '+') . $element ['activeIncomeGreenCircle'] . "</td><td style='padding:10px;'>" . getPlusPayButton($element ['passIncomeAllCircle'], $element, 'glob_inc', 'd', '+') . $element ['passIncomeAllCircle'] . "</td></tr>";
+			print "<tr style='border:solid;'><td align='center' colspan='2' style='padding:10 10 10 10'>" . getPlusPayButton($element ['commonR'], $element, 'glob_sour', 'r', '+') . "<font size='+1'>общий Ресурс: " . $element ['commonR'] . "</font></td></tr>";
 			print "</table>";
 			print "</td></tr>";
 			print "<tr><td colspan='3'>" . printPaySystem ( $element, true ) . "</td>";

@@ -500,7 +500,13 @@
 		if (logging){
 			$this->log($sql);
 		}
-		return mysql_query($sql, $this->mySqlIdentifer);
+		$r = mysql_query($sql, $this->mySqlIdentifer);
+		if ($r === false){
+			if (logging){
+				$this->log(mysql_error($this->mySqlIdentifer));
+			}
+		}
+		return $r;
       }
 	  
 	  //имя тега, имя атрибута для идентификации узла, значение атрибута для идетификации узла, 
@@ -577,7 +583,7 @@
 					}
 				}
 				if (!$flag){
-					$fieldToAdd = strlen($fieldToAdd) == 0 ? "`".$name."` varchar(250)" : $fieldToAdd.", `".$name."` varchar(250)";
+					$fieldToAdd = strlen($fieldToAdd) == 0 ? "`".$name."` TINYTEXT" : $fieldToAdd.", `".$name."` TINYTEXT";
 				}
 			}
 			if (strlen($fieldToAdd) != 0){

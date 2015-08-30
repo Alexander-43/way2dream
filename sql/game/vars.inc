@@ -34,14 +34,14 @@
 	$baseTables[xmlForUserData]['sql'] = "CREATE TABLE `[*tableName*]` (
 		`id` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
 		`tag` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
-		`email` VARCHAR(250) NULL DEFAULT '' COLLATE '".encoding."',
+		`email` TINYTEXT NULL DEFAULT '' COLLATE '".encoding."',
 		`skype` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
-		`FIO` VARCHAR(250) NULL DEFAULT '' COLLATE '".encoding."',
+		`FIO` TINYTEXT NULL DEFAULT '' COLLATE '".encoding."',
 		`capColor` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
-		`active` VARCHAR(250) NULL DEFAULT '' COLLATE '".encoding."',
+		`active` TINYTEXT NULL DEFAULT '' COLLATE '".encoding."',
 		`date` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
 		`tempId` VARCHAR(50) NULL DEFAULT '' COLLATE '".encoding."',
-		`description` VARCHAR(250) NULL DEFAULT '' COLLATE '".encoding."') 
+		`description` TINYTEXT NULL DEFAULT '' COLLATE '".encoding."') 
 		COLLATE='".encoding."' ENGINE=".tableType;
 	$baseTables[xmlForFlash]['description'] = xmlForFlash." - таблица информации о фишках";
 	$baseTables[xmlForFlash]['sql'] = "CREATE TABLE `[*tableName*]` (

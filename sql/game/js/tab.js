@@ -282,7 +282,7 @@ function update(inp)
 	}
 }
 
-function setGetPay(obj, pref, action, attrib)
+function setGetPay(obj, pref, action, attrib, value)
 {
 	var i = 0;
 	var la = 0;
@@ -305,21 +305,21 @@ function setGetPay(obj, pref, action, attrib)
 			formHInput = parseFloat(formHInput);
 		} catch (e)
 		{
-			alert ("Одно из значений операции ("+formInput.value+" или "+formHInput+")\r не является допустимым числом");
+			alert ("Одно из значений операции ("+(value == null ? formInput.value : value)+" или "+formHInput+")\r не является допустимым числом");
 			return false;
 		}
 		divOut = document.getElementById(pref+"_"+id);
-		setVal = eval(formHInput+action+formInput.value);
+		setVal = eval(formHInput+action+(value == null ? formInput.value : value));
 		if (action == "+"){
 			action = " увеличен на ";
 		} else {
 			action = " уменьшен на ";
 		}
 		if (attrib == 'glob_sour'){
-			la = "Последнее действие : Ресурс"+action+formInput.value;
+			la = "Последнее действие : Ресурс"+action+(value == null ? formInput.value : value);
 		}else
 		{
-			la = "Последнее действие : Доход"+action+formInput.value;
+			la = "Последнее действие : Доход"+action+(value == null ? formInput.value : value);
 		}
 		vote('operation.php?doPay=do&value='+setVal+'&atribute='+attrib+'&userId='+id+'&lastAction='+la, divOut.id);
 	});

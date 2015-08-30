@@ -339,9 +339,11 @@ header("Content-Type: text/html; charset=utf-8");
 	</button>
 </div>
 <div style="position:fixed;left:960px;top:20px;">
-	<button name="pdf" type="button" title="Скачать как PDF"> 
-		<img src="img/pdf.png" style="cursor:pointer" title="Скачать как PDF">
-	</button>
+	<a href="inc/get_pdf.php?id=<?php print $_GET['id'];?>">
+		<button name="pdf" type="button" title="Скачать как PDF"> 
+			<img src="img/pdf.png" style="cursor:pointer" title="Скачать как PDF">
+		</button>
+	</a>
 </div>
 </form>
 </body>

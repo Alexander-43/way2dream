@@ -44,7 +44,7 @@ class PDF {
 				}
 			}
 		}
-		$this->pdfFile->Output('example_.pdf', 'I');
+		$this->pdfFile->Output($this->varsValues['FIO'].'_'.date ( "d.m.Y His" ).'.pdf', 'D');
 	}
 	
 	public function input($element){
@@ -63,14 +63,16 @@ class PDF {
 		$name = $element->attr['name'];
 		$this->pdfFile->SetX($this->pdfFile->pixelsToUnits($style['left']), true);
 		$this->pdfFile->SetY($this->pdfFile->pixelsToUnits($style['top']), false, true);
-		$this->pdfFile->TextField($name, $this->pdfFile->pixelsToUnits($w ? $w : 100), $this->pdfFile->pixelsToUnits($h ? $h : 20), array('value'=>$element->attr['name'], 'multiline'=>false));
+		$value = $this->varsValues[$element->attr['name']];
+		$this->pdfFile->TextField($name, $this->pdfFile->pixelsToUnits($w ? $w : 100), $this->pdfFile->pixelsToUnits($h ? $h : 20), array('value'=>$value != null ? $value:'', 'multiline'=>false));
 	}
 	
 	public function checkbox($element){
 		$style = StylePropFormatter::get($element->attr['style']);
 		$this->pdfFile->SetX($this->pdfFile->pixelsToUnits($style['left']), true);
 		$this->pdfFile->SetY($this->pdfFile->pixelsToUnits($style['top']), false, true);
-		$this->pdfFile->CheckBox($element->attr['name'], 10);
+		$value = $this->varsValues[$element->attr['name']] == true;
+		$this->pdfFile->CheckBox($element->attr['name'], 10, $value);
 	}
 	
 	public function div($element){
