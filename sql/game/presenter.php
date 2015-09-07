@@ -114,7 +114,7 @@ div.t4 {
 	<table width="100%" height="97%"  border="0">
 	<tr>
 		<td valign="top">
-		<? showActiveGamers(0); ?>
+		<? showActiveGamers(0, 1); ?>
 		</td>
 		<td align="top" width="70%">
 		<object type="application/x-shockwave-flash" data="<? print swfFolder;?>presenter.swf" width="100%" height="100%">
@@ -126,6 +126,9 @@ div.t4 {
 		<EMBED src="<? print swfFolder;?>presenter.swf" FLASHVARS="submitUrl=presenter.php&pathToXmlBase=<? print xmlGenerator."%3F".time() ?>&operPage=<? print operPage?>" quality="high" wmode="transparent" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash">
 		</EMBED>
 		</object>
+		</td>
+		<td valign="top">
+		<? showActiveGamers(0, 2); ?>
 		</td>
 	</tr>
 	</table>

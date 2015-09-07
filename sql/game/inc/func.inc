@@ -467,15 +467,26 @@ function printCheckBoxCube($userId, $pic, $checked, $result = "", $res = "") {
 	print $str;
 }
 // Функция вывода активных в данный момент игроков
-function showActiveGamers($ViewType = 0) {
+function showActiveGamers($ViewType = 0, $part = 1) {
 	global $capColorReferences;
 	global $EnToRusUserAttributes;
 	$UsersInfo = getAllInfoAboutUsers ();
 	$iauc = getInfoAboutShowedCard ();
 	$iac = getInfoAboutCube ();
+	$count = count($UsersInfo);
+	$start = $part == 1 ? 1 : ceil($count/2) + 1; 
+	$end = $part == 1 ? ceil($count/2) : $count;
+	if ($count <= 1 && $part == 2){
+		return;
+	}
 	if ($ViewType == 0) {
-		print "<div style='height:100%; overflow:auto;'><table border='0' width='100%'>";
+		print "<div id='unic_id_".time()."' style='height:100%; overflow-y:scroll;overflow-x:hidden;min-width:340px'><table border='0' width='100%'>";
+		$i = 0;
 		foreach ( $UsersInfo as $element ) {
+			$i++;
+			if ($i < $start || $i > $end){
+				continue;
+			}
 			$stat = "";
 			$cardType = "";
 			if ($iauc ['userId'] == $element ['id']) {
@@ -615,6 +626,7 @@ function PrintBrs($count) {
 
 // фиксация пользователя и типа карточки, которые надо ему показать
 function setCardForUserSelect($userId, $cardType) {
+	resetCard('ALL');
 	new Parse ( dataSourceType, xmlForFlash, $xml );
 	$xml->SearchNode ( $xml->RootNode, "card", "cardforView", "" );
 	if ($xml->SearchedNodeLink != null) {
@@ -930,6 +942,18 @@ function setPayValue($userId, $attribute, $value, $lastAction) {
 // сброс выбранной карты
 function resetCard($idUser, $side = "gamer") {
 	new Parse ( dataSourceType, xmlForFlash, $xml, true );
+	if ($idUser == 'ALL'){
+		$xml->SearchNode ( $xml->RootNode, "cap", "result", "hideCard" );
+		if ($xml->SearchedNodeLink != null){
+			$xml->setAttribute ( $xml->SearchedNodeLink, Array (
+					"result" => ""
+			) );
+			$xml->SaveInFile ( $xml->Nfile );
+			resetCard('ALL');
+		}
+		return;
+	}
+	
 	if ($side == "admin") {
 		$xml->SearchNode ( $xml->RootNode, "card", "userId", $idUser );
 		if ($xml->SearchedNodeLink != null) {

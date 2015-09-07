@@ -382,7 +382,11 @@ function onLoad(divName)
 			if (radios[i].checked)
 			{
 				try{
-				jQuery('div').scrollTo('#'+radios[i].id);
+					var divEl = radios[i];
+					while (divEl.tagName != "DIV" && divEl.tagName != "BODY"){
+						divEl = divEl.parentNode;
+					}
+					jQuery('#' + divEl.id).scrollTo('#'+radios[i].id);
 				} catch (e){
 					//uncatched exception
 				}
