@@ -594,7 +594,7 @@ function fillCardValuesFomPost($post) {
 
 // генерация карточки по передаваемому в функцию префиксу изображения
 function RandCard($pref, $index = null) {
-	$mask = "img/card/" . $pref . "*.jpg";
+	$mask = "img/card/" . $pref . "_*.jpg";
 	$fileList = array ();
 	foreach ( glob ( $mask ) as $fn ) {
 		$fileList [] = $fn;
