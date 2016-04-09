@@ -124,23 +124,24 @@ function UpdateCapValues($CapName, $Xpos, $Ypos, $xml = null) {
 
 // функция выводит select для выбора времени обновления и кнопку старт/стоп
 function ShowRunStopObject($time, $state = 0) {
+	global $messages;
 	if ($time == "")
 		$time = 15;
-	print "<span height='10' style='overflow:visible; margin:0 0 5px 0; position:relative;'><form name='timerObj' action='gamer.php' method='post'>Обновлять раз в <select name='timer'>";
+	print "<span height='10' style='overflow:visible; margin:0 0 5px 0; position:relative;'><form name='timerObj' action='gamer.php' method='post'>".$messages->msg("gamer_page.refreshEvery")." <select name='timer'>";
 	for($i = 5; $i <= 20; $i += 2) {
 		if ($i == $time) {
-			print "<option value=" . $i . " selected>" . $i . " сек." . "</option>";
+			print "<option value=" . $i . " selected>" . $messages->msg("gamer_page.sec", array($i)) . "</option>";
 		} else {
-			print "<option value=" . $i . ">" . $i . " сек." . "</option>";
+			print "<option value=" . $i . ">" . $messages->msg("gamer_page.sec", array($i)) . "</option>";
 		}
 	}
 	print "</select> &nbsp";
 	if ($state == "")
 		$state = 1;
 	if ($state == 1) {
-		$alt = "Запуск атоматического обновления страницы";
+		$alt = $messages->msg("gamer_page.startAutorefresh");
 	} else {
-		$alt = "Остановить автоматическое обновление страницы";
+		$alt = $messages->msg("gamer_page.stopAutorefresh");
 	}
 	print "<img name='run' id='" . $state . "' src='img/" . $state . ".gif' height='30' align='middle' onMouseDown='imgOver(this, 28);' onMouseUpt='imgOver(this, 30);' onClick='RunStop(this);' alt='" . $alt . "' style='cursor:pointer'>";
 	print "<span id='hod' style='margin:0 0 0 10'></span>";

@@ -21,6 +21,9 @@ if (count($_POST) != 0 && !isset($_POST['source']))
 	$_SESSION = array_merge($_SESSION, saveAndLoadPresenterInfo($_POST));
     $_SESSION['presenterCode'] = $_SESSION['password'];
 }
+
+print '<script>var GLOBAL_LOCALE_COOKIE_NAME = "'.CookieLocalResolver::COOKIE_LOCALE_NAME.'"; </script>';
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; overflow:hidden;">
 <head>
@@ -29,6 +32,8 @@ if (count($_POST) != 0 && !isset($_POST['source']))
 	<meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" /> 
 	<meta http-equiv="Pragma" content="no-cache" />
 	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/ddslick.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
 	<script type="text/javascript" src="js/tab.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 <style>
@@ -207,5 +212,6 @@ div.t4 {
 
 </div>
 </center>
+<div id="language"></div>
 </body>
 </html>

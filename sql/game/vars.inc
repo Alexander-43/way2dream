@@ -9,9 +9,25 @@
 	}
 	//error_reporting(1);
 	define("xmlFolder","xml/");
-	define("swfFolder","swf/");
 	define("mysqlFolder", "mysql/");
 	define("incFolder", "inc/");
+	
+	include_once incFolder.'localeResolver/index.inc';
+	$blr = new BrowserLocalResolver();
+	$clr = new CookieLocalResolver();
+	if ($clr->getLocale() == null){
+		print '<script>var GLOBAL_DEFAULT_LOCALE_VALUE="'.$blr->getLocale().'";</script>';
+		define("currentLocale", $blr->getLocale());
+	} else {
+		define("currentLocale", $clr->getLocale());
+	}
+	
+	define("messageFileName", "messages/".currentLocale.".ini");
+	include_once incFolder.'config-loader/index.inc';
+	$ini = new IniConfig(messageFileName);
+	include_once incFolder.'localeResolver/index.inc';
+	$messages = new Message($ini);
+	define("swfFolder","swf/".currentLocale."/");
 	define("xmlForFlash", xmlFolder."cap_settings.xml");
 	define("xmlForUserData", xmlFolder."game_base.xml");
 	define("xmlForPresenters", xmlFolder."presenters.xml");

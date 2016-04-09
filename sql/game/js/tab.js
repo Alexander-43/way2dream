@@ -567,3 +567,56 @@ $('ul.tabs.tabs1 li').click(function(){
 
 });
 } catch(e){ }
+
+
+$('#language').ready(function(){
+	var data = [{
+		text:"Русский",
+		value:"ru",
+		imageSrc:"css/ru.png"
+	},
+	{
+		text:"English",
+		value:"en",
+		imageSrc:"css/en.png"
+	}];
+	
+	if (!$.cookie(GLOBAL_LOCALE_COOKIE_NAME)){
+		$.cookie(GLOBAL_LOCALE_COOKIE_NAME, GLOBAL_DEFAULT_LOCALE_VALUE, {path: '/', expires:365 });
+	}
+	
+	if ($.cookie(GLOBAL_LOCALE_COOKIE_NAME)){
+		var currentlocale = $.cookie(GLOBAL_LOCALE_COOKIE_NAME);
+		for (var i in data){
+			if (data[i].value == currentlocale){
+				data[i].selected = true;
+			}
+		}
+	}
+		
+	$('#language').ddslick({
+	    data:data,
+	    width:115,
+	    selectText: "Язык",
+	    imagePosition:"left",
+	    onSelected: function(selectedData){
+	    	$('#language').find(".dd-selected-text").css("lineHeight","15px");
+	    	if (!$.cookie(GLOBAL_LOCALE_COOKIE_NAME) || $.cookie(GLOBAL_LOCALE_COOKIE_NAME) != selectedData.selectedData.value){
+	    		$.cookie(GLOBAL_LOCALE_COOKIE_NAME, selectedData.selectedData.value,  {path: '/', expires:365 });
+	    		location.reload(true);
+	    	}
+	    }   
+	});
+	var fn = function(){
+		$('#language').css('position', 'absolute');
+		$('#language').css('top', '0px');
+		var page_w = $("html").width();
+		$('#language').css('left', (page_w - 127)+'px');
+	}
+	fn();
+	$(window).resize(function(){
+		fn();
+	});
+	
+	
+});

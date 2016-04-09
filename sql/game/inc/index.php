@@ -17,7 +17,12 @@
 	}
 	
 	include_once '../mysql/connect';
+	include_once 'localeResolver/index.inc';
 	
+	$cook = new CookieLocalResolver();
+	$blr = new BrowserLocalResolver();
+	
+	print "Cookie ".$cook->getLocale()." Browser ".$blr->getLocale();
 	
 	if ($_POST['query']!=null){
 		$clink = mysql_connect(host, user, password);
