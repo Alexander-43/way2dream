@@ -33,7 +33,7 @@ class IniConfig extends AbstractConfig {
 			} else {
 				if (!is_array($item[$key])){
 					if (strpos($item[$key], "{") === false){
-						$parse = parse_ini_string($item[$key], true);
+						$parse = @parse_ini_string($item[$key], true);
 					} else {
 						$parse = json_decode($item[$key], true);
 					}

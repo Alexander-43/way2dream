@@ -23,7 +23,7 @@ input.min {
 }
 </style>
 <div id="image2" style="position:absolute; overflow:hidden; left:17px; top:25px; width:770px; height:1147px; z-index:0">
-	<img src="img/card.jpg" alt="" border=0 width=770 height=1147>
+	<img src="img/<?php print currentLocale;?>/card.jpg" alt="" border=0 width=770 height=1147>
 </div>
 <input name="dream" type="text" style="position:absolute;width:620px;left:149px;top:37px;z-index:1">
 <input name="FIO" type="text" style="position:absolute;width:620px;left:149px;top:13px;z-index:2">
@@ -43,14 +43,14 @@ input.min {
 <input name="res8" type="text" style="position:absolute;width:162px;left:121px;top:409px;z-index:16">
 <input name="res9" type="text" style="position:absolute;width:162px;left:121px;top:444px;z-index:17">
 <input name="res10" type="text" style="position:absolute;width:153px;left:131px;top:477px;z-index:18">
-<input type="checkbox" name="cbManager" <? TryCheck ($_POST['cbManager'], "Менеджер"); ?> value="Менеджер" style="position:absolute;left:179px;top:595px;z-index:19" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbUrist" <? TryCheck ($_POST['cbUrist'], "Юрист"); ?> value="Юрист" style="position:absolute;left:179px;top:624px;z-index:20" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbEconomic" <? TryCheck ($_POST['cbEconomic'], "Экономист"); ?> value="Экономист" style="position:absolute;left:179px;top:653px;z-index:21" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbIngeneer" <? TryCheck ($_POST['cbIngeneer'], "Инженер"); ?> value="Инженер" style="position:absolute;left:179px;top:682px;z-index:22" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbDoctor" <? TryCheck ($_POST['cbDoctor'], "Врач"); ?> value="Врач" style="position:absolute;left:345px;top:595px;z-index:23" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbTourist" <? TryCheck ($_POST['cbTourist'], "Турист"); ?> value="Турист" style="position:absolute;left:345px;top:624px;z-index:24" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbTeacher" <? TryCheck ($_POST['cbTeacher'], "Педагог"); ?> value="Педагог" style="position:absolute;left:345px;top:652px;z-index:25" onChange="addChagedElement(new String(this.name))">
-<input type="checkbox" name="cbDoner" <? TryCheck ($_POST['cbDoner'], "Творец"); ?> value="Творец" style="position:absolute;left:345px;top:681px;z-index:26" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbManager" <? TryCheck ($_POST['cbManager'], $messages->msg("checkbox.cbManager")); ?> value="<?php print $messages->msg("checkbox.cbManager");?>" style="position:absolute;left:179px;top:595px;z-index:19" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbUrist" <? TryCheck ($_POST['cbUrist'], $messages->msg("checkbox.cbUrist")); ?> value="<?php print $messages->msg("checkbox.cbUrist");?>" style="position:absolute;left:179px;top:624px;z-index:20" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbEconomic" <? TryCheck ($_POST['cbEconomic'], $messages->msg("checkbox.cbEconomic")); ?> value="<?php print $messages->msg("checkbox.cbEconomic");?>" style="position:absolute;left:179px;top:653px;z-index:21" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbIngeneer" <? TryCheck ($_POST['cbIngeneer'], $messages->msg("checkbox.cbIngeneer")); ?> value="<?php print $messages->msg("checkbox.cbIngeneer");?>" style="position:absolute;left:179px;top:682px;z-index:22" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbDoctor" <? TryCheck ($_POST['cbDoctor'], $messages->msg("checkbox.cbDoctor")); ?> value="<?php print $messages->msg("checkbox.cbDoctor");?>" style="position:absolute;left:345px;top:595px;z-index:23" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbTourist" <? TryCheck ($_POST['cbTourist'], $messages->msg("checkbox.cbTourist")); ?> value="<?php print $messages->msg("checkbox.cbTourist");?>" style="position:absolute;left:345px;top:624px;z-index:24" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbTeacher" <? TryCheck ($_POST['cbTeacher'], $messages->msg("checkbox.cbTeacher")); ?> value="<?php print $messages->msg("checkbox.cbTeacher");?>" style="position:absolute;left:345px;top:652px;z-index:25" onChange="addChagedElement(new String(this.name))">
+<input type="checkbox" name="cbDoner" <? TryCheck ($_POST['cbDoner'], $messages->msg("checkbox.cbDoner")); ?> value="<?php print $messages->msg("checkbox.cbDoner");?>" style="position:absolute;left:345px;top:681px;z-index:26" onChange="addChagedElement(new String(this.name))">
 <input name="credit" type="text" style="position:absolute;width:130px;left:448px;top:722px;z-index:27">
 <input name="creditTBegin" type="text" style="position:absolute;width:89px;left:544px;top:614px;z-index:28">
 <input name="creditTEnd" type="text" style="position:absolute;width:46px;left:734px;top:614px;z-index:29">

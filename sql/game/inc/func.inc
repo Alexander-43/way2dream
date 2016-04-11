@@ -11,6 +11,7 @@ $ErorrList = Array (
 		"99" => "Данные игры обновлены, используемые фишки освобождены" 
 );
 function printImg() {
+	global $messages;
 	new Parse ( dataSourceType, xmlForFlash, $xml );
 	$kol = 0;
 	for($i = 1; $i < 7; $i ++) {
@@ -28,9 +29,9 @@ function printImg() {
 	$xml->Destroy ();
 	if ($kol == 0) {
 		if (isset ( $_SESSION ['id'] )) {
-			print "<a href='gamer.php'>Вернуться в игру</a>";
+			print "<a href='gamer.php'>".$messages->msg("service.backToGame")."</a>";
 		} else {
-			print "<h3 align='center'>Извините, количество игроков в игре максимально</h3>";
+			print "<h3 align='center'>".$messages->msg("service.maxUserCount")."</h3>";
 		}
 	}
 }
@@ -151,7 +152,7 @@ function ShowRunStopObject($time, $state = 0) {
 
 // функция вывода блока информации о пользователе на странице наблюдения за игрой
 function InfoAboutUser($arrayOfInfo) {
-	global $capColorReferences;
+	global $capColorReferences, $messages;
 	$allInfo = getAllInfoAboutUser ( $arrayOfInfo ['id'] );
 	if (! array_key_exists ( "glob_inc", $allInfo ))
 		$allInfo ['glob_inc'] = 0;
@@ -163,7 +164,7 @@ function InfoAboutUser($arrayOfInfo) {
 		print "<td align='left' style='border-style:none'><b><i>" . $allInfo ['FIO'] . "</i></b></td>";
 		print "<td align='right' width='100' style='border-style:none'>";
 		print "<img src='img/" . $capColorReferences [$allInfo ['capColor']] . "' align='middle' title='" . $colorText . "'>";
-		print "<a href='editUserData.php?id=" . $allInfo ['id'] . "' target='top'><img src='img/info.jpg' align='middle' title='Редактировать информацию игры' width='50px'></a>";
+		print "<a href='editUserData.php?id=" . $allInfo ['id'] . "' target='top'><img src='img/".currentLocale."/info.jpg' align='middle' title='".$messages->msg("gamer_page.editGameInfo")."' width='50px'></a>";
 		print "</td>";
 	} else {
 		userSelectorRender($arrayOfInfo['id']);
@@ -176,9 +177,9 @@ function InfoAboutUser($arrayOfInfo) {
 		$allInfo ['pasIncomeGreenCircle'] = 0;
 	print "</tr><tr><td colspan='2'>";
 	print "<table width='100%' border='1' style='border:solid; border-color:black; border-collapse: collapse;'>";
-	print "<tr align='center' style='border:solid;'><td style='border:solid; padding:5px;'><font size='-1'>Активный доход<br>(зеленый круг)</font></td><td style='padding:5px;'><font size='-1'>Пассивный доход<br>(все круги)</font></td></tr>";
+	print "<tr align='center' style='border:solid;'><td style='border:solid; padding:5px;'><font size='-1'>".$messages->msg("gamer_page.activeIncome")."</font></td><td style='padding:5px;'><font size='-1'>".$messages->msg("gamer_page.passiveIncome")."</font></td></tr>";
 	print "<tr align='center' style='border:solid;'><td style='border:solid; padding:10px;'>" . $allInfo ['activeIncomeGreenCircle'] . "</td><td style='padding:10px;'>" . $allInfo ['passIncomeAllCircle'] . "</td></tr>";
-	print "<tr style='border:solid;'><td align='center' colspan='2' style='padding:10 10 10 10'>" . "<font size='+1'>общий Ресурс: " . $allInfo ['commonR'] . "</font></td></tr>";
+	print "<tr style='border:solid;'><td align='center' colspan='2' style='padding:10 10 10 10'>" . "<font size='+1'>".$messages->msg("gamer_page.commonSource", array($allInfo ['commonR']))."</font></td></tr>";
 	print "</table>";
 	print "</td></tr>";
 	print "<tr><td colspan='2' style='border-style:none'>" . printPaySystem ( $allInfo, false ) . "</td></tr>";
@@ -186,11 +187,12 @@ function InfoAboutUser($arrayOfInfo) {
 }
 
 function getPlusPayButton($value, $info, $attribute, $p, $o){
+	global $messages;
 	$title = '';
 	if ($o == '+'){
-		$title = 'Добавить к наличным';
+		$title = $messages->msg("buttons.moneyPlus");
 	} else if ($o == '-'){
-		$title = 'Вычесть из наличных';
+		$title = $messages->msg("buttons.moneyMinus");
 	}
 	if ($value != null && $value > 0){
 		$action = 'setGetPay(this, "'.$p.'", "'.$o.'", "'.$attribute.'", "'.$value.'");';
@@ -202,7 +204,7 @@ function getPlusPayButton($value, $info, $attribute, $p, $o){
 
 
 function userSelectorRender($id){
-	global $capColorReferences;
+	global $capColorReferences, $messages;
 	$usersInfo = getUserInfo('all');
 	print "<td align='left' style='border-style:none'><select id='userSelector' class='userSelector'>";
 	$defaultIndex = null;
@@ -210,14 +212,13 @@ function userSelectorRender($id){
 		if ($usersInfo[$i]['id'] == $id){
 			$defaultIndex = $i;
 		}
-		$description ="Цвет фишки:%s, Email:%s, Skype:%s";
-		$description = sprintf($description, $usersInfo[$i]['capColor'], $usersInfo[$i]['email'], $usersInfo[$i]['skype']);
+		$description = $messages->msg("gamer_page.userDescription", array($usersInfo[$i]['capColor'], $usersInfo[$i]['email'], $usersInfo[$i]['skype']));
 		print "<option value='".$usersInfo[$i]['id']."' data-imagesrc='img/".$capColorReferences [$usersInfo[$i]['capColor']]."' data-description='".$description."'>";
 		print $usersInfo[$i]['FIO'];
 		print "</option>";
 	}
 	print "</select></td>";
-	print "<td align='right' width='50' style='border-style:none'><a href='editUserData.php?id=" . $id . "' target='top'><img src='img/info.jpg' align='middle' style='padding-left:10' title='Редактировать информацию игры' width='50px'></a></td>";
+	print "<td align='right' width='50' style='border-style:none'><a href='editUserData.php?id=" . $id . "' target='top'><img src='img/info.jpg' align='middle' style='padding-left:10' title='".$messages->msg("gamer_page.editGameInfo")."' width='50px'></a></td>";
 	print getScriptHtml("createUserSelector('#userSelector',".$defaultIndex.")","'#userSelector'");
 	
 }
@@ -418,22 +419,23 @@ function ShowSelectCard($userId, $cardType = null) {
 function printPaySystem($userInfo, $admin = false) {
 	// $actionPay = " onMouseDown=\"this.src='img/payDown.gif'\" onMouseUp=\"this.src='img/pay.gif'\" ";
 	// $actionIncass = "onMouseDown=\"this.src='img/incassDown.gif'\" onMouseUp=\"this.src='img/incass.gif'\"";
+	global $messages;
 	$str = "<table width='100%' border='0'>";
 	$str = $str . "<tr>";
-	$str = $str . "<td align='left'>Наличные деньги:</td><td align='left'><div id='d_" . $userInfo ['id'] . "' height='20' title='Тестовое'>" . $userInfo ['glob_inc'] . "</div></td>";
+	$str = $str . "<td align='left'>".$messages->msg("gamer_page.moneyCash")."</td><td align='left'><div id='d_" . $userInfo ['id'] . "' height='20' title='".$messages->msg("gamer_page.tested")."'>" . $userInfo ['glob_inc'] . "</div></td>";
 	$str = $str . "<td align='right'><input id='dih_" . $userInfo ['id'] . "' type='hidden' value='" . $userInfo ['glob_inc'] . "'><input id='di_" . $userInfo ['id'] . "' type='text' value='' size='6'></td>";
-	$str = $str . "<td align='center'><img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/incass.gif' title='Уменьшить значение' style='float:middle;' onClick=\"setGetPay(this, 'd', '-', 'glob_inc');\"" . $actionIncass . ">";
+	$str = $str . "<td align='center'><img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/incass.gif' title='".$messages->msg("buttons.decreaseValue")."' style='float:middle;' onClick=\"setGetPay(this, 'd', '-', 'glob_inc');\"" . $actionIncass . ">";
 	if ($admin) {
-		$str = $str . "<img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/pay.gif' title='Увеличить значение' style='float:middle;' onClick=\"setGetPay(this, 'd', '+', 'glob_inc');\"" . $actionPay . ">";
+		$str = $str . "<img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/pay.gif' title='".$messages->msg("buttons.increaseValue")."' style='float:middle;' onClick=\"setGetPay(this, 'd', '+', 'glob_inc');\"" . $actionPay . ">";
 	}
 	$str = $str . "</td>";
 	$str = $str . "</tr>";
 	$str = $str . "<tr>";
-	$str = $str . "<td align='left'>Наличные ресурсы:</td><td align='left'><div id='r_" . $userInfo ['id'] . "'>" . $userInfo ['glob_sour'] . "</div></td>";
+	$str = $str . "<td align='left'>".$messages->msg("gamer_page.sourceCash")."</td><td align='left'><div id='r_" . $userInfo ['id'] . "'>" . $userInfo ['glob_sour'] . "</div></td>";
 	$str = $str . "<td align='right'><input id='rih_" . $userInfo ['id'] . "' type='hidden' value='" . $userInfo ['glob_sour'] . "'><input id='ri_" . $userInfo ['id'] . "' type='text' value='' size='6'></td>";
-	$str = $str . "<td align='center'><img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/incass.gif' title='Уменьшить значение' style='float:middle;' onClick=\"setGetPay(this, 'r', '-', 'glob_sour');\"" . $actionIncass . ">";
+	$str = $str . "<td align='center'><img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/incass.gif' title='".$messages->msg("buttons.decreaseValue")."' style='float:middle;' onClick=\"setGetPay(this, 'r', '-', 'glob_sour');\"" . $actionIncass . ">";
 	if ($admin) {
-		$str = $str . "<img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/pay.gif' title='Увеличить значение' style='float:middle;' onClick=\"setGetPay(this, 'r', '+', 'glob_sour');\"" . $actionPay . ">";
+		$str = $str . "<img style='cursor:pointer' id='" . $userInfo ['id'] . "' height='30' src='img/pay.gif' title='".$messages->msg("buttons.increaseValue")."' style='float:middle;' onClick=\"setGetPay(this, 'r', '+', 'glob_sour');\"" . $actionPay . ">";
 	}
 	$str = $str . "</td>";
 	$str = $str . "</tr>";
@@ -445,23 +447,31 @@ function printPaySystem($userInfo, $admin = false) {
 }
 // выводит чекбокс чей ход
 function printCheckBox($userId, $pic, $checked) {
+	global $messages;
 	$str = "<tr><td valign='center' colspan='2' width='70%'>";
 	$str = $str . "<input id='hod_" . $userId . "' name='gr_hod' type='radio' value='test_" . rand () . "' $checked style='position:absolute; visibility:hidden;'>";
-	$str = $str . "Очередь ходить:</td><td align='right'><img width='25' style='cursor:pointer;' id='ihod_" . $userId . "' name='hod_" . $userId . "' src='" . $pic . "' onClick=\"onChecking(document.getElementById(this.name), this)\">";
+	$str = $str . $messages->msg("buttons.nextStep") ."</td><td align='right'><img width='25' style='cursor:pointer;' id='ihod_" . $userId . "' name='hod_" . $userId . "' src='" . $pic . "' onClick=\"onChecking(document.getElementById(this.name), this)\">";
 	$str = $str . "<div id='empty_hod' style='position:absolute; visibility:hidden;'></div></td></tr>";
 	print $str;
 }
 // выводит чекбокс "Кубик"
 function printCheckBoxCube($userId, $pic, $checked, $result = "", $res = "") {
+	global $messages;
 	$result = str_replace ( '<br>', '', $result );
 	$text = "";
 	if (strpos ( $res, "_" ) > 0) {
 		// $text = "<font size='-1'><i>Кубик 1</i> - <b>".getCubeValue($res, 0)."</b><br><i>Кубик 2</i> - <b>".getCubeValue($res, 1)."</b></font>";
-		$text = "<font size='-1'><i>На кубик" . (getCubeValue ( $res, 0 ) == "NaN" || getCubeValue ( $res, 1 ) == "NaN" ? "е" : "ах") . " выпало</i><br>" . (getCubeValue ( $res, 0 ) != 'NaN' ? "<b>" . getCubeValue ( $res, 0 ) . "</b>" : "") . (getCubeValue ( $res, 0 ) != "NaN" && getCubeValue ( $res, 1 ) != "NaN" ? " и " : "") . (getCubeValue ( $res, 1 ) != 'NaN' ? "<b>" . getCubeValue ( $res, 1 ) . "</b>" : "") . "</font>";
+		$v1 = (getCubeValue ( $res, 0 ) == "NaN" || getCubeValue ( $res, 1 ) == "NaN" ? $messages->msg("gamer_page.e") : $messages->msg("gamer_page.ah"));
+		$v2 = (getCubeValue ( $res, 0 ) != 'NaN' ? "<b>" . getCubeValue ( $res, 0 ) . "</b>" : "");
+		$v3 = (getCubeValue ( $res, 0 ) != "NaN" && getCubeValue ( $res, 1 ) != "NaN" ? $messages->msg("gamer_page.and") : "");
+		$v4 = (getCubeValue ( $res, 1 ) != 'NaN' ? "<b>" . getCubeValue ( $res, 1 ) . "</b>" : "");
+		
+		$v = $messages->msg("gamer_page.onCubeValuesAre", array($v1, $v2, $v3, $v4));
+		$text = "<font size='-1'><i>". $v . "</font>";
 	}
 	$str = "<tr><td valign='center' colspan='2' width='70%'>";
 	$str = $str . "<input id='cube_" . $userId . "' name='gr_cube' type='radio' value='test_" . rand () . "' $checked style='position:absolute; visibility:hidden;'>";
-	$str = $str . "Бросить кубик:</td><td align='right'><table border='0' style='margin:0 -3 0 0' width='100%'><tr><td align='center'>" . $text . "</td>
+	$str = $str . $messages->msg("gamer_page.throwCube") ."</td><td align='right'><table border='0' style='margin:0 -3 0 0' width='100%'><tr><td align='center'>" . $text . "</td>
     
     <td align='right'><img width='25' style='cursor:pointer;' id='icube_" . $userId . "' name='cube_" . $userId . "' src='" . $pic . "' onClick=\"onChecking(document.getElementById(this.name), this)\" title='$result'>";
 	$str = $str . "<div id='empty_cube' style='position:absolute; visibility:hidden;'></div></td></tr></table></td></tr>";
@@ -469,8 +479,7 @@ function printCheckBoxCube($userId, $pic, $checked, $result = "", $res = "") {
 }
 // Функция вывода активных в данный момент игроков
 function showActiveGamers($ViewType = 0, $part = 1) {
-	global $capColorReferences;
-	global $EnToRusUserAttributes;
+	global $capColorReferences, $EnToRusUserAttributes, $messages;
 	$UsersInfo = getAllInfoAboutUsers ();
 	$iauc = getInfoAboutShowedCard ();
 	$iac = getInfoAboutCube ();
@@ -496,12 +505,12 @@ function showActiveGamers($ViewType = 0, $part = 1) {
 			}
 			$forCapUrl = $element ['active'] == '1' ? "'editUserData.php?id=" . $element ['id'] . "'" : "''";
 			$forFioUrl = $element ['active'] == '1' ? "'gamer.php?id=" . $element ['id'] . "'" : "''";
-			$state = $element ['active'] != '1' ? "(Не активен)" : "";
+			$state = $element ['active'] != '1' ? $messages->msg("presenter_page.notActive") : "";
 			print "<tr style='background-color:silver;'><td colspan='3'><a href=" . $forCapUrl . " target='_blank'>";
-			print "<img align='right' src='img/" . $capColorReferences [$element ['capColor']] . "' title='Кликните для редактирования' border='0'></a>";
-			print "<img align='right' src='img/cross_red.png' onclick='removeUser(\"" . operPage . "?id=" . $element ['id'] . "&operId=removeUser" . "\", \"" . $element ['FIO'] . "\")' style='width:15px;position:relative;left:45px;cursor:pointer;' title='Удалить игрока'>";
+			print "<img align='right' src='img/" . $capColorReferences [$element ['capColor']] . "' title='".$messages->msg("presenter_page.clickForEdit")."' border='0'></a>";
+			print "<img align='right' src='img/cross_red.png' onclick='removeUser(\"" . operPage . "?id=" . $element ['id'] . "&operId=removeUser" . "\", \"" . $element ['FIO'] . "\")' style='width:15px;position:relative;left:45px;cursor:pointer;' title='".$messages->msg("buttons.removeUser")."'>";
 			print "<p><b><i><a href=" . $forFioUrl . " target='_blank'>" . $element ['FIO'] . $state . "</a></i></b></p></td></tr>";
-			print "<tr><td >Показать карт.:</td><td align='right' colspan='2'>" . ShowSelectCard ( $element ['id'], $cardType ) . "</td></tr>";
+			print "<tr><td >".$messages->msg("presenter_page.showCard")."</td><td align='right' colspan='2'>" . ShowSelectCard ( $element ['id'], $cardType ) . "</td></tr>";
 			if ($iauc ['isActive'] == $element ['id']) {
 				printCheckBox ( $element ['id'], "img/chchecked.gif", "checked" );
 			} else {
@@ -520,9 +529,9 @@ function showActiveGamers($ViewType = 0, $part = 1) {
 				$element ['passIncomeAllCircle'] = 0;
 			print "<tr><td colspan='3'>";
 			print "<table width='100%' border='1' style='border:solid; border-color:black; border-collapse: collapse;'>";
-			print "<tr align='center' style='border:solid;'><td style='border:solid; padding:5px;'><font size='-1'>Активный доход<br>(зеленый круг)</font></td><td style='padding:5px;'><font size='-1'>Пассивный доход<br>(все круги)</font></td></tr>";
+			print "<tr align='center' style='border:solid;'><td style='border:solid; padding:5px;'><font size='-1'>".$messages->msg("gamer_page.activeIncome")."</font></td><td style='padding:5px;'><font size='-1'>".$messages->msg("gamer_page.passiveIncome")."</font></td></tr>";
 			print "<tr align='center' style='border:solid;'><td style='border:solid; padding:10px;'>" . getPlusPayButton($element ['activeIncomeGreenCircle'], $element, 'glob_inc', 'd', '+') . $element ['activeIncomeGreenCircle'] . "</td><td style='padding:10px;'>" . getPlusPayButton($element ['passIncomeAllCircle'], $element, 'glob_inc', 'd', '+') . $element ['passIncomeAllCircle'] . "</td></tr>";
-			print "<tr style='border:solid;'><td align='center' colspan='2' style='padding:10 10 10 10'>" . getPlusPayButton($element ['commonR'], $element, 'glob_sour', 'r', '+') . "<font size='+1'>общий Ресурс: " . $element ['commonR'] . "</font></td></tr>";
+			print "<tr style='border:solid;'><td align='center' colspan='2' style='padding:10 10 10 10'>" . getPlusPayButton($element ['commonR'], $element, 'glob_sour', 'r', '+') . "<font size='+1'>" . $messages->msg("gamer_page.commonSource", array($element ['commonR'])) . "</font></td></tr>";
 			print "</table>";
 			print "</td></tr>";
 			print "<tr><td colspan='3'>" . printPaySystem ( $element, true ) . "</td>";
@@ -595,7 +604,7 @@ function fillCardValuesFomPost($post) {
 
 // генерация карточки по передаваемому в функцию префиксу изображения
 function RandCard($pref, $index = null) {
-	$mask = "img/card/" . $pref . "_*.jpg";
+	$mask = "img/".currentLocale."/card/" . $pref . "_*.jpg";
 	$fileList = array ();
 	foreach ( glob ( $mask ) as $fn ) {
 		$fileList [] = $fn;
@@ -615,7 +624,7 @@ function RandCard($pref, $index = null) {
 
 // количество файлов с заданным префиксом
 function fileCountByPrefix($prefix) {
-	return count ( glob ( "img/card/" . $prefix . "*.jpg" ) );
+	return count ( glob ( "img/".currentLocale."/card/" . $prefix . "*.jpg" ) );
 }
 
 // вывод заданного количества <br>
@@ -660,6 +669,7 @@ function setCardForUserSelect($userId, $cardType) {
 
 // возвращает массив информации о показе кубика
 function getInfoAboutCube() {
+	global $messages;
 	$result = array ();
 	new Parse ( dataSourceType, xmlForFlash, $xml );
 	$xml->GetNodesAttribsValuesByName ( $xml->RootNode, "cube", "isActive" );
@@ -685,12 +695,18 @@ function getInfoAboutCube() {
 			if (strlen ( $result ['isActive'] ) == 0) {
 				$result ['status'] = "";
 			} else {
-				$result ['status'] = "Кубики не были брошены";
+				$result ['status'] = $messages->msg("gamer_page.cubesNotThrown");
 			}
 		} else {
 			$cb1 = getCubeValue ( $result ['result'], 0 );
 			$cb2 = getCubeValue ( $result ['result'], 1 );
-			$result ['status'] = "Кубик" . ($cb1 == 'NaN' || $cb2 == 'NaN' ? "" : "и") . " брошен" . ($cb1 == 'NaN' || $cb2 == 'NaN' ? "" : "ы") . " игроком " . $result ['FIO'] . ($cb1 != 'NaN' ? ".<br> Значение кубика №1 = " . $cb1 : '') . ($cb2 != 'NaN' ? "<br> Значение кубика №2 = " . $cb2 : '');
+			$v1 = ($cb1 == 'NaN' || $cb2 == 'NaN' ? "" : $messages->msg("gamer_page.i"));
+			$v2 = ($cb1 == 'NaN' || $cb2 == 'NaN' ? "" : $messages->msg("gamer_page.s"));
+			$v3 = $result ['FIO'];
+			$v4 = ($cb1 != 'NaN' ? ".<br> " . $messages->msg("gamer_page.cubeValue", array("1", $cb1)) : '');
+			$v5 = ($cb2 != 'NaN' ? ".<br> " . $messages->msg("gamer_page.cubeValue", array("2", $cb2)) : '');
+			$result ['status'] = $messages->msg("gamer_page.cubeWasThrown", array($v1, $v2, $v3, $v4, $v5));
+			//$result ['status'] = "Кубик" . ($cb1 == 'NaN' || $cb2 == 'NaN' ? "" : "и") . " брошен" . ($cb1 == 'NaN' || $cb2 == 'NaN' ? "" : "ы") . " игроком " . $result ['FIO'] . ($cb1 != 'NaN' ? ".<br> Значение кубика №1 = " . $cb1 : '') . ($cb2 != 'NaN' ? "<br> Значение кубика №2 = " . $cb2 : '');
 		}
 		if (strlen ( $result ['isActive'] ) == 0) {
 			$result ['isActive'] = null;
@@ -703,6 +719,7 @@ function getInfoAboutCube() {
 
 // возвращает массив инвормации о пользователе и типе карточи, которую ему показывают
 function getInfoAboutShowedCard() {
+	global $messages;
 	$result = array ();
 	new Parse ( dataSourceType, xmlForFlash, $xml );
 	$xml->GetNodesAttribsValuesByName ( $xml->RootNode, "card", "userId" );
@@ -734,11 +751,11 @@ function getInfoAboutShowedCard() {
 	}
 	$xml->Destroy ();
 	if (strlen ( $result ['cardSelected'] ) == 0) {
-		$result ['status'] = "Карточка в процессе выбора.";
-		$result ['click'] = "Выберите карточку";
-		$result ['statusA'] = "Карточка в процессе выбора.";
+		$result ['status'] = $messages->msg("gamer_page.cardInProgress");
+		$result ['click'] = $messages->msg("gamer_page.chooseCard");
+		$result ['statusA'] = $result ['status'];
 	} else {
-		$title = "Карточка была выбрана игроком: " . $result ['FIO'] . ", который играет фишкой с цветом: \"" . $result ['capColor'] . "\".";
+		$title = $messages->msg("gamer_page.cardTitle", array($result ['FIO'], $result ['capColor']));
 		$result ['status'] = "<img class='card' style='cursor:pointer' src='" . $result ['cardSelected'] . "' title='" . $title . "' onClick=\"vote('operation.php?hideCard=yes&idUser=" . $result ['userId'] . "&side=gamer', 'vote_status')\">";
 		$result ['statusA'] = "<img class='card' style='cursor:pointer' src='" . $result ['cardSelected'] . "' title='" . $title . "' onClick=\"vote('operation.php?hideCard=yes&idUser=" . $result ['userId'] . "&side=admin', 'card_" . $result ['userId'] . "')\">";
 	}
@@ -761,9 +778,10 @@ function GetRusNameCard($src) {
 
 // таблица доходов всех пользователей
 function commonUserMoney() {
+	global $messages;
 	$info = getAllInfoAboutUsers ();
 	$result = "<table border='1' width='100%' style='border-color:silver; border-style:solid; border-radius: 10px 10px 10px 10px;'>";
-	$result .= "<tr align='center' style='background-color:silver;'><td>ФИО</td><td>АД</td><td>ПД</td><td>R</td></tr>";
+	$result .= "<tr align='center' style='background-color:silver;'><td>".$messages->msg("gamer_page.FIO")."</td><td>".$messages->msg("gamer_page.AD")."</td><td>".$messages->msg("gamer_page.PD")."</td><td>".$messages->msg("gamer_page.R")."</td></tr>";
 	foreach ( $info as $user ) {
 		$result .= "<tr><td style='background-color:silver;'>" . $user ['FIO'] . "</td>";
 		$result .= "<td>" . $user ['activeIncomeGreenCircle'] . "</td>";
@@ -776,6 +794,7 @@ function commonUserMoney() {
 // показывает карточку пользователю которому необходимо сделать выбор
 // или показывет выбранную другим пользователем карточку
 function ShowCardForUserSelect($userInfo) {
+	global $messages;
 	$temp = getInfoAboutShowedCard ();
 	$cap = "";
 	new Parse ( dataSourceType, xmlForFlash, $xml, true );
@@ -784,14 +803,14 @@ function ShowCardForUserSelect($userInfo) {
 		$xml->AttribFromSNL ( "", $cap );
 	}
 	if ($temp ['isActive'] == $userInfo ['id']) {
-		print "<script>document.getElementById('hod').innerHTML=\"<img align='middle' width='60' src='img/you_hod.gif?" . time () . "' width='100%' title='Ваш ход'>\";</script>";
+		print "<script>document.getElementById('hod').innerHTML=\"<img align='middle' width='60' src='img/".currentLocale."/you_hod.gif?" . time () . "' width='100%' title='".$messages->msg("gamer_page.yourHod")."'>\";</script>";
 	} else if ($temp ['isActive'] != null && $temp ['isActive'] !== "") {
-		print "<font color='green'><u><b>Очередь ходить:</b></u></font> " . $temp ['actFIO'] . "</br><font color='green'><u><b>Цвет фишки:</b></u></font> " . $temp ['actcapColor'] . "<hr>";
+		print "<font color='green'><u><b>".$messages->msg("buttons.nextStep")."</b></u></font> " . $temp ['actFIO'] . "</br><font color='green'><u><b>".$messages->msg("gamer_page.capColor")."</b></u></font> " . $temp ['actcapColor'] . "<hr>";
 	}
 	print "<div id='wrapper'>
 		<ul class='tabs tabs1'>
-			<li class='t1 tab-current'><a>Карточка</a></li>
-			<li class='t2'><a>Доход и ресурсы игроков</a></li>
+			<li class='t1 tab-current'><a>".$messages->msg("gamer_page.card")."</a></li>
+			<li class='t2'><a>".$messages->msg("gamer_page.usersCashAndSource")."</a></li>
 		</ul>
 		<div class='t1' style='background-color:white;'>";
 	// если текущий пользователь должен выбирать карточку
@@ -831,12 +850,13 @@ function ShowCardForUserSelect($userInfo) {
 
 // контролл для показа выбора кубика
 function showCubeForSelect($userId) {
+	global $messages;
 	$cubeInfo = getInfoAboutCube ();
 	$str = "";
 	if ($cubeInfo ['isActive'] == $userId) {
 		if (strlen ( $cubeInfo ['result'] ) == 0) {
 			$script = getScriptHtml ( "cubeChooser('" . $userId . "', this);" );
-			$str .= "<p align='center'>Бросьте кубики</p>" . $script . "<div id='cube'></div>";
+			$str .= "<p align='center'>".$messages->msg("gamer_page.throwCubes")."</p>" . $script . "<div id='cube'></div>";
 		} else {
 			$str = getCubeValueDescription ( getCubeValue ( $cubeInfo ['result'], 0 ), getCubeValue ( $cubeInfo ['result'], 1 ) );
 		}
@@ -873,14 +893,15 @@ function randCube($userId, $presetRandNum = null) {
  * @return string - html показывающий кубики и их описание
  */
 function getCubeValueDescription($cb1, $cb2) {
+	global $messages;
 	$format = "<p align='center'>%s %s</p><div id='cube'>%s%s</div>";
 	$str = "";
 	if ($cb1 != 'NaN' && $cb2 == 'NaN') {
-		$str .= sprintf ( $format, "<i>Значение кубика 1</i> - <font size='+1'>[" . $cb1 . "]</font>", "", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb1 . ".gif' align='left'>", "" );
+		$str .= sprintf ( $format, "<i>".$messages->msg("gamer_page.cubeValues", array("1"))."</i> - <font size='+1'>[" . $cb1 . "]</font>", "", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb1 . ".gif' align='left'>", "" );
 	} else if ($cb2 != 'NaN' && $cb1 == 'NaN') {
-		$str .= sprintf ( $format, "", "<i>Значение кубика 2</i> - <font size='+1'>[" . $cb2 . "]</font>", "", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb2 . ".gif' align='right'>" );
+		$str .= sprintf ( $format, "", "<i>".$messages->msg("gamer_page.cubeValues", array("2"))."</i> - <font size='+1'>[" . $cb2 . "]</font>", "", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb2 . ".gif' align='right'>" );
 	} else {
-		$str .= sprintf ( $format, "<i>Значение кубика 1</i> - <font size='+1'>[" . $cb1 . "]</font>", "<i>Значение кубика 2</i> - <font size='+1'>[" . $cb2 . "]</font>", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb1 . ".gif' align='left'>", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb2 . ".gif' align='right'>" );
+		$str .= sprintf ( $format, "<i>".$messages->msg("gamer_page.cubeValues", array("1"))."</i> - <font size='+1'>[" . $cb1 . "]</font>", "<i>".$messages->msg("gamer_page.cubeValues", array("2"))."</i> - <font size='+1'>[" . $cb2 . "]</font>", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb1 . ".gif' align='left'>", "<img style='border-radius: 10px 10px 10px 10px; border-color:silver; border-style:solid' src='img/cube/" . $cb2 . ".gif' align='right'>" );
 	}
 	return $str;
 }
@@ -942,6 +963,7 @@ function setPayValue($userId, $attribute, $value, $lastAction) {
 
 // сброс выбранной карты
 function resetCard($idUser, $side = "gamer") {
+	global $messages;
 	new Parse ( dataSourceType, xmlForFlash, $xml, true );
 	if ($idUser == 'ALL'){
 		$xml->SearchNode ( $xml->RootNode, "cap", "result", "hideCard" );
@@ -966,7 +988,7 @@ function resetCard($idUser, $side = "gamer") {
 			$xml->SaveInFile ( $xml->Nfile );
 		}
 		$xml->execQuery ( "UPDATE `" . $xml->tableName () . "` SET `result`=NULL WHERE `tag`='cap'" );
-		print "Карточка скрыта";
+		print $messages->msg("gamer_page.cardHidden");
 	} else {
 		$xml->SearchNode ( $xml->RootNode, "cap", "idUser", $_SESSION ['id'] );
 		if ($xml->SearchedNodeLink != null) {
@@ -975,13 +997,14 @@ function resetCard($idUser, $side = "gamer") {
 			) );
 			$xml->SaveInFile ( $xml->Nfile );
 		}
-		print "Карточка скрыта";
+		print $messages->msg("gamer_page.cardHidden");
 	}
 	$xml->Destroy ();
 }
 
 // вывод истории игры
 function getUserHistory($userInfo) {
+	global $messages;
 	$arraySize = count ( $userInfo );
 	$i = 0;
 	while ( $i < $arraySize && strlen ( $userInfo ['h_time_' . $i] ) != 0 ) {
@@ -990,10 +1013,10 @@ function getUserHistory($userInfo) {
 	}
 	$str = '<input type="hidden" value="' . $i . '"><table bgcolor="#FFFFFF" border="1" bordercolorlight="#C0C0C0" bordercolordark="#808080" cellspacing="0">';
 	$str .= '<tr valign="top">';
-	$str .= '<td width="135px" bgcolor="#C0C0C0" align="center">Время</td>';
-	$str .= '<td width="162px" bgcolor="#C0C0C0" align="center">Что произошло</td>';
-	$str .= '<td width="219px" bgcolor="#C0C0C0" align="center">Состояние</td>';
-	$str .= '<td width="160px" bgcolor="#C0C0C0" align="center">Выводы</td></tr>';
+	$str .= '<td width="135px" bgcolor="#C0C0C0" align="center">'.$messages->msg("history_table.time").'</td>';
+	$str .= '<td width="162px" bgcolor="#C0C0C0" align="center">'.$messages->msg("history_table.whatHappend").'</td>';
+	$str .= '<td width="219px" bgcolor="#C0C0C0" align="center">'.$messages->msg("history_table.status").'</td>';
+	$str .= '<td width="160px" bgcolor="#C0C0C0" align="center">'.$messages->msg("history_table.conclusions").'</td></tr>';
 	$common = $i;
 	$i = 0;
 	while ( $i <= $common ) {
@@ -1028,7 +1051,7 @@ function getUserHistory($userInfo) {
 	return $str;
 }
 function checkPresenterActive($data) {
-	global $presenterAttribs;
+	global $presenterAttribs, $messages;
 	new Parse ( dataSourceType, xmlForPresenters, $xml, true );
 	// $xml = new ParseXML(xmlForPresenters);
 	$xml->SearchNode ( $xml->RootNode, $presenterAttribs ['node'], "password", $data ['password'] );
@@ -1042,21 +1065,22 @@ function checkPresenterActive($data) {
 				if ($data ['password'] == $vis ['password']) {
 					$vis ['status'] = 'OK';
 				} else {
-					$vis ['status'] = 'Не верный пароль';
+					$vis ['status'] = $messages->msg("presenter_page.uncorrectPassword");
 				}
 			} else {
-				$vis ['status'] = 'Уточните период действия аккаунта для ' . $vis ['fio'];
+				$vis ['status'] = $messages->msg("presenter_page.checkActivePeriod", array($vis ['fio']));
 			}
 		} else {
-			$vis ['status'] = 'Аккаунт ' . $vis ['fio'] . ' не активен. Обратитесь к администратору';
+			$vis ['status'] = $messages->msg("presenter_page.accountNotActive", array($vis ['fio']));
 		}
 	} else {
-		$vis ['status'] = "Пользователь с таким паролем не существует в выбранной игре.";
+		$vis ['status'] = $messages->msg("presenter_page.userExists");
 	}
 	$xml->Destroy ();
 	return $vis;
 }
 function showPresenterInfo($userId, $password) {
+	global $messages;
 	$info = checkPresenterActive ( array (
 			"userId" => $userId,
 			"password" => $password 
@@ -1066,7 +1090,8 @@ function showPresenterInfo($userId, $password) {
 		print "<script>alert('" . $info ['status'] . "');</script>"; // document.location.replace('".page404."');</script>
 	} else {
 		$dat = calcDatePeriod ( null, $_SESSION ['dateEnd'] );
-		print "<li class='t4'><u>Активный ведущий: " . $info ['fio'] . ". Осталось - " . $dat ['day'] . "д/" . $dat ['hours'] . "ч/" . $dat ['minutes'] . "м/" . $dat ['seconds'] . "с/";
+		$text = $messages->msg("presenter_page.activePresenter", array($info ['fio'], $dat ['day'], $dat ['hours'], $dat ['minutes'], $dat ['seconds']));
+		print "<li class='t4'><u>".$text;
 	}
 }
 function saveAndLoadPresenterInfo($postData = Array()) {

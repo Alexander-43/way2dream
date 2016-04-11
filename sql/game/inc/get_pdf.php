@@ -5,6 +5,15 @@ include_once 'tcpdf/tcpdf.php';
 include_once 'objectExtractor/includes.inc';
 include_once 'PdfGenerator.inc';
 include_once 'getContentClass.inc';
+include_once 'localeResolver/index.inc';
+
+$blr = new BrowserLocalResolver();
+$clr = new CookieLocalResolver();
+if ($clr->getLocale() == null){
+	define("currentLocale", $blr->getLocale());
+} else {
+	define("currentLocale", $clr->getLocale());
+}
 
 $skip = array('/winnerPlan\d*/', 
 		'/dreamSymbol/', 
@@ -19,7 +28,8 @@ $userInfo = $contentGetter->get_content('http://'.$_SERVER['HTTP_HOST'].$path."o
 $pdf = new PDF($contentGetter->get_content('http://'.$_SERVER['HTTP_HOST'].$path."editUserData.php?id=".$_GET['id']), 
 				json_decode($userInfo, true), 
 				array('style', 'input','div[id=table1]','div[id=text1]','div[id=text2]','div[id=text3]','div[id=text4]','div[id=table2]'), 
-				$skip);
+				$skip,
+				"../img/".currentLocale."/card.jpg");
 
 $pdf->getPdf();
 

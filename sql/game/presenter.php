@@ -5,7 +5,7 @@ include (incFolder.'external.inc');
 include (incFolder.'func.inc');
 if ($_SESSION['authKey']!=accessCode && strlen($_SESSION['presenterCode']) == 0)
 {
-	print "<script> alert('Для вас доступ к странице запрещен,\\n зарегистрируйтесь или войдите как ведущий.');";
+	print "<script> alert('".$messages->msg("errors.accessDenied")."');";
 	print "window.location.replace('index.php');</script>";
 }
 if ( ((int)$_POST['source']>= 1) && ((int)$_POST['source']<= 6))
@@ -13,7 +13,7 @@ if ( ((int)$_POST['source']>= 1) && ((int)$_POST['source']<= 6))
 	UpdateCapValues("cap_".$_POST['source'], $_POST['PosX'], $_POST['PosY']);
 	if (in_array(1, $Except))
 	{
-		print "Ошибка обновления координат фишки №".$_POST['source'];
+		print $messages->msg("errors.updateXYCap", array($_POST['source']));
 	}
 }
 if (count($_POST) != 0 && !isset($_POST['source']))
@@ -27,7 +27,7 @@ print '<script>var GLOBAL_LOCALE_COOKIE_NAME = "'.CookieLocalResolver::COOKIE_LO
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%; overflow:hidden;">
 <head>
-	<title>Страница ведущего </title>
+	<title><?php print $messages->msg("other.gameStatus");?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" /> 
 	<meta http-equiv="Pragma" content="no-cache" />
@@ -109,8 +109,8 @@ div.t4 {
 <div id="wrapper">
 
 	<ul class="tabs tabs1">
-		<li class="t1 tab-current"><a>Управление игрой</a></li>
-		<li class="t2"><a onClick="jQuery('div.t2').css('height', window.screen.availHeight - 150)">Даные игроков</a></li>
+		<li class="t1 tab-current"><a><?php print $messages->msg("presenter_page.gameManage");?></a></li>
+		<li class="t2"><a onClick="jQuery('div.t2').css('height', window.screen.availHeight - 150)"><?php print $messages->msg("presenter_page.gamerInfo");?></a></li>
 		<!--li class="t3"><a>Архив игроков</a></li-->
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) showPresenterInfo($_SESSION['presenterUnic'], $_SESSION['presenterCode']); ?>
 	</ul>
@@ -150,32 +150,32 @@ div.t4 {
 			<tr align='left'>
 				<td>
 					<label>
-						<b>ФИО ведущего:</b> 
-						<input name='fio' type='text' value='<? print $_SESSION['fio'];?>' title='ФИО ведущего' alt='ФИО ведущего' style='width:100%'>
+						<b><?php print $messages->msg("presenter_page.presenterFio");?></b> 
+						<input name='fio' type='text' value='<? print $_SESSION['fio'];?>' title='<?php print $messages->msg("presenter_page.presenterFio");?>' alt='<?php print $messages->msg("presenter_page.presenterFio");?>' style='width:100%'>
 					</label>
 				</td>
 			</tr>
 			<tr align='left'>
 				<td>
 					<label>
-						<b>Пароль:</b> 
-						<input id='randPass' name='password' type='password' value='{@}|{@}' title='Пароль' alt='skip' style='width:100%'>
+						<b><?php print $messages->msg("presenter_page.password");?></b> 
+						<input id='randPass' name='password' type='password' value='{@}|{@}' title='<?php print $messages->msg("presenter_page.password");?>' alt='skip' style='width:100%'>
 					</label>
 				</td>
 			</tr>		
 			<tr align='left'>
 				<td>
 					<label>
-						<b>Skype:</b> 
-						<input name='skype' type='text' value='<? print $_SESSION['skype'];?>' title='Skype' alt='Skype' style='width:100%'>
+						<b><?php print $messages->msg("presenter_page.skype");?></b> 
+						<input name='skype' type='text' value='<? print $_SESSION['skype'];?>' title='<?php print $messages->msg("presenter_page.password");?>' alt='<?php print $messages->msg("presenter_page.password");?>' style='width:100%'>
 					</label>
 				</td>
 			</tr>		
 			<tr align='left'>
 				<td>
 					<label>
-						<b>E-mail:</b> 
-						<input name='email' type='text' value='<? print $_SESSION['email'];?>' title='E-mail' alt='E-mail' style='width:100%'>
+						<b><?php print $messages->msg("presenter_page.mail");?></b> 
+						<input name='email' type='text' value='<? print $_SESSION['email'];?>' title='<?php print $messages->msg("presenter_page.mail");?>' alt='<?php print $messages->msg("presenter_page.mail");?>' style='width:100%'>
 					</label>
 				</td>
 			</tr>		
@@ -185,25 +185,25 @@ div.t4 {
 						<tr>
 							<td>
 							<label>
-								<b>Дата начала действия: <? print $_SESSION['dateBegin'];?></b>
+								<b><? print $messages->msg("presenter_page.dateBegin", array($_SESSION['dateBegin']));?></b>
 							</label>
 							</td>
 							<td>
 							<label>
-								<b>Дата окончания действия: <? print $_SESSION['dateEnd'];?></b>
+								<b><? print $messages->msg("presenter_page.dateEnd", array($_SESSION['dateEnd']));?></b>
 							</label>
 							</td>						
 						</tr>
 					</table>
 					<? 
 						$dat = calcDatePeriod(null, $_SESSION['dateEnd']); 
-						print "<br>Время активности вашего акаунта заканчивается через <br>".$dat['day']." дней ".$dat['hours']." часов ".$dat['minutes']." минут ".$dat['seconds']." секунд";
+						print "<br>".$messages->msg("presenter_page.expDate", array($dat['day'], $dat['hours'], $dat['minutes'], $dat['seconds']));
 					?>
 				</td>
 			</tr>
 			<tr align='center'>
 				<td>
-					<input id='presenterFormButton' type='submit' value='Сохранить'>
+					<input id='presenterFormButton' type='submit' value='<?php print $messages->msg("buttons.save");?>'>
 				</td>
 			</tr>
 		</table>		

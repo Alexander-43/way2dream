@@ -103,12 +103,12 @@ header("Content-Type: text/html; charset=utf-8");
 
 <div id="text1" style="position:absolute; overflow:hidden; left:27px; top:1229px; width:860px; height:132px; z-index:70">
 <div class="wpmd">
-<div><B><U>Источники доходов в настоящем и будущем:</U></B></div>
+<div><B><U><?php print $messages->msg("present_and_future_income.present_and_future_income");?></U></B></div>
 <br>
 <table border='0' width="770px" style="font-size: 13px;">
 	<tr>
 		<td width="470px">
-			A. (работа по специальности, свое дело)&nbsp; или идея бизнес проекта1
+			<?php print $messages->msg("present_and_future_income.sourceIncomeA");?>
 		</td>
 		<td>
 			<input size="40" name="sourceIncomeA" type="text" value="<? print $_POST['sourceIncomeA']?>" style="width:270px;z-index:71" onChange="addChagedElement(this.name)">
@@ -116,7 +116,7 @@ header("Content-Type: text/html; charset=utf-8");
 	</tr>
 	<tr>
 		<td>
-			B. (предпринимательство, сетевой бизнес)&nbsp; или идея бизнес проекта2
+			<?php print $messages->msg("present_and_future_income.sourceIncomeB");?>
 		</td>
 		<td>
 			<input size="40" name="sourceIncomeB" type="text" value="<? print $_POST['sourceIncomeB']?>" style="width:270px;z-index:72" onChange="addChagedElement(this.name)">
@@ -124,7 +124,7 @@ header("Content-Type: text/html; charset=utf-8");
 	</tr>
 	<tr>
 		<td>
-			C. (инвестирование, недвижимость)&nbsp; или идея бизнес проекта3
+			<?php print $messages->msg("present_and_future_income.sourceIncomeC");?>
 		</td>
 		<td>
 			<input size="40" name="sourceIncomeC" type="text" value="<? print $_POST['sourceIncomeC']?>" style="width:270px;z-index:73" onChange="addChagedElement(this.name)">
@@ -139,16 +139,16 @@ header("Content-Type: text/html; charset=utf-8");
 			<table class="targetsTable" bgcolor="#FFFFFF" border="1" bordercolorlight="#C0C0C0" bordercolordark="#808080" cellspacing="0">
 				<tr valign="top">
 					<td width="130px" valign="middle" align="center" height="35px">
-						<div>Цель</div>
+						<div><?php print $messages->msg("targetsTable.target");?></div>
 					</td>
 					<td width="202px" valign="middle" align="center">
-						<div>Образ результата, Сроки, стоимость</div>
+						<div><?php print $messages->msg("targetsTable.result_time_cost");?></div>
 					</td>
 					<td width="202px" valign="middle" align="center">
-						<div>Эмоция достижения</div>
+						<div><?php print $messages->msg("targetsTable.motion");?></div>
 					</td>
 					<td width="202px" valign="middle" align="center">
-						<div>Первые шаги, этапы достижения</div>
+						<div><?php print $messages->msg("targetsTable.steps");?></div>
 					</td>
 				</tr>
 				<tr valign="top">
@@ -241,7 +241,7 @@ header("Content-Type: text/html; charset=utf-8");
 </div>
 
 <div id="text2" style="position:absolute; overflow:hidden; left:46px; top:1650px; width:715px; height:294px; z-index:75"><div class="wpmd">
-<div align="center"><font class="ws16"><B><U>Мой план победы!</U></B></font></div>
+<div align="center"><font class="ws16"><B><U><?php print $messages->msg("other.winnerplan");?></U></B></font></div>
 <br>
 <table>
 	<tr>
@@ -315,14 +315,14 @@ header("Content-Type: text/html; charset=utf-8");
 </style>
 <div id="text3" style="position:absolute; overflow:hidden; left:45px; top:1900px; width:828px; height:28px; z-index:84">
 	<div class="wpmd">
-		<div><font class="ws12">Символ мечты:</font>
+		<div><font class="ws12"><?php print $messages->msg("other.dreamSymbol");?></font>
 		<input size="135" name="dreamSymbol" type="text" value="<? print $_POST['dreamSymbol']?>" style="width:616px;z-index:85" onChange="addChagedElement(this.name)"></div>
 	</div>
 </div>
 
 <div id="text4" style="position:absolute; overflow:hidden; left:46px; top:1930px; width:85px; height:27px; z-index:86">
 	<div class="wpmd">
-		<div><font class="ws12">Ход игры:</font></div>
+		<div><font class="ws12"><?php print $messages->msg("other.gameStatus");?></font></div>
 	</div>
 </div>
 
@@ -334,14 +334,14 @@ header("Content-Type: text/html; charset=utf-8");
 </div>
 <input type="hidden" id="currentScroll" name="currentScroll" value="0">
 <div style="position:fixed;left:900px;top:20px;"> 
-	<button name="but" type="submit" title="Сохранить">	
+	<button name="but" type="submit" title="<?php print $messages->msg("buttons.save");?>">	
 		<img src="img/save.png" style="cursor:pointer">
 	</button>
 </div>
 <div style="position:fixed;left:960px;top:20px;">
 	<a href="inc/get_pdf.php?id=<?php print $_GET['id'];?>">
-		<button name="pdf" type="button" title="Скачать как PDF"> 
-			<img src="img/pdf.png" style="cursor:pointer" title="Скачать как PDF">
+		<button name="pdf" type="button" title="<?php print $messages->msg("buttons.downloadAsPdf");?>"> 
+			<img src="img/pdf.png" style="cursor:pointer" title="<?php print $messages->msg("buttons.downloadAsPdf");?>">
 		</button>
 	</a>
 </div>

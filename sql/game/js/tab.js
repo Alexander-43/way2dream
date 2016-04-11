@@ -1,11 +1,22 @@
 ﻿//поле с именами измененных полей 
 //var changedFieldId = 'changeField';
+
+String.prototype.format = String.prototype.f = function() {
+    var s = this,
+        i = arguments.length;
+
+    while (i--) {
+        s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
+    }
+    return s;
+};
+
 $(document).ready(
 		function (){
 			var browser=get_browser();
 			var browser_version=get_browser_version()
 			if (browser.toLowerCase() == "msie"){
-				alert("Браузер "+browser+" "+browser_version+" игрой не поддерживается. Извините.");
+				alert(GLOBAL_MSG.js.unsupportedBrowser.f(browser, browser_version));
 				history.back();
 			}
 		}
@@ -158,10 +169,10 @@ function trimStr(v, onNotFillMes)
 //проверка полей формы на заполненность
 function validFormData()
 {
-	var preMes = "Переход к игре не возможен.\n Пожалуйста заполните следующие поля: \n";
+	var preMes = GLOBAL_MSG.js.unfilledValues + " \n";
 	var mes = "";
-	mes = trimStr(document.gamerReg.FIO.value, "Фамилия Имя Отчество \n")+trimStr(document.gamerReg.skype.value, "Имя пользователя Skype \n");
-	mes += trimStr(document.gamerReg.email.value, "E-mail \n")+trimStr(document.gamerReg.capColor.value, "Выберите цвет фишки \n");
+	mes = trimStr(document.gamerReg.FIO.value, GLOBAL_MSG.js.fio+" \n")+trimStr(document.gamerReg.skype.value, GLOBAL_MSG.js.skype+" \n");
+	mes += trimStr(document.gamerReg.email.value, GLOBAL_MSG.login_page.mail+" \n")+trimStr(document.gamerReg.capColor.value, GLOBAL_MSG.login_page.color+" \n");
 	if (mes != "")
 	{
 		if (!document.gamerReg.but.disabled)
@@ -305,28 +316,28 @@ function setGetPay(obj, pref, action, attrib, value)
 			formHInput = parseFloat(formHInput);
 		} catch (e)
 		{
-			alert ("Одно из значений операции ("+(value == null ? formInput.value : value)+" или "+formHInput+")\r не является допустимым числом");
+			alert (GLOBAL_MSG.js.notNumber.f((value == null ? formInput.value : value), formHInput));
 			return false;
 		}
 		divOut = document.getElementById(pref+"_"+id);
 		setVal = eval(formHInput+action+(value == null ? formInput.value : value));
 		if (action == "+"){
-			action = " увеличен на ";
+			action = GLOBAL_MSG.js.amount;
 		} else {
-			action = " уменьшен на ";
+			action = GLOBAL_MSG.js.unmount;
 		}
 		if (attrib == 'glob_sour'){
-			la = "Последнее действие : Ресурс"+action+(value == null ? formInput.value : value);
+			la = GLOBAL_MSG.js.lastActionSource+action+(value == null ? formInput.value : value);
 		}else
 		{
-			la = "Последнее действие : Доход"+action+(value == null ? formInput.value : value);
+			la = GLOBAL_MSG.js.lastActionIncome+action+(value == null ? formInput.value : value);
 		}
 		vote('operation.php?doPay=do&value='+setVal+'&atribute='+attrib+'&userId='+id+'&lastAction='+la, divOut.id);
 	});
 }
 
 var dblClick_showPrompt = function(object){
-	object.value = prompt("Введите значение поля", object.value);
+	object.value = prompt(GLOBAL_MSG.js.inputValue, object.value);
 }
 
 function editFormSubmit(form){
@@ -404,7 +415,7 @@ function showDialog(headerText, idSuff){
 }
 
 function showField(count, name, cardName){
-	var id = showDialog("Выберите одну из карточек", "selCard");
+	var id = showDialog(GLOBAL_MSG.js.selectCard, "selCard");
 	var w = (100 - cardName.length) / (cardName.length / 1.8);
 	if ($(id).children("div").length == 1){
 		randCardMapping = {};
@@ -435,7 +446,7 @@ function showField(count, name, cardName){
 }
 
 function cubeChooser(userId, obj){
-	var id = showDialog("Выберите один из вариантов", "cube");
+	var id = showDialog(GLOBAL_MSG.js.selectOneVariant, "cube");
 	var count = 6;
 	var w = 30;
 	if ($('#tSource_td_left').children("div").length == 0 && $('#tSource_td_right').children("div").length == 0){
@@ -521,10 +532,10 @@ function getRandomInt(min, max)
 }
 
 function removeUser(url, fio){
-	if (confirm('Вы действительно хотите удалить '+ fio + ' из игры ?')){
+	if (confirm(GLOBAL_MSG.js.confirmDelete.f(fio))){
 		$.get(url, function(data){
 			if (data.status == "Ok"){
-				alert("Игрок " + fio + " удален.");
+				alert(GLOBAL_MSG.js.gamerDeleted.f(fio));
 				location.reload();
 			} else {
 				alert(data.message);
@@ -571,12 +582,12 @@ $('ul.tabs.tabs1 li').click(function(){
 
 $('#language').ready(function(){
 	var data = [{
-		text:"Русский",
+		text:GLOBAL_MSG.js["ru"],
 		value:"ru",
 		imageSrc:"css/ru.png"
 	},
 	{
-		text:"English",
+		text:GLOBAL_MSG.js["en"],
 		value:"en",
 		imageSrc:"css/en.png"
 	}];
@@ -597,7 +608,7 @@ $('#language').ready(function(){
 	$('#language').ddslick({
 	    data:data,
 	    width:115,
-	    selectText: "Язык",
+	    selectText: GLOBAL_MSG.js.lang,
 	    imagePosition:"left",
 	    onSelected: function(selectedData){
 	    	$('#language').find(".dd-selected-text").css("lineHeight","15px");

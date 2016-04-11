@@ -42,12 +42,28 @@
 			return $content;
 		}
 		public function checkUrl($url){
-			$result = @file_get_contents($url);
+			$opts = array(
+					'http'=>array(
+							'method'=>"GET",
+							'header'=>"Cookie: ".$this->getCookieStringHeader()
+					)
+			);
+			
+			$context = stream_context_create($opts);
+			$result = @file_get_contents($url, false, $context);
 			if ($result === false){
 				return false;
 			} else {
 				return $this->get_contents($result);
 			}
+		}
+		
+		public function getCookieStringHeader(){
+			$result = "";
+			foreach (array_keys($_COOKIE) as $key=>$value){
+				$result.= $result == "" ? $value."=".$_COOKIE[$value] : ";".$value."=".$_COOKIE[$value];
+			}
+			return $result;
 		}
 		
 		/**

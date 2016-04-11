@@ -20,8 +20,8 @@ else if (md5($_POST['admCode'])==accessCode)
 }else
 {
 	printBrs(5);
-	print "<table width='50%' align='center'><tr><td align='center'><font color='red'><h2>Доступ к этой странице незарегистрированным пользователям запрещен</h2></font></td></tr>";
+	print "<table width='50%' align='center'><tr><td align='center'><font color='red'><h2>".$messages->msg("service.accessDenied")."</h2></font></td></tr>";
 	print "<tr height='100'><td></td></tr>";
-	print "<tr><td height='100' align='center' style='border-color:silver;border-style:solid;border-radius: 10px 10px 10px 10px;'><a href='index.php'><h2>Зарегистрироваться</h2></a></td></table>";
+	print "<tr><td height='100' align='center' style='border-color:silver;border-style:solid;border-radius: 10px 10px 10px 10px;'><a href='index.php'><h2>".$messages->msg("service.register")."</h2></a></td></table>";
 }
 ?>

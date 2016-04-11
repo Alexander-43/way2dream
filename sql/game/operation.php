@@ -24,7 +24,7 @@ header("Content-Type: text/html; charset=utf-8");
 	if ($_GET['randcard']=="Off")
 	{
 		setCardForUserSelect($_GET['userId'], $_GET['cardType']);
-		print "Карточка в процессе выбора";
+		print $messages->msg("gamer_page.cardInProgress");
 	}
 	//устанавливаем активного пользователя
 	if ($_GET['isActive'] == "true" || $_GET['isActive'] == "false")

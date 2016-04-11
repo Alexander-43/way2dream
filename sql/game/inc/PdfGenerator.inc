@@ -7,12 +7,14 @@ class PDF {
 	private $htmlObjects;
 	private $skipped;
 	private $pdfFile;
+	private $bgImage;
 	
-	public function __construct($html, $varsValues = null, $selectors = array(), $skipped = array()){
+	public function __construct($html, $varsValues = null, $selectors = array(), $skipped = array(), $bgImage = null){
 		$this->setHtml($html);
 		$this->setVarsValues($varsValues);
 		$this->setHtmlObjects($selectors);
 		$this->setSkipped($skipped);
+		$this->bgImage = $bgImage == null ? "../img/card.jpg":$bgImage;
 	}
 	
 	public function setHtmlObjects($selectors){
@@ -35,7 +37,7 @@ class PDF {
 		$this->pdfFile->setPrintFooter(false);
 		$this->pdfFile->AddPage();
 		$this->pdfFile->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'solid', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
-		$this->pdfFile->Image("../img/card.jpg", 5, 8, /*280*/0, /*447*/0, '', '', '', false, 300, '', false, false, 0);
+		$this->pdfFile->Image($this->bgImage, 5, 8, /*280*/0, /*447*/0, '', '', '', false, 300, '', false, false, 0);
 		foreach ($this->getHtmlObjects() as $selector=>$objects){
 			foreach ($objects->getObjects("") as $object){
 				$objType = $object->tag;
