@@ -4,6 +4,7 @@
 	include (incFolder.'func.inc');
 	
 	print '<script>var GLOBAL_LOCALE_COOKIE_NAME = "'.CookieLocalResolver::COOKIE_LOCALE_NAME.'"; </script>';
+	print "<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>";
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -3,6 +3,7 @@ header("Content-Type: text/html; charset=utf-8");
 	include ('vars.inc');
 	include ('domXml.inc');
 	include (incFolder.'func.inc');
+	print("<script>var GLOBAL_MSG=".json_encode($ini->getAll(),true).";</script>");
 	$a = preg_split("/[|]{1,3}/",$_POST['editedField']);
 	WriteAttrib ($_POST, $a);
 	if (strlen($_POST['id']) == 0)
