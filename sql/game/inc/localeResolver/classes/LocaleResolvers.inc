@@ -57,6 +57,10 @@ class BrowserLocalResolver implements ILocaleResolver {
 				}
 			}
 		}
+		if (strrpos($deflang, "-") !== false){
+			$exp = explode("-", $deflang);
+			return $exp[0];
+		}
 		return strtolower($deflang);
 	}
 	

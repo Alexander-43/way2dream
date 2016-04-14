@@ -22,8 +22,6 @@ class IniConfig extends AbstractConfig {
 			if ($item == null){
 				if (!is_array($values[$key])){
 					if (strpos($values[$key], "{") === false){
-						$parse = parse_ini_string($values[$key], true);
-					} else {
 						$parse = json_decode($values[$key], true);
 					}
 				} else {
@@ -33,8 +31,6 @@ class IniConfig extends AbstractConfig {
 			} else {
 				if (!is_array($item[$key])){
 					if (strpos($item[$key], "{") === false){
-						$parse = @parse_ini_string($item[$key], true);
-					} else {
 						$parse = json_decode($item[$key], true);
 					}
 				} else {
