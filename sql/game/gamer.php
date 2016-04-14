@@ -2,7 +2,7 @@
 	include ('vars.inc');
 	include ('domXml.inc');
 	include (incFolder.'func.inc');
-	print("<script>var GLOBAL_MSG=".json_encode($ini->getAll(),true).";</script>");
+	print("<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>");
 	if (strlen($_GET['id']) != 0 || strlen($_SESSION['authKey']) != 0) 
 	{
 		if (strlen($_GET['id']) != 0)

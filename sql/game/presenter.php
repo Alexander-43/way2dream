@@ -3,7 +3,7 @@ include ('vars.inc');
 include ('domXml.inc');
 include (incFolder.'external.inc');
 include (incFolder.'func.inc');
-print("<script>var GLOBAL_MSG=".json_encode($ini->getAll(),true).";</script>");
+print("<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>");
 if ($_SESSION['authKey']!=accessCode && strlen($_SESSION['presenterCode']) == 0)
 {
 	print "<script> alert('".$messages->msg("errors.accessDenied")."');";

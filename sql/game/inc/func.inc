@@ -158,13 +158,13 @@ function InfoAboutUser($arrayOfInfo) {
 		$allInfo ['glob_inc'] = 0;
 	if (! array_key_exists ( "glob_sour", $allInfo ))
 		$allInfo ['glob_sour'] = 0;
-	$colorText = $allInfo ['capColor'];
+	$colorText = $messages->msg("capcolor.".$allInfo ['capColor']);
 	print "<table class='selCard' align='center' border='1' width='100%'><tr>";
 	if ($_SESSION['authKey']!=accessCode && strlen($_SESSION['presenterCode']) == 0){
 		print "<td align='left' style='border-style:none'><b><i>" . $allInfo ['FIO'] . "</i></b></td>";
 		print "<td align='right' width='100' style='border-style:none'>";
 		print "<img src='img/" . $capColorReferences [$allInfo ['capColor']] . "' align='middle' title='" . $colorText . "'>";
-		print "<a href='editUserData.php?id=" . $allInfo ['id'] . "' target='top'><img src='img/".currentLocale."/info.jpg' align='middle' title='".$messages->msg("gamer_page.editGameInfo")."' width='50px'></a>";
+		print "<a href='editUserData.php?id=" . $allInfo ['id'] . "' target='top'><img src='img/info.png' align='middle' title='".$messages->msg("gamer_page.editGameInfo")."' width='50px'></a>";
 		print "</td>";
 	} else {
 		userSelectorRender($arrayOfInfo['id']);
@@ -218,7 +218,7 @@ function userSelectorRender($id){
 		print "</option>";
 	}
 	print "</select></td>";
-	print "<td align='right' width='50' style='border-style:none'><a href='editUserData.php?id=" . $id . "' target='top'><img src='img/info.jpg' align='middle' style='padding-left:10' title='".$messages->msg("gamer_page.editGameInfo")."' width='50px'></a></td>";
+	print "<td align='right' width='50' style='border-style:none'><a href='editUserData.php?id=" . $id . "' target='top'><img src='img/info.png' align='middle' style='padding-left:10' title='".$messages->msg("gamer_page.editGameInfo")."' width='50px'></a></td>";
 	print getScriptHtml("createUserSelector('#userSelector',".$defaultIndex.")","'#userSelector'");
 	
 }
@@ -440,7 +440,8 @@ function printPaySystem($userInfo, $admin = false) {
 	$str = $str . "</td>";
 	$str = $str . "</tr>";
 	if (isset ( $userInfo ['lastAction'] )) {
-		$str = $str . "<tr><td colspan='4' align='center' style='padding: 10 0 10 0;'><font size='-1'><u>" . $userInfo ['lastAction'] . "</u></font></td></tr>";
+		$lastAction = explode("|", $userInfo ['lastAction']);
+		$str = $str . "<tr><td colspan='4' align='center' style='padding: 10 0 10 0;'><font size='-1'><u>" . $messages->msg($lastAction[0]).$messages->msg($lastAction[1]).$lastAction[2]. "</u></font></td></tr>";
 	}
 	$str = $str . "</table>";
 	return $str;
@@ -610,12 +611,13 @@ function RandCard($pref, $index = null) {
 		$fileList [] = $fn;
 	}
 	$randNum = $index ? $index - 1 : mt_rand ( 0, count ( $fileList ) - 1 );
-	print "<img class='card' src='" . $fileList [$randNum] . "?" . date ( "hms" ) . "'>";
+	$pathInfo = pathinfo($fileList [$randNum]);
+	print "<img class='card' src='img/" . currentLocale . "/card/" . $fileList [$randNum] . "?" . date ( "hms" ) . "'>";
 	new Parse ( dataSourceType, xmlForFlash, $xml, true );
 	$xml->SearchNode ( $xml->RootNode, "card", "userId", $_SESSION ['id'] );
 	if ($xml->SearchedNodeLink != null) {
 		$xml->setAttribute ( $xml->SearchedNodeLink, Array (
-				"cardSelected" => $fileList [$randNum] 
+				"cardSelected" => $pathInfo['basename']
 		) );
 		$xml->SaveInFile ( $xml->Nfile );
 	}
@@ -756,8 +758,8 @@ function getInfoAboutShowedCard() {
 		$result ['statusA'] = $result ['status'];
 	} else {
 		$title = $messages->msg("gamer_page.cardTitle", array($result ['FIO'], $result ['capColor']));
-		$result ['status'] = "<img class='card' style='cursor:pointer' src='" . $result ['cardSelected'] . "' title='" . $title . "' onClick=\"vote('operation.php?hideCard=yes&idUser=" . $result ['userId'] . "&side=gamer', 'vote_status')\">";
-		$result ['statusA'] = "<img class='card' style='cursor:pointer' src='" . $result ['cardSelected'] . "' title='" . $title . "' onClick=\"vote('operation.php?hideCard=yes&idUser=" . $result ['userId'] . "&side=admin', 'card_" . $result ['userId'] . "')\">";
+		$result ['status'] = "<img class='card' style='cursor:pointer' src='img/". currentLocale . "/card/" . $result ['cardSelected'] . "' title='" . $title . "' onClick=\"vote('operation.php?hideCard=yes&idUser=" . $result ['userId'] . "&side=gamer', 'vote_status')\">";
+		$result ['statusA'] = "<img class='card' style='cursor:pointer' src='img/" . currentLocale . "/card/" . $result ['cardSelected'] . "' title='" . $title . "' onClick=\"vote('operation.php?hideCard=yes&idUser=" . $result ['userId'] . "&side=admin', 'card_" . $result ['userId'] . "')\">";
 	}
 	if ($result ['cardSelected'] == $result ['cardforView']) {
 		$result ['status'] = "";
@@ -805,7 +807,7 @@ function ShowCardForUserSelect($userInfo) {
 	if ($temp ['isActive'] == $userInfo ['id']) {
 		print "<script>document.getElementById('hod').innerHTML=\"<img align='middle' width='60' src='img/".currentLocale."/you_hod.gif?" . time () . "' width='100%' title='".$messages->msg("gamer_page.yourHod")."'>\";</script>";
 	} else if ($temp ['isActive'] != null && $temp ['isActive'] !== "") {
-		print "<font color='green'><u><b>".$messages->msg("buttons.nextStep")."</b></u></font> " . $temp ['actFIO'] . "</br><font color='green'><u><b>".$messages->msg("gamer_page.capColor")."</b></u></font> " . $temp ['actcapColor'] . "<hr>";
+		print "<font color='green'><u><b>".$messages->msg("buttons.nextStep")."</b></u></font> " . $temp ['actFIO'] . "</br><font color='green'><u><b>".$messages->msg("gamer_page.capColor")."</b></u></font> " . $messages->msg("capcolor.".$temp ['actcapColor']) . "<hr>";
 	}
 	print "<div id='wrapper'>
 		<ul class='tabs tabs1'>

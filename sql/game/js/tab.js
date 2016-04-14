@@ -321,18 +321,23 @@ function setGetPay(obj, pref, action, attrib, value)
 		}
 		divOut = document.getElementById(pref+"_"+id);
 		setVal = eval(formHInput+action+(value == null ? formInput.value : value));
+		idm = "";
 		if (action == "+"){
 			action = GLOBAL_MSG.js.amount;
+			idm = "js.amount";
 		} else {
 			action = GLOBAL_MSG.js.unmount;
+			idm = "js.unmount";
 		}
 		if (attrib == 'glob_sour'){
 			la = GLOBAL_MSG.js.lastActionSource+action+(value == null ? formInput.value : value);
+			idm = "js.lastActionSource|"+idm+"|"+(value == null ? formInput.value : value);
 		}else
 		{
 			la = GLOBAL_MSG.js.lastActionIncome+action+(value == null ? formInput.value : value);
+			idm = "js.lastActionIncome|"+idm+"|"+(value == null ? formInput.value : value);
 		}
-		vote('operation.php?doPay=do&value='+setVal+'&atribute='+attrib+'&userId='+id+'&lastAction='+la, divOut.id);
+		vote('operation.php?doPay=do&value='+setVal+'&atribute='+attrib+'&userId='+id+'&lastAction='+idm, divOut.id);
 	});
 }
 
