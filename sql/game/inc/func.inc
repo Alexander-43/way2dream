@@ -212,7 +212,8 @@ function userSelectorRender($id){
 		if ($usersInfo[$i]['id'] == $id){
 			$defaultIndex = $i;
 		}
-		$description = $messages->msg("gamer_page.userDescription", array($usersInfo[$i]['capColor'], $usersInfo[$i]['email'], $usersInfo[$i]['skype']));
+		$color = $messages->msg("capcolor.".$usersInfo[$i]['capColor']);
+		$description = $messages->msg("gamer_page.userDescription", array($color, $usersInfo[$i]['email'], $usersInfo[$i]['skype']));
 		print "<option value='".$usersInfo[$i]['id']."' data-imagesrc='img/".$capColorReferences [$usersInfo[$i]['capColor']]."' data-description='".$description."'>";
 		print $usersInfo[$i]['FIO'];
 		print "</option>";
@@ -805,7 +806,7 @@ function ShowCardForUserSelect($userInfo) {
 		$xml->AttribFromSNL ( "", $cap );
 	}
 	if ($temp ['isActive'] == $userInfo ['id']) {
-		print "<script>document.getElementById('hod').innerHTML=\"<img align='middle' width='60' src='img/".currentLocale."/you_hod.gif?" . time () . "' width='100%' title='".$messages->msg("gamer_page.yourHod")."'>\";</script>";
+		print "<script>document.getElementById('hod').innerHTML=\"<img align='middle' width='60' src='img/you_hod.png?" . time () . "' width='100%' title='".$messages->msg("gamer_page.yourHod")."'>\";</script>";
 	} else if ($temp ['isActive'] != null && $temp ['isActive'] !== "") {
 		print "<font color='green'><u><b>".$messages->msg("buttons.nextStep")."</b></u></font> " . $temp ['actFIO'] . "</br><font color='green'><u><b>".$messages->msg("gamer_page.capColor")."</b></u></font> " . $messages->msg("capcolor.".$temp ['actcapColor']) . "<hr>";
 	}

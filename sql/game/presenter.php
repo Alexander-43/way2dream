@@ -111,7 +111,7 @@ div.t4 {
 
 	<ul class="tabs tabs1">
 		<li class="t1 tab-current"><a><?php print $messages->msg("presenter_page.gameManage");?></a></li>
-		<li class="t2"><a onClick="jQuery('div.t2').css('height', window.screen.availHeight - 150)"><?php print $messages->msg("presenter_page.gamerInfo");?></a></li>
+		<li class="t2"><a><?php print $messages->msg("presenter_page.gamerInfo");?></a></li>
 		<!--li class="t3"><a>Архив игроков</a></li-->
 		<? if (strlen($_SESSION['presenterCode']) != 0 ) showPresenterInfo($_SESSION['presenterUnic'], $_SESSION['presenterCode']); ?>
 	</ul>
@@ -139,7 +139,7 @@ div.t4 {
 	</tr>
 	</table>
 	</div>
-	<div class="t2" style="overflow-y: auto; height:500">
+	<div class="t2" style="overflow-y: auto; height:96%">
 		<? showActiveGamers(1); ?> 
 	</div>
 	<div class="t3" align="left">
