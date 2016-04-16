@@ -3,7 +3,6 @@ header("Content-Type: text/html; charset=utf-8");
 	include ('vars.inc');
 	include ('domXml.inc');
 	include (incFolder.'func.inc');
-	print("<script>var GLOBAL_MSG=".json_encode($ini->getAll(),true).";</script>");
 	$a = preg_split("/[|]{1,3}/",$_POST['editedField']);
 	WriteAttrib ($_POST, $a);
 	if (strlen($_POST['id']) == 0)
@@ -24,12 +23,16 @@ header("Content-Type: text/html; charset=utf-8");
 		$_SESSION['currentScroll'] = $_POST['currentScroll'];
 		header("Location: ".$_SERVER['REQUEST_URI']);
 	}
+	print '<script>var GLOBAL_LOCALE_COOKIE_NAME = "'.CookieLocalResolver::COOKIE_LOCALE_NAME.'"; </script>';
+	print("<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 transitional//EN">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/ddslick.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
 <script type="text/javascript">
 	var changedFieldId = 'editedField';
 	var config = {
@@ -240,7 +243,23 @@ header("Content-Type: text/html; charset=utf-8");
 		</div>
 	</div>
 </div>
+<style>
 
+@-moz-document url-prefix(){
+	#text2[style] {
+		top:1750px !important;
+	}
+	#text3[style] {
+		top:2020px !important;
+	}
+	#text4[style] {
+		top:2050px !important;
+	}
+	#table2[style] {
+		top:2070px !important;
+	}
+}
+</style>
 <div id="text2" style="position:absolute; overflow:hidden; left:46px; top:1650px; width:715px; height:294px; z-index:75"><div class="wpmd">
 <div align="center"><font class="ws16"><B><U><?php print $messages->msg("other.winnerplan");?></U></B></font></div>
 <br>
@@ -321,7 +340,7 @@ header("Content-Type: text/html; charset=utf-8");
 	</div>
 </div>
 
-<div id="text4" style="position:absolute; overflow:hidden; left:46px; top:1930px; width:85px; height:27px; z-index:86">
+<div id="text4" style="position:absolute; overflow:hidden; left:46px; top:1930px; width:285px; height:27px; z-index:86">
 	<div class="wpmd">
 		<div><font class="ws12"><?php print $messages->msg("other.gameStatus");?></font></div>
 	</div>
