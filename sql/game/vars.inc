@@ -16,7 +16,6 @@
 	$blr = new BrowserLocalResolver();
 	$clr = new CookieLocalResolver();
 	if ($clr->getLocale() == null){
-		print '<script>var GLOBAL_DEFAULT_LOCALE_VALUE="'.$blr->getLocale().'";</script>';
 		define("currentLocale", $blr->getLocale());
 	} else {
 		define("currentLocale", $clr->getLocale());

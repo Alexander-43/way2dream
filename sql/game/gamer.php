@@ -2,6 +2,7 @@
 	include ('vars.inc');
 	include ('domXml.inc');
 	include (incFolder.'func.inc');
+	print '<script>var GLOBAL_DEFAULT_LOCALE_VALUE="'.$blr->getLocale().'";</script>';
 	print("<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>");
 	if (strlen($_GET['id']) != 0 || strlen($_SESSION['authKey']) != 0) 
 	{
@@ -60,11 +61,6 @@ td.card
 	border-color:silver;
 	border-style:solid;
 	border-radius: 10px 10px 10px 10px;
-}
-img.card
-{
-	width: 150px;
-	cursor:pointer;
 }
 #mask {
 		position:absolute;

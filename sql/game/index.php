@@ -2,7 +2,7 @@
 	include ('vars.inc');
 	include ('domXml.inc');
 	include (incFolder.'func.inc');
-	
+	print '<script>var GLOBAL_DEFAULT_LOCALE_VALUE="'.$blr->getLocale().'";</script>';
 	print '<script>var GLOBAL_LOCALE_COOKIE_NAME = "'.CookieLocalResolver::COOKIE_LOCALE_NAME.'"; </script>';
 	print "<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>";
 ?>

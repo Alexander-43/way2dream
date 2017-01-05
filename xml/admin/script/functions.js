@@ -321,6 +321,10 @@ function updateTable(val)
   $('#'+val["id"]+' tr:not(:first)').remove();
   showStatusText(message['downStatusId'], message['loadData'], '', true);
   index = 1;
+  if (!val['value']){
+	  console.error("Ошибка обновления таблицы " + val['id']);
+	  return;
+  }
   for(var i = val['value'].length - 1; i >= 0 ; --i)
   {
     if (val["id"] == 'gamesList')

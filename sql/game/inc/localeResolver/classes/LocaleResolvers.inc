@@ -24,7 +24,7 @@ class BrowserLocalResolver implements ILocaleResolver {
 	
 	function getLocale(){
 		$locale = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-		if ($locale != null){
+		if ($locale != null && $locale != ""){
 			if (BrowserLocalResolver::FULL_LOCALE_NAME){
 				return $locale;
 			} else {

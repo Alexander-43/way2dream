@@ -32,7 +32,7 @@
 			{
 				unset($temp['password']);
 			}
-			if (checkGame($postData['assignTo']))
+			if (checkGame($postData['assignTo'], "empty"))
 			{
 				$req = sendRequest($postData['assignTo']."/operation.php?operId=updateObject&data=".urlencode(json_encode($temp)), false, "Не удалось сохранить ведущего", "null");
 				if ($req = "OK")
@@ -123,9 +123,9 @@
 	* Проверка доступности удаленной игры
 	* $url - URL игры
 	*/
-	function checkGame($url)
+	function checkGame($url, $type = "asJson")
 	{
-		return get_content($url."/operation.php?operId=testConnection&url=".$url, "asJson");
+		return get_content($url."/operation.php?operId=testConnection&url=".$url, $type);
 	}
 	
 	function sendRequest($url, $returnResult = false, $errorMessage = "", $type = "asJson")

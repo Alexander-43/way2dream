@@ -42,7 +42,15 @@
 			return $content;
 		}
 		public function checkUrl($url){
-			$result = @file_get_contents($url);
+			$opts = array(
+					'http'=>array(
+							'method'=>"GET",
+							'header'=>"Accept-Language:ru,en;q=0.8"
+					)
+			);
+				
+			$context = stream_context_create($opts);
+			$result = @file_get_contents($url, false, $context);
 			if ($result === false){
 				return false;
 			} else {

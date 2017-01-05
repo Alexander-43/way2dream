@@ -3,6 +3,7 @@ include ('vars.inc');
 include ('domXml.inc');
 include (incFolder.'external.inc');
 include (incFolder.'func.inc');
+print '<script>var GLOBAL_DEFAULT_LOCALE_VALUE="'.$blr->getLocale().'";</script>';
 print("<script>var GLOBAL_MSG=".json_encode($ini->getAll()).";</script>");
 if ($_SESSION['authKey']!=accessCode && strlen($_SESSION['presenterCode']) == 0)
 {
